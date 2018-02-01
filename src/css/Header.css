@@ -1,0 +1,36 @@
+.header{
+    background-color: #984B43;
+}
+.header .siteName{
+    color: #fff;
+    display: inline-block;
+    font-size: 150%;
+    height: 50px;
+    line-height: 50px;
+    padding: 0px 10px;
+}
+.header .siteName:hover{
+    background-color: rgba(255, 255, 255, 0.13);
+}
+.header .profilHover, .header .profilClick{
+    color: #fff;
+    float: right;
+    height: 50px;
+    padding: 0px 10px;
+    line-height: 50px;
+    cursor: pointer;
+}
+.header .profilHover:hover, .header .profil:hoverClick{
+    background-color: rgba(255, 255, 255, 0.13);
+}
+.popupPhoneTitle{
+    font-size: 110%;
+    margin-bottom: 8px;
+}
+.popupPhoneClear{
+    cursor: pointer;
+    float: right !important;
+}
+.popupPhoneButton{
+    margin-top: 10px !important;
+}

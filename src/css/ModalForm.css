@@ -1,0 +1,15 @@
+.ui.inverted > .ui.modal > .close {
+    color: #333;
+}
+.homeFormRequired{
+    color: #b30e0e !important;
+    font-size: 85%;
+    margin-top: 5px;
+}
+#form-textarea-control-description{
+    height: 150px;
+    resize: none;
+}
+#form-textarea-control-type{
+    opacity: 1;
+}

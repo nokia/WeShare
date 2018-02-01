@@ -1,0 +1,52 @@
+.item .icon{
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+.titleRequest, .titleShare{
+    text-align: center;
+    font-size: 130%;
+    text-transform: uppercase;
+    padding: 10px 10px;
+    border-width: 1px;
+    border-style: solid;
+}
+.titleRequest{
+    border-color: #7a9eea;
+}
+.titleShare{
+    border-color: #EAC67A;
+}
+.item .ratings{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 5px;
+}
+.item .date{
+    vertical-align: top;
+    float: right;
+    margin-top: 5px;
+    font-style:italic; 
+}
+.item .description{
+    text-align: justify;
+}
+.item .contact{
+    margin-top: 30px !important;
+    margin-bottom: 30px;
+}
+.item .contact .row a{
+    text-align: center;
+    display: block;
+    color: #333;
+    width: 100%;
+    font-size: 140%;
+    padding: 10px 0px;
+    cursor: pointer;
+}
+.item .contact .row a:hover{
+    
+    background-color: rgba(152, 76, 67, 0.116);
+}
+.item .contactIcon{
+    margin-right: 10px;
+}

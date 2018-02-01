@@ -1,0 +1,64 @@
+.browse{
+    margin-bottom: 20px;
+}
+.browse .banner{
+    background-color: #984B43;
+    height: 40px;
+    margin-top: 30px;
+}
+.browse .banner .bannerTitle{
+    line-height: 40px;
+    color: #fff;
+    margin-left: 10px;
+    font-size: 120%;
+    display: inline-block;
+}
+.browse .banner .bannerSearch{
+    float: right;
+    margin-right: 10px;
+    height: 30px;
+    margin-top: 5px;
+}
+.browse .banner .bannerSearch input{
+    border: none;
+    outline: none;
+}
+.browse .searchClear{
+    float: right;
+    color: #fff;
+    line-height: 36px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.browse .loader{
+    text-align: center;
+    margin-top: 40px;
+}
+.browse .filter{
+    min-width: 230px;
+}
+.browse .ui.dropdown  .menu>.item.subcategories {
+    padding: 0px !important;
+}
+.browse .ui.dropdown  .menu>.item.subcategories .icon {
+    padding: 12px 0px !important;
+}
+.browse .subcategories .text{
+    padding: 12px 15px;
+}
+.browse .menuSortFilter .row{
+    padding-top: 10px !important;
+}
+.browse .menuSortFilter .column{
+    padding: 0px !important;
+    margin-bottom: 10px !important;
+}
+.browse .menuSort{
+    margin-bottom: 0px !important;
+    float: right;
+}
+.nothing{
+    text-align: center;
+    margin-top: 30px;
+    font-size: 110%;
+}

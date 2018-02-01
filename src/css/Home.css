@@ -1,0 +1,27 @@
+.home .presentations{
+    margin-top: 20px;
+}
+.home .presentations .column{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.home .presentations .presentation{
+    text-align: center;
+    padding-top: 30px;
+    display: block;
+    padding-bottom: 30px;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+.home .presentations .presentation h2{
+    color: #474747;
+}
+.home .presentations .presentation:hover{
+    background-color: rgba(152, 76, 67, 0.116);
+}
+.home .presentations .presentation h2{
+    color: #333;
+}
+.home .message, .item .message{
+    margin-top: 10px !important;
+}
