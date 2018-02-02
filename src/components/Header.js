@@ -26,6 +26,9 @@ export default class Header extends Component {
     }
 
     handleChange(e, {name, value}){
+        if(value.length > 12){
+            return;
+        }
         this.setState({number: value})
     }
 
@@ -41,7 +44,12 @@ export default class Header extends Component {
     render() {
         const {number} = this.state;
         let siteName = Config.Name;
-        let profil = this.user.lastname + " " + this.user.name + " - " + this.user.location;
+        let profil = this.user.lastname 
+            + " " + this.user.name 
+            + " at " + this.user.location;
+        if(number){
+            profil += " - " + number;
+        }
         return (
             <div className="header">
                 <div className="wrapper">
@@ -54,7 +62,7 @@ export default class Header extends Component {
                         <div className="profilHover">
                             <Popup
                                 trigger={<div onClick={this.handleOpen}>{profil}</div>}
-                                content='Click to add your phone number (People will be able to call you if you create an item)'
+                                content='Click to edit your profile'
                                 on='hover'
                                 inverted
                             />
@@ -65,7 +73,7 @@ export default class Header extends Component {
                                 trigger={<div>{profil}</div>}
                                 content={<div>
                                     <MdClear className="popupPhoneClear" onClick={this.handleClose}/> 
-                                    <div className="popupPhoneTitle">Add your phone number</div>
+                                    <div className="popupPhoneTitle">Add your phone number to be contacted quickly when publishing a topic:</div>
                                     <Input 
                                         size="small" 
                                         icon='phone' 

@@ -5,24 +5,24 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom'
 import {Grid, Button, Message, Confirm} from 'semantic-ui-react';
-import ModalForm from './ModalForm';
-import '../css/Item.css';
-import Header from './Header';
-import dataLibrary from '../dataLibrary';
 import FaShareAlt from 'react-icons/lib/fa/share-alt';
 import FaExclamation from 'react-icons/lib/fa/exclamation';
 import FaStar from 'react-icons/lib/fa/star';
 import FaStarO from 'react-icons/lib/fa/star-o';
 import FaStarHalfEmpty from 'react-icons/lib/fa/star-half-empty';
-
 import MdMailOutline from 'react-icons/lib/md/mail-outline';
 import MdCall from 'react-icons/lib/md/call';
-import userLibrary from '../userLibrary';
 
+import userLibrary from '../userLibrary';
+import '../css/Item.css';
+import Header from './Header';
+import dataLibrary from '../dataLibrary';
+import ModalForm from './ModalForm';
+import ModalFormContact from './ModalFormContact';
 
 export default class Item extends Component {
     item;
-    state = {openConfirm: false, openModal: false, typeModal: "", owner: false, message: []};
+    state = {openConfirm: false, openContactModal: false, openModal: false, typeModal: "", owner: false, message: []};
 
     componentWillMount(){
         this.item = dataLibrary.getById(this.props.match.params.id);
@@ -33,6 +33,8 @@ export default class Item extends Component {
         this.showModal = this.showModal.bind(this);
         this.edit = this.edit.bind(this);
         this.hideModal = this.hideModal.bind(this);
+        this.hideContactModal = this.hideContactModal.bind(this);
+        this.showContactModal = this.showContactModal.bind(this);
         this.upRatings = this.upRatings.bind(this);
         this.showMessage = this.showMessage.bind(this);
         this.setState({typeModal: this.item.Type});
@@ -41,6 +43,12 @@ export default class Item extends Component {
         }
     }
 
+    showContactModal(){
+        this.setState( {openContactModal: true} );
+    }
+    hideContactModal(){
+        this.setState( {openContactModal: false} );
+    }
     upRatings(){
         if(this.item.Ratings < 5){
             this.item.Ratings = this.item.Ratings + 0.5;
@@ -163,26 +171,24 @@ export default class Item extends Component {
                         {this.item.Description}
                     </div>
 
-                    <Grid divided='vertically' container className="contact">
-                        {this.item.User.phone ? (<Grid.Row>
-                            <a onClick={this.upRatings} href={'tel:' + this.item.User.phone}>
-                                <MdCall color='#984B43' size={40} className="contactIcon" />
-                                Call the author
-                            </a>
-                        </Grid.Row>
-                        ) : null }
-                        <Grid.Row>
-                            <a onClick={this.upRatings} href={
-                                'mailto:' 
-                                + this.item.User.email 
-                                + '?subject=WeShare Contact - ' 
-                                + this.item.Title
-                            }>
-                                <MdMailOutline color='#984B43' size={40} className="contactIcon" />
-                                Send an email to the author
-                            </a>
-                        </Grid.Row>
-                    </Grid>
+                    {!this.state.owner ? (
+                        <Grid divided='vertically' container className="contact">
+                            {this.item.User.phone ? (<Grid.Row>
+                                <a onClick={this.upRatings} href={'tel:' + this.item.User.phone}>
+                                    <MdCall color='#984B43' size={40} className="contactIcon" />
+                                    Call the author
+                                </a>
+                            </Grid.Row>
+                            ) : null }
+                            <Grid.Row>
+                                <div onClick={this.showContactModal}>
+                                    <MdMailOutline color='#984B43' size={40} className="contactIcon" />
+                                    Send an email to the author
+                                </div>
+                            </Grid.Row>
+                        </Grid>
+                    ) : null}
+                    
                     
                 </div>
                 {this.state.openModal && this.state.typeModal === "share" ? (
@@ -190,6 +196,9 @@ export default class Item extends Component {
                 ) : null}
                 {this.state.openModal && this.state.typeModal === "request" ? (
                     <ModalForm modalFormMessage={this.showMessage} item={this.item} modalFormHide={this.hideModal} type="request" />
+                ) : null}
+                {this.state.openContactModal ? (
+                    <ModalFormContact modalFormMessage={this.showMessage} item={this.item} modalFormHide={this.hideContactModal}/>
                 ) : null}
                 <Confirm
                     open={this.state.openConfirm}

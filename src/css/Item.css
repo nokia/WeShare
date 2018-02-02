@@ -34,7 +34,7 @@
     margin-top: 30px !important;
     margin-bottom: 30px;
 }
-.item .contact .row a{
+.item .contact .row a, .item .contact .row div{
     text-align: center;
     display: block;
     color: #333;
@@ -43,7 +43,7 @@
     padding: 10px 0px;
     cursor: pointer;
 }
-.item .contact .row a:hover{
+.item .contact .row a:hover, .item .contact .row div:hover{
     
     background-color: rgba(152, 76, 67, 0.116);
 }

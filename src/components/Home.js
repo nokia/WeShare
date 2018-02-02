@@ -5,7 +5,7 @@
 import React, { Component } from 'react';
 import {Grid} from 'semantic-ui-react';
 import ScrollableAnchor from 'react-scrollable-anchor';
-import { Message } from 'semantic-ui-react';
+import { Message, Loader } from 'semantic-ui-react';
 
 import '../css/Home.css';
 import userLibrary from '../userLibrary';
@@ -20,12 +20,13 @@ import FaThList from 'react-icons/lib/fa/th-list';
 
 export default class Home extends Component {
 
-    state = { openModal: false, typeModal: "", message: []};
+    state = { openModal: false, typeModal: "", message: [], loaded: false};
     
     componentWillMount(){
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
         this.showMessage = this.showMessage.bind(this);
+        this.onLoaded = this.onLoaded.bind(this);
         
         this.user = userLibrary.get();
     }
@@ -46,6 +47,11 @@ export default class Home extends Component {
 
     }
     
+    onLoaded(bool){
+        console.log('loaded ?', bool);
+        this.setState({loaded: true});
+    }
+
     render() {
         
         return (
@@ -54,7 +60,7 @@ export default class Home extends Component {
                 <div className="wrapper">
                     {this.state.message.length > 0 ? (<Message color={this.state.message[0]}>{this.state.message[1]}</Message>) : null}
 
-                    <Grid columns={3} stackable container divided>
+                    <Grid verticalAlign='middle' columns={3} stackable container divided>
                         <Grid.Row className="presentations">
                             <Grid.Column>
                                 <div className="presentation" onClick={this.showModal.bind(this,'share')}>
@@ -62,12 +68,23 @@ export default class Home extends Component {
                                     <h2>Share knowledge</h2>
                                 </div>
                             </Grid.Column>
-                            <Grid.Column>
-                                <a href='#browse' className="presentation">
-                                    <FaThList size={45} className="icon" color='#474747' />
-                                    <h2>Browse topics</h2>
-                                </a>
-                            </Grid.Column>
+                            {this.state.loaded ? (
+                                <Grid.Column>
+                                    <a href='#browse' className="presentation">
+                                        <FaThList size={45} className="icon" color='#474747' />
+                                        <h2>Browse topics</h2>
+                                    </a>
+                                </Grid.Column>
+                            ) : (
+                                <Grid.Column>
+                                    <a className="presentationNotLoaded">
+
+                                        <Loader active />
+                                        <FaThList size={45} className="icon" color='#d8d8d8' />
+                                        <h2>Browse topics</h2>
+                                    </a>
+                                </Grid.Column>
+                            )}
                             <Grid.Column>
                                 <div className="presentation" onClick={this.showModal.bind(this,'request')}>
                                     <FaExclamation size={45} className="icon" color='#474747' />
@@ -78,7 +95,7 @@ export default class Home extends Component {
                     </Grid>
                 </div>
                 <ScrollableAnchor id={'browse'}>
-                    <Browse />
+                    <Browse onLoaded={this.onLoaded} />
                 </ScrollableAnchor>
                 
                 {this.state.openModal && this.state.typeModal === "share" ? (

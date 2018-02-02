@@ -1,20 +1,24 @@
 .home .presentations{
-    margin-top: 20px;
+    margin-top: 100px;
+    margin-bottom: 100px;
 }
 .home .presentations .column{
     padding-left: 5px;
     padding-right: 5px;
 }
-.home .presentations .presentation{
+.home .presentations .presentation, .home .presentations .presentationNotLoaded{
     text-align: center;
     padding-top: 30px;
     display: block;
     padding-bottom: 30px;
     border: 1px solid transparent;
-    cursor: pointer;
+    cursor: pointer;   
 }
-.home .presentations .presentation h2{
-    color: #474747;
+.home .presentations .presentationNotLoaded{
+    cursor: default;
+}
+.home .presentations .presentationNotLoaded h2{
+    color: #d8d8d8;
 }
 .home .presentations .presentation:hover{
     background-color: rgba(152, 76, 67, 0.116);

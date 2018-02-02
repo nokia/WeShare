@@ -93,23 +93,19 @@ class Data{
     }
     getById(id){
         var item;
-        if(this.data.length !== 0){
-            var i = 0;
-            var found = false;
-            while(!found && i < this.data.length){
-                console.log(this.data[i].ID, id)
-                if(this.data[i].ID === Number(id)){
-                    item = this.data[i];
-                    found = true;
-                }
-                i++;
+        if(this.data.length === 0){
+            //get database
+            this.get();
+        }
+        var i = 0;
+        var found = false;
+        while(!found && i < this.data.length){
+            // console.log(this.data[i].ID, id)
+            if(this.data[i].ID === Number(id)){
+                item = this.data[i];
+                found = true;
             }
-        }else{
-            if(Number(id) === 2373726535663){
-                item = this.dataLocal1;
-            }else if(Number(id) === 3899787878290){
-                item = this.dataLocal2;
-            }
+            i++;
         }
         return item;
     }

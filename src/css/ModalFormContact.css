@@ -1,0 +1,9 @@
+.homeFormRequired{
+    color: #b30e0e !important;
+    font-size: 85%;
+    margin-top: 5px;
+}
+#form-textarea-control-message{
+    height: 150px;
+    resize: none;
+}

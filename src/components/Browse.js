@@ -4,7 +4,7 @@
 */
 import React, { Component } from 'react';
 import {Config} from './../config.js';
-import {Input, Grid, Loader, Menu, Dropdown} from 'semantic-ui-react';
+import {Input, Grid, Loader, Menu, Dropdown, Segment} from 'semantic-ui-react';
 
 import '../css/Browse.css';
 import Line from './Line';
@@ -25,6 +25,8 @@ export default class Browse extends Component {
             let data = dataLibrary.get();
             this.setState({data: data, displayedData: data});
             this.setState({isLoading:false});
+            console.log(this.props)
+            this.props.onLoaded(true);
             
         }, 2000);
     }
@@ -47,9 +49,9 @@ export default class Browse extends Component {
                         <Dropdown.Item key={subCategory} value={subCategory} active={act === subCategory ? true : false} onClick={this.handleCategoryClick.bind(this)}>{subCategory} ({count})</Dropdown.Item>
                     );
                 });
-                console.log(countSubTotal)
+                // console.log(countSubTotal)
                 let subText = category[0] + " (" + countSubTotal.toString() + ")";
-                console.log(subText);
+                // console.log(subText);
                 this.dropwDownOptions.push(
                     <Dropdown.Item className="subcategories">
                         <Dropdown pointing='left' text={subText}>
@@ -72,10 +74,11 @@ export default class Browse extends Component {
             }
         });
     }
-    componentWillReceiveProps(){
-        let data = dataLibrary.get();
-        this.setState({data: data, displayedData: data});
-    }
+    // componentWillReceiveProps(){
+    //     console.log('browse received props');
+    //     // let data = dataLibrary.get();
+    //     // this.setState({data: data, displayedData: data});
+    // }
 
     searchClear(){
         this.search("");
@@ -138,12 +141,15 @@ export default class Browse extends Component {
     }
 
     render() {
+        // console.log('render browser : ', this.state.filterCategory);
        if (this.state.isLoading) {
             return (
                 <div className="browse">
+                    {/* <Segment basic>
                     <div className="wrapper loader">
                         <Loader active>Displaying topics</Loader>
                     </div>
+                    </Segment> */}
                 </div>
             );
         }else{
