@@ -103,7 +103,7 @@ export default class ModalForm extends Component {
             textMessage = "Your post has been updated with success";
         }else{
             let item = {
-                ID: new Date().getTime() + Math.round(Math.random()*1000000), 
+                // ID: new Date().getTime() + Math.round(Math.random()*1000000), 
                 Category: category, 
                 Type: this.state.typeModal, 
                 Title: title, 

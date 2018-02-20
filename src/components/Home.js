@@ -21,6 +21,7 @@ import FaThList from 'react-icons/lib/fa/th-list';
 export default class Home extends Component {
 
     state = { openModal: false, typeModal: "", message: [], loaded: false};
+
     
     componentWillMount(){
         this.showModal = this.showModal.bind(this);
@@ -48,7 +49,6 @@ export default class Home extends Component {
     }
     
     onLoaded(bool){
-        console.log('loaded ?', bool);
         this.setState({loaded: true});
     }
 

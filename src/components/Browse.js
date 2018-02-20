@@ -17,18 +17,28 @@ export default class Browse extends Component {
     state = { isLoading:true, sortActive: 'All', data:[], displayedData: [], searchValue: "", filterCategory: "All topics" }
     
     componentWillMount(){
+        // console.log(SH);
+        // var i = SH.getListItems('Items');
+        // console.log('i', i);
+        // i.then((result) => {
+        //     console.log('res', result); 
+        // });
         this.searchClear = this.searchClear.bind(this);
         this.initDropdown = this.initDropdown.bind(this);
 
-        this.initDropdown(this.state.filterCategory);
-        setTimeout( () => {
-            let data = dataLibrary.get();
-            this.setState({data: data, displayedData: data});
+        // setTimeout( () => {
+        
+        let data = dataLibrary.get();
+        data.then((result) =>{
+            this.setState({data: result, displayedData: result});
+            this.initDropdown(this.state.filterCategory);
             this.setState({isLoading:false});
-            console.log(this.props)
             this.props.onLoaded(true);
             
-        }, 2000);
+        });
+        
+            
+        // }, 2000);
     }
     initDropdown(act){
         this.dropwDownOptions = [

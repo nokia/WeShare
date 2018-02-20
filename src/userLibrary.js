@@ -4,6 +4,7 @@ class User{
         email: "felix.fuin@nokia.com",
         lastname: "Félix",
         name: "Fuin",
+        ID: 50,
         location: "Paris-Saclay"
     };
 

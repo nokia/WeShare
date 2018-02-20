@@ -1,35 +1,35 @@
 import {Config} from './config.js';
 import userLibrary from './userLibrary.js';
-
+import oldItems from './lib/oldItems.js';
+import SH from './sharePoint.js';
 class Data{
     data = [];
 
     //Local
-    dataLocal1 = {ID: 2373726535663, User: {email: "felix.fuin@nokia.com", phone: "07383883"}, Category: 'JavaScript', Type:'request', Title:'Healthier Together', Description:"dsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessef", Duration:15, Date:new Date(), Ratings:2.5};
-    dataLocal2 = {ID: 3899787878290, User: {email: "feliiiiix.fuin@nokia.com"}, Category: 'Bureautique', Type:'share', Title:'Pivotable Excel file for NokiaEdu team', Description:"dsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessef", Duration:30, Date:new Date('December 17, 1995 03:24:00'), Ratings:4};
-    dataLocal3 = {ID: 2373787655668, User: {email: "felix.fuin@nokia.com", phone: "3344343"}, Type:'request', Title:'Need to know how to send emoji in Outlook', Description:"dsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessef", Duration:15, Date:new Date('December 19, 1995 03:24:00'), Ratings:1};
-    dataLocal4 = {ID: 2373745433666, User: {email: "feliiiiiix.fuin@nokia.com"}, Category: 'Fake Category', Type:'share', Title:'How to use the Learning Store', Description:"dsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessef", Duration:15, Date:new Date('December 24, 1995 03:24:00'), Ratings:5};
+    // dataLocal1 = {ID: 2373726535663, User: {email: "felix.fuin@nokia.com", phone: "07383883"}, Category: 'JavaScript', Type:'request', Title:'Healthier Together', Description:"dsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessef", Duration:15, Date:new Date(), Ratings:2.5};
+    // dataLocal2 = {ID: 3899787878290, User: {email: "feliiiiix.fuin@nokia.com"}, Category: 'Bureautique', Type:'share', Title:'Pivotable Excel file for NokiaEdu team', Description:"dsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessef", Duration:30, Date:new Date('December 17, 1995 03:24:00'), Ratings:4};
+    // dataLocal3 = {ID: 2373787655668, User: {email: "felix.fuin@nokia.com", phone: "3344343"}, Type:'request', Title:'Need to know how to send emoji in Outlook', Description:"dsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessef", Duration:15, Date:new Date('December 19, 1995 03:24:00'), Ratings:1};
+    // dataLocal4 = {ID: 2373745433666, User: {email: "feliiiiiix.fuin@nokia.com"}, Category: 'Fake Category', Type:'share', Title:'How to use the Learning Store', Description:"dsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessef", Duration:15, Date:new Date('December 24, 1995 03:24:00'), Ratings:5};
 
 
     countCategory(category){
         // console.log('count', category, this.data);
         var count = 0;
-        let data = this.get()
-        
         if(category === 'all'){
-            count = data.length;
+            count = this.data.length;
         }else if(category === 'my'){
-            data.forEach(item => {
+            this.data.forEach(item => {
             // console.log('my', item.User, userLibrary.get().email)
-                count += item.User.email === userLibrary.get().email ? 1 : 0;
+                count += item.User === userLibrary.get().ID ? 1 : 0;
             });
         }else{
-            data.forEach(item => {
+            this.data.forEach(item => {
                 count += item.Category === category ? 1 : 0;
             });
             // console.log(count);
         }
         return count; 
+        
     }
     add(item){
         this.data.push(item);
@@ -59,37 +59,68 @@ class Data{
         }
     }
     get(){
-        if(this.data.length === 0){
-            this.data = [this.dataLocal3, this.dataLocal4, this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal2,this.dataLocal2,this.dataLocal2,this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal2,this.dataLocal2,this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal2,this.dataLocal1,this.dataLocal2, this.dataLocal2,this.dataLocal2,this.dataLocal2];
-            this.data.forEach(item =>{
-                if(!item.Category){
-                    item.Category = "Unclassified";
+        var self = this;
+        var ret = [];
+        return new Promise(function(resolve, reject){
+            if(self.data.length === 0){
+                // this.data = [this.dataLocal3, this.dataLocal4, this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal2,this.dataLocal2,this.dataLocal2,this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal2,this.dataLocal2,this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal2,this.dataLocal1,this.dataLocal2, this.dataLocal2,this.dataLocal2,this.dataLocal2];
+                if(Config.local){
+                    var d = oldItems;
+                    // console.log('oldItems', d);
+
+                    self.data = d;
+                    self.sortByCategories();
+                    self.sortByDate();
+                    resolve(self.data);
                 }else{
-                    if(Config.Categories.includes(item.Category)){
-                        return;
-                    }
-                    else{
-                        let found = false;
-                        Config.Categories.forEach(confCat => {
-                            if(Array.isArray(confCat)){
-                                if(confCat[1].includes(item.Category)){
-                                    found = true;
-                                }
-                            }
-                        });
-                        if(!found){
-                            item.Category = "Unclassified";
-                        }
-                    }
-                   
+                    var s = SH.getListItems('Items');
+                    s.then((result) => {
+                        // result.forEach(r => {
+                        //     ret.push(r.Data);
+                        // });
+                        self.data = result;
+                        self.sortByDate();
+                        resolve(self.data);
+                    });
                 }
-            });
-        }
+                
+            }
+            else{
+                resolve(self.data);
+            }
+        });
+        
+    }
+    sortByDate(){
         this.data.sort(function(a, b) {
             var dateA = new Date(a.Date), dateB = new Date(b.Date);
             return dateB - dateA;
         });
-        return this.data;
+    }
+    sortByCategories(){
+        this.data.forEach(item =>{
+            if(!item.Category){
+                item.Category = "Unclassified";
+            }else{
+                if(Config.Categories.includes(item.Category)){
+                    return;
+                }
+                else{
+                    let found = false;
+                    Config.Categories.forEach(confCat => {
+                        if(Array.isArray(confCat)){
+                            if(confCat[1].includes(item.Category)){
+                                found = true;
+                            }
+                        }
+                    });
+                    if(!found){
+                        item.Category = "Unclassified";
+                    }
+                }
+               
+            }
+        });
     }
     getById(id){
         var item;
