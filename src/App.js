@@ -64,7 +64,7 @@ export default class App extends Component {
         <Switch>
           <Route exact path='/' render={() => (<Home />)} />
           <Route exact path='/index.aspx' render={() => (<Home />)} />
-          <Route exact path='/item/:id' component={Item} />
+          <Route exact path='/index.aspx/item/:id' component={Item} />
           <Route exact path='*' render={() => (<NotFound />)} />
         </Switch>
       </Router>  

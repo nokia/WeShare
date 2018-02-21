@@ -79,6 +79,7 @@ class Data{
                         //     ret.push(r.Data);
                         // });
                         self.data = result;
+                        self.sortByCategories();
                         self.sortByDate();
                         resolve(self.data);
                     });
@@ -123,22 +124,23 @@ class Data{
         });
     }
     getById(id){
-        var item;
-        if(this.data.length === 0){
-            //get database
-            this.get();
-        }
-        var i = 0;
-        var found = false;
-        while(!found && i < this.data.length){
-            // console.log(this.data[i].ID, id)
-            if(this.data[i].ID === Number(id)){
-                item = this.data[i];
-                found = true;
-            }
-            i++;
-        }
-        return item;
+        var self = this;
+        return new Promise(function(resolve, reject){
+            self.get().then((result) =>{
+                var item;
+                var i = 0;
+                var found = false;
+                while(!found && i < self.data.length){
+                    // console.log(this.data[i].ID, id)
+                    if(self.data[i].ID === Number(id)){
+                        item = self.data[i];
+                        found = true;
+                    }
+                    i++;
+                }
+                resolve(item);
+            });
+        });
     }
 }
 export default new Data();

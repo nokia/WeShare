@@ -61,7 +61,7 @@ export default class Line extends Component {
 
         return (
             <Link
-                to={'/item/' + this.item.ID}
+                to={'/index.aspx/item/' + this.item.ID}
             >
                 <div className={this.color + " line"} onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}>
                     <Grid columns='equal' stackable container verticalAlign='middle'>

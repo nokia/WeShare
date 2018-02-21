@@ -27,6 +27,9 @@
     margin-top: 5px;
     font-style:italic; 
 }
+.item .loader{
+    margin-top: 100px;
+}
 .item .description{
     text-align: justify;
 }

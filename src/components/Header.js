@@ -13,16 +13,20 @@ import '../css/Header.css';
 
 export default class Header extends Component {
  
-    state = { isOpen: false, number: '' }
+    state = { isOpen: false, number: '', userLoaded: false }
 
     componentWillMount(){
         this.handleClose = this.handleClose.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.user = userLibrary.get();
-        if(this.user.number){
-            this.setState({ umber: this.user.number });
-        }
+        userLibrary.getCurrentUser().then((result) => {
+            this.user = result;
+            if(this.user.Number){
+                this.setState({ number: this.user.Number });
+            }
+            this.setState({ userLoaded: true });
+        });
+            
     }
 
     handleChange(e, {name, value}){
@@ -42,14 +46,18 @@ export default class Header extends Component {
     }
 
     render() {
-        const {number} = this.state;
+        let profil;
         let siteName = Config.Name;
-        let profil = this.user.lastname 
-            + " " + this.user.name 
-            + " at " + this.user.location;
-        if(number){
-            profil += " - " + number;
+        const {number} = this.state;
+        if(this.state.userLoaded){
+            profil = this.user.Lastname 
+                + " " + this.user.Name 
+                + " at " + this.user.Location;
+            if(number){
+                profil += " - " + number;
+            }
         }
+        
         return (
             <div className="header">
                 <div className="wrapper">

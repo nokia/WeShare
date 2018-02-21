@@ -4,7 +4,7 @@
 */
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom'
-import {Grid, Button, Message, Confirm} from 'semantic-ui-react';
+import {Grid, Button, Message, Confirm, Segment, Loader} from 'semantic-ui-react';
 import FaShareAlt from 'react-icons/lib/fa/share-alt';
 import FaExclamation from 'react-icons/lib/fa/exclamation';
 import FaStar from 'react-icons/lib/fa/star';
@@ -22,25 +22,35 @@ import ModalFormContact from './ModalFormContact';
 
 export default class Item extends Component {
     item;
-    state = {openConfirm: false, openContactModal: false, openModal: false, typeModal: "", owner: false, message: []};
+    state = {loaded: false, openConfirm: false, openContactModal: false, openModal: false, typeModal: "", owner: false, message: []};
 
     componentWillMount(){
-        this.item = dataLibrary.getById(this.props.match.params.id);
-        if(!this.item){
-            this.props.history.push('not-found');
-            return;
-        }
-        this.showModal = this.showModal.bind(this);
-        this.edit = this.edit.bind(this);
-        this.hideModal = this.hideModal.bind(this);
-        this.hideContactModal = this.hideContactModal.bind(this);
-        this.showContactModal = this.showContactModal.bind(this);
-        this.upRatings = this.upRatings.bind(this);
-        this.showMessage = this.showMessage.bind(this);
-        this.setState({typeModal: this.item.Type});
-        if(this.item.User.email === userLibrary.get().email){
-            this.setState({owner: true});
-        }
+        // console.log('prop', this.props);
+        var userQuery = userLibrary.getCurrentUser();
+        dataLibrary.getById(this.props.match.params.id).then((result) => {
+            // console.log('res', result);
+            this.item = result;
+
+            if(!this.item){
+                this.props.history.push('not-found');
+                return;
+            }
+            this.showModal = this.showModal.bind(this);
+            this.edit = this.edit.bind(this);
+            this.hideModal = this.hideModal.bind(this);
+            this.hideContactModal = this.hideContactModal.bind(this);
+            this.showContactModal = this.showContactModal.bind(this);
+            this.upRatings = this.upRatings.bind(this);
+            this.showMessage = this.showMessage.bind(this);
+            userQuery.then((user) => {
+                console.log('next rest', user);
+                this.setState({typeModal: this.item.Type, loaded: true});
+                if(this.item.User === user.ID){
+                    this.setState({owner: true});
+                }
+            });
+        });
+        
     }
 
     showContactModal(){
@@ -89,6 +99,18 @@ export default class Item extends Component {
         }, 1000);
     }
     render() {
+        if (!this.state.loaded) {
+            return (
+                <div className="item">
+                    <Header />
+                    <Segment basic>
+                    <div className="wrapper loader">
+                        <Loader active>Loading topic</Loader>
+                    </div>
+                    </Segment>
+                </div>
+            );
+        }
         if(!this.item){
             return <Redirect to={'/not-found'} />
         }

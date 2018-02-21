@@ -102,7 +102,7 @@ export default class Browse extends Component {
         }else if(data.value === "My topics"){
             let tmp = [];
             for (var i=0; i < this.state.data.length; i++) {
-                if (this.state.data[i].User.email.toLowerCase() === userLibrary.get().email) {
+                if (this.state.data[i].User === userLibrary.get().ID) {
                     tmp.push(this.state.data[i]);
                 }
             }

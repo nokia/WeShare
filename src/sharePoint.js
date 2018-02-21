@@ -32,6 +32,28 @@ SH = (function() {
     });
   };
 
+  SH.prototype.getCurrentUser = function() {
+    var self = this;
+    return new Promise(function(resolve, reject){
+      var web;
+      web = new $REST.Web(self.url);
+      web.CurrentUser().execute(function(user) {
+        // console.log('us', user);
+        var loc = user.Title.split('/')[1];
+        var name = user.Title.split(' ')[0];
+        var obj = new Object();
+        obj.Email = user.Email;
+        obj.Lastname = user.Title.split(' ')[1];
+        obj.Name = name.substring(0, name.length - 1);
+        obj.Location = loc.substring(0, loc.length - 1);
+        resolve(obj);
+      });
+    });
+
+
+  
+  };
+
   SH.prototype.createListItem = function(listName, object) {
     var self = this;
     return new Promise((resolve, reject) => {
@@ -45,7 +67,7 @@ SH = (function() {
       }).execute((function(_this) {
         return function(item) {
           // console.log('iiiiittt', _this, item);
-          resolve('ok');
+          resolve(item);
         };
       })(this));
     });
@@ -78,15 +100,7 @@ SH = (function() {
     return def;
   };
 
-  SH.prototype.getCurrentUser = function() {
-    var def, user, web;
-    def = new Promise();
-    web = new $REST.Web;
-    user = web.CurrentUser().execute(function(user) {
-      return def.resolve(user);
-    });
-    return def;
-  };
+  
 
   // SH.prototype.createListItem = function(listName, object) {
   //   return new Promise((resolve, reject) => {
