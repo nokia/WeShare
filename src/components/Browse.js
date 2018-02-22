@@ -14,7 +14,7 @@ import MdClear from 'react-icons/lib/md/clear';
 import userLibrary from '../userLibrary';
 
 export default class Browse extends Component {
-    state = { isLoading:true, sortActive: 'All', data:[], displayedData: [], searchValue: "", filterCategory: "All topics" }
+    state = { isLoading:true, countCategories: [], sortActive: 'All', data:[], displayedData: [], searchValue: "", filterCategory: "All topics" }
     
     componentWillMount(){
         // console.log(SH);
@@ -29,22 +29,33 @@ export default class Browse extends Component {
         // setTimeout( () => {
         
         let data = dataLibrary.get();
+        // this.initDropdown(this.state.filterCategory);
         data.then((result) =>{
             this.setState({data: result, displayedData: result});
-            this.initDropdown(this.state.filterCategory);
-            this.setState({isLoading:false});
             this.props.onLoaded(true);
+
+            let countQuery = dataLibrary.countCategories();
+            countQuery.then((result) =>{
+                // console.log('count all', result);
+                this.setState({countCategories: result});
+                this.initDropdown(this.state.filterCategory);
+                this.setState({isLoading:false});
+            });
             
+        });
+        userLibrary.getCurrentUser().then((result) => {
+            this.user = result;
         });
         
             
         // }, 2000);
     }
+    dropDownOptions = [];
     initDropdown(act){
-        this.dropwDownOptions = [
-            <Dropdown.Item value='All topics' active={act === "All topics" ? true : false} onClick={this.handleCategoryClick.bind(this)}>All topics ({dataLibrary.countCategory('all')})</Dropdown.Item>,
-            <Dropdown.Item value='My topics' active={act === "My topics" ? true : false} onClick={this.handleCategoryClick.bind(this)}>My topics ({dataLibrary.countCategory('my')})</Dropdown.Item>,
-            <Dropdown.Item value='Unclassified' active={act === "Unclassified" ? true : false} onClick={this.handleCategoryClick.bind(this)}>Unclassified ({dataLibrary.countCategory('Unclassified')})</Dropdown.Item>
+        this.dropDownOptions = [
+            <Dropdown.Item value='All topics' active={act === "All topics" ? true : false} onClick={this.handleCategoryClick.bind(this)}>All topics ({this.state.countCategories['all']})</Dropdown.Item>,
+            <Dropdown.Item value='My topics' active={act === "My topics" ? true : false} onClick={this.handleCategoryClick.bind(this)}>My topics ({this.state.countCategories['my']})</Dropdown.Item>,
+            <Dropdown.Item value='Unclassified' active={act === "Unclassified" ? true : false} onClick={this.handleCategoryClick.bind(this)}>Unclassified ({this.state.countCategories['unclassified']})</Dropdown.Item>
         ];
         Config.Categories.forEach( category => {
             let count = 0;
@@ -53,7 +64,7 @@ export default class Browse extends Component {
 
                 let subCategories = [];
                 category[1].forEach( subCategory => {
-                    count = dataLibrary.countCategory(subCategory);
+                    count = this.state.countCategories[subCategory];
                     countSubTotal += count;
                     subCategories.push(
                         <Dropdown.Item key={subCategory} value={subCategory} active={act === subCategory ? true : false} onClick={this.handleCategoryClick.bind(this)}>{subCategory} ({count})</Dropdown.Item>
@@ -62,7 +73,7 @@ export default class Browse extends Component {
                 // console.log(countSubTotal)
                 let subText = category[0] + " (" + countSubTotal.toString() + ")";
                 // console.log(subText);
-                this.dropwDownOptions.push(
+                this.dropDownOptions.push(
                     <Dropdown.Item className="subcategories">
                         <Dropdown pointing='left' text={subText}>
                             <Dropdown.Menu>
@@ -73,8 +84,8 @@ export default class Browse extends Component {
                 );
             }else{
                 
-                count = dataLibrary.countCategory(category);
-                this.dropwDownOptions.push(
+                count = this.state.countCategories[category];
+                this.dropDownOptions.push(
                     <Dropdown.Item 
                         value={category} 
                         active={act === category ? true : false} 
@@ -102,7 +113,7 @@ export default class Browse extends Component {
         }else if(data.value === "My topics"){
             let tmp = [];
             for (var i=0; i < this.state.data.length; i++) {
-                if (this.state.data[i].User === userLibrary.get().ID) {
+                if (this.state.data[i].User === this.user.ID) {
                     tmp.push(this.state.data[i]);
                 }
             }
@@ -209,7 +220,7 @@ export default class Browse extends Component {
                                         text={this.state.filterCategory}
                                     >
                                         <Dropdown.Menu>
-                                            {this.dropwDownOptions}
+                                            {this.dropDownOptions}
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </Grid.Column>

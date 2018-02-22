@@ -176,8 +176,8 @@ export default class Item extends Component {
                         {emptyStars}
                     </div>
                     <div className="date">
-                        {this.item.Date.toLocaleString()}
-                        {this.item.Duration ? (<span>- {this.item.Duration} minutes</span>) : null}
+                        {new Date(this.item.Date).toLocaleString()}
+                        {this.item.Duration ? (<span> - {this.item.Duration} minutes</span>) : null}
                     </div>
 
                     <br /><br />

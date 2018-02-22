@@ -31,10 +31,60 @@ class Data{
         return count; 
         
     }
+    countCategories(){
+        // console.log('count', category, this.data);
+        var self = this;
+        return new Promise(function(resolve, reject){
+            userLibrary.getCurrentUser().then((cur) => {
+                var countTab = [];
+                Config.Categories.forEach(confCat => {
+                    countTab[confCat] = 0;
+                });
+                countTab["all"] = 0;
+                countTab["my"] = 0;
+                countTab["unclassified"] = 0;
+                // console.log('tab', countTab);
+                // console.log('cur', cur.ID);
+                self.data.forEach(item => {
+                    // console.log('it', item);
+                    countTab["all"] = countTab["all"] + 1;
+                    item.User === cur.ID ? countTab["my"] = countTab["my"] + 1 : null;
+                    if(item.Category === "Unclassified"){
+                        countTab["unclassified"] = countTab["unclassified"] + 1;
+                    }else{
+                        countTab[item.Category] = countTab[item.Category] + 1;
+                    }
+                });
+
+
+                // if(category === 'all'){
+                //     count = this.data.length;
+                // }else if(category === 'my'){
+                //     this.data.forEach(item => {
+                //     // console.log('my', item.User, userLibrary.get().email)
+                //         count += item.User === cur.ID ? 1 : 0;
+                //     });
+                // }else{
+                //     this.data.forEach(item => {
+                //         count += item.Category === category ? 1 : 0;
+                //     });
+                //     // console.log(count);
+                // }
+                // return count; 
+
+                resolve(countTab);
+            });
+            
+        });
+        
+        
+    }
     add(item){
         this.data.push(item);
 
-        /* UPLOAD ON SHAREPOINT */
+        SH.createListItem('Items', item).then((results) => {
+            console.log('created item', results);
+        });
     }
     update(item){
         var tmp = 0;

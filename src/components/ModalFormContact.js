@@ -17,8 +17,14 @@ export default class ModalForm extends Component {
     componentWillMount(){
         this.closeModal = this.closeModal.bind(this);
         this.submitModal = this.submitModal.bind(this);
-        this.user = userLibrary.get();
+        // this.user = userLibrary.get();
         this.item = this.props.item;
+        console.log(userLibrary.users, this.item)
+        for(var i = 0; i < userLibrary.users.length; i++) {
+            if(userLibrary.users[i].ID === this.item.User){
+                this.user = userLibrary.users[i];
+            }
+        }
     }
 
    
@@ -69,6 +75,7 @@ export default class ModalForm extends Component {
     render() {
         // console.log(this.item);
         const { title, message } = this.state;
+        console.log(this.user)
         return (
             <div>
                 <Modal 
@@ -79,7 +86,7 @@ export default class ModalForm extends Component {
                 closeOnRootNodeClick={false}
                 >
                     <Modal.Header>
-                        Send a mail to {this.item.User.email}
+                        Send a mail to {this.user.Email}
                     </Modal.Header>
                     <Modal.Content>
                         <Form size="small" key="small">

@@ -80,8 +80,8 @@ export default class Line extends Component {
                                 </div>
                                 <div className="lineInfos">
                                     {/* {this.item.Date.toLocaleDateString()} - {this.item.Duration} minutes */}
-                                    {this.item.Date} 
-                                    {this.item.Duration ? (<span>- {this.item.Duration} minutes</span>) : null}
+                                    {new Date(this.item.Date).toLocaleString()} 
+                                    {this.item.Duration ? (<span> - {this.item.Duration} minutes</span>) : null}
                                 </div>
                                 
                             </Grid.Column>

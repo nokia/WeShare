@@ -12,7 +12,7 @@ var oldItems = [
     {
       "Title": "Customized queries on CEM 17",
       "Type": "share",
-      "Category": "c.4",
+      "Category": "Big Data",
       "Description": "Customized queries for CEM 17: Queries over big data",
       "Date": "2018-02-02T20:13:04.471Z",
       "Ratings": 0,
@@ -23,7 +23,7 @@ var oldItems = [
     {
       "Title": "Project Management Mentoring for faster Project delivery",
       "Type": "request",
-      "Category": "c.3",
+      "Category": "Agility",
       "Description": "Project Management Mentoring for faster Project delivery, what are the tools and techniques which support PMs to deliver stakeholder value?",
       "Date": "2018-01-18T15:03:01.577Z",
       "Ratings": 0,
@@ -33,7 +33,7 @@ var oldItems = [
     {
       "Title": "Agility",
       "Type": "request",
-      "Category": "c.3",
+      "Category": "Agility",
       "Description": "\nNeed to learn about agility",
       "Date": "2018-01-03T14:29:36.198Z",
       "Ratings": 0,
@@ -53,7 +53,7 @@ var oldItems = [
     {
       "Title": "hiding small teams in PBI visuals",
       "Type": "request",
-      "Category": "c.11",
+      "Category": "Power BI",
       "Description": "due to data privacy reasons I need to hide small teams in showing up in the visuals. The visuals are build on a hierarchy and you can drill into the same. As soon as I put a filter also the accumulated figures of higher level (even not showing on the selected visible) will not be included and thus showing incorrect data. Is there a way to find a workaround?",
       "Date": "2017-11-23T13:23:42.885Z",
       "Ratings": 0,
@@ -63,7 +63,7 @@ var oldItems = [
     {
       "Title": "Connecting OneDrive data files to PBI for auto-refresh",
       "Type": "share",
-      "Category": "c.11",
+      "Category": "Power BI",
       "Description": "I posted in Yammer that I managed to connect OneDrive file with PBI and got auto-refresh working - in case of need feel free to connect me, or have a look into the video (https://nokia.sharepoint.com/portals/hub/_layouts/15/PointPublishing.aspx?app=video&p=p&chid=6cb8cc70-6f9a-4828-9017-4ac9886e7a8f&vid=982e1e5d-a300-4018-90d7-bd3db0f19bbf&from=2)",
       "Date": "2017-11-23T13:19:27.808Z",
       "Ratings": 0,
@@ -74,7 +74,7 @@ var oldItems = [
     {
       "Title": "Nokia Custom Theme for Power Bi Desktop",
       "Type": "share",
-      "Category": "c.11",
+      "Category": "Power BI",
       "Description": "I have shared a Nokia Theme, including \"Nokia colors\" as well as setting the default font to Arial (Nokia Pure fonts seems not to be supported). In addition I adapted some defaults for the \"Card\" visual. In case of interest you can have a look to the Yammer post (https://www.yammer.com/nokia.com/#/threads/inGroup?type=in_group&feedId=12091838&view=all) or reach out to me. ",
       "Date": "2017-11-23T13:14:52.764Z",
       "Ratings": 0,
@@ -85,7 +85,7 @@ var oldItems = [
     {
       "Title": "Active antennas",
       "Type": "request",
-      "Category": "c.5",
+      "Category": "Collaboration",
       "Description": "Need a overview of the Active antenna and more numbers in the efficiency than passive antenna systems",
       "Date": "2017-11-01T07:47:00.209Z",
       "Ratings": 0,
@@ -125,7 +125,7 @@ var oldItems = [
     {
       "Title": "New PC - reinstall OneDrive (OneDrive-Nokia is ok)",
       "Type": "request",
-      "Category": "c.7",
+      "Category": "OneDrive",
       "Description": "Am installing my new laptop. \n\nOneDrive - Nokia is synching in the meantime, but the OneDrive folder which I was using to store non-business related documents isn't there. \n\nHow do I set that up again so I can synch those docs as well?\n",
       "Date": "2017-10-16T08:39:07.609Z",
       "Ratings": 0,
@@ -135,7 +135,7 @@ var oldItems = [
     {
       "Title": "Macros in Emacs",
       "Type": "share",
-      "Category": "c.10",
+      "Category": "Get 1 Hour Back",
       "Description": "I can share how to use macros in Emacs to manage text files effectively",
       "Date": "2017-10-12T15:02:47.077Z",
       "Ratings": 0,
@@ -146,7 +146,7 @@ var oldItems = [
     {
       "Title": "Time management",
       "Type": "share",
-      "Category": "c.10",
+      "Category": "Get 1 Hour Back",
       "Description": "Tips and tricks on time management",
       "Date": "2017-10-03T20:29:05.879Z",
       "Ratings": 0,
@@ -157,7 +157,7 @@ var oldItems = [
     {
       "Title": "OneDrive sync",
       "Type": "request",
-      "Category": "c.7",
+      "Category": "OneDrive",
       "Description": "I'd like to understand how onedrive sync works from someone who has experience here.",
       "Date": "2017-10-02T08:40:27.284Z",
       "Ratings": 0,
@@ -167,7 +167,7 @@ var oldItems = [
     {
       "Title": "Improve Sharepoint OnlineTeam site",
       "Type": "request",
-      "Category": "c.8",
+      "Category": "SharePoint Online",
       "Description": "Need to improve our team site including site restructuring and need to know how I can do that , what is needed and so forth. ",
       "Date": "2017-09-22T15:13:36.662Z",
       "Ratings": 0,
@@ -188,7 +188,7 @@ var oldItems = [
     {
       "Title": "Sahrepoint online training",
       "Type": "request",
-      "Category": "c.8",
+      "Category": "SharePoint Online",
       "Description": "I have watched the basic videos on SPOL but would really like to become more proficient - I normally find my way around things pretty quickly and I have for basic actions - but would like to dig deeper and be able to make the sites look better - has anyone completed any more detailed courses or read any good books / material?",
       "Date": "2017-08-15T09:58:38.657Z",
       "Ratings": 0,
@@ -198,7 +198,7 @@ var oldItems = [
     {
       "Title": "Improving PowerPoint presentations",
       "Type": "share",
-      "Category": "c.9",
+      "Category": "Word, Excel, etc.",
       "Description": "Help you understand what is required for an effective presentation",
       "Date": "2017-07-31T15:44:50.836Z",
       "Ratings": 0,
@@ -209,7 +209,7 @@ var oldItems = [
     {
       "Title": "SPOL how can I set the different autorisation level, and how to see the relevance between a document file and a subsite ",
       "Type": "request",
-      "Category": "c.8",
+      "Category": "SharePoint Online",
       "Description": "I'm creating a SPOL for a financial project. The goal is:\nallow a team to see in the home page all the things currently ongoing or past and allow some people of the team to contribute for some files and at the same time don't allow us to open others files in other document box.\nMany questions are running in my mind but not resolved because of lack of experience. Thank you ",
       "Date": "2017-07-21T10:27:17.649Z",
       "Ratings": 0,
@@ -219,7 +219,7 @@ var oldItems = [
     {
       "Title": "Cloud RAN training",
       "Type": "request",
-      "Category": "c.6",
+      "Category": "Cloud",
       "Description": "Any Classroom training planned on Cloud RAN",
       "Date": "2017-07-19T10:27:42.989Z",
       "Ratings": 0,
@@ -249,7 +249,7 @@ var oldItems = [
     {
       "Title": "From ShareNet to SharePoint",
       "Type": "request",
-      "Category": "c.8",
+      "Category": "SharePoint Online",
       "Description": "Out team is migrating their needed documents from ShareNet to SharePoint Online. We have figured out how to easiest download documents but would need some suggestion as to where and how to archive the rest of the documents that may be useful later on but wouldn't like to keep them locally. \nThanks in advance! \nBori",
       "Date": "2017-06-27T13:54:10.823Z",
       "Ratings": 0,
@@ -259,7 +259,7 @@ var oldItems = [
     {
       "Title": "Azure Data Warehouse",
       "Type": "request",
-      "Category": "c.4",
+      "Category": "Big Data",
       "Description": "How to set up Azure DB with Data Factory. Auto load data from different sources to a Data Warehouse then use it from Access, Excel, PowerBI... ",
       "Date": "2017-06-16T14:08:47.644Z",
       "Ratings": 0,
@@ -269,7 +269,7 @@ var oldItems = [
     {
       "Title": "Multivariate Statistics",
       "Type": "share",
-      "Category": "c.4",
+      "Category": "Big Data",
       "Description": "I'm an statistician with experience on applied statistics in corporate environment. Those methodologies are being used in the so called Big Data.\nLet me know if you need assistance.\n\n",
       "Date": "2017-06-13T12:43:14.545Z",
       "Ratings": 0,
@@ -291,7 +291,7 @@ var oldItems = [
     {
       "Title": "NCIR16A AiO deployment",
       "Type": "share",
-      "Category": "c.6",
+      "Category": "Cloud",
       "Description": "I have played around quite a bit with NCIR AiO(All-in-One) deployments as part of my project feel free to contact me.\n- Deployment of VM's \n- Cinder Storage\n- Basic networking etc.,",
       "Date": "2017-06-12T06:46:41.406Z",
       "Ratings": 0,
@@ -302,7 +302,7 @@ var oldItems = [
     {
       "Title": "I need help to create an advanced excel macro",
       "Type": "request",
-      "Category": "c.9",
+      "Category": "Word, Excel, etc.",
       "Description": "I need help to create an excel macro to send out emails to various recipients with excel attachments.",
       "Date": "2017-06-02T20:35:32.350Z",
       "Ratings": 0,
@@ -312,7 +312,7 @@ var oldItems = [
     {
       "Title": "Outlook Mailbox Management",
       "Type": "request",
-      "Category": "c.1",
+      "Category": "Office 365",
       "Description": "How to manage the mailbox now that we have migrated ? The mailbox is 50GB, which rule to follow for archiving? Local archive or archive in the cloud?",
       "Date": "2017-06-02T09:55:56.844Z",
       "Ratings": 0,
@@ -322,7 +322,7 @@ var oldItems = [
     {
       "Title": "SharePoint Online - what to do after the very first steps",
       "Type": "request",
-      "Category": "c.8",
+      "Category": "SharePoint Online",
       "Description": "I created a SharePoint Online website, but would like to turn it into something that serves my purposes. How/where do I start?\nCan someone help me understand the principles (purpose) of this basic/standard site and help me get started?",
       "Date": "2017-05-11T12:52:41.124Z",
       "Ratings": 0,
@@ -332,7 +332,7 @@ var oldItems = [
     {
       "Title": "Time management in Espoo campus",
       "Type": "share",
-      "Category": "c.10",
+      "Category": "Get 1 Hour Back",
       "Description": "If you are interested on improving your time management with really light \"Getting things done\" mechanism you can start with your Outlook. We can meet for a short 15-45 minute session depending on your need",
       "Date": "2017-04-28T06:24:18.088Z",
       "Ratings": 0,
@@ -343,7 +343,7 @@ var oldItems = [
     {
       "Title": "Location Plan",
       "Type": "request",
-      "Category": "c.5",
+      "Category": "Collaboration",
       "Description": "I am looking for Location Plan owner and expert in MN",
       "Date": "2017-04-06T08:56:36.620Z",
       "Ratings": 0,
@@ -353,7 +353,7 @@ var oldItems = [
     {
       "Title": "mobile apps",
       "Type": "share",
-      "Category": "c.2",
+      "Category": "O365 on Mobile Devices",
       "Description": "Availability of mobile apps",
       "Date": "2017-03-31T12:56:49.411Z",
       "Ratings": 0,
@@ -364,7 +364,7 @@ var oldItems = [
     {
       "Title": "MetaData usage in Sharepoint Online",
       "Type": "request",
-      "Category": "c.8",
+      "Category": "SharePoint Online",
       "Description": "Hi,\n\nI would like to understand how to use Metadata in Sharepoint Online.\nMy goal is to create a new field in a libary i created.\nAnd when i upload a document in this library i would like to force the user to define a value for this field.\nThank you",
       "Date": "2017-03-28T16:50:33.944Z",
       "Ratings": 0,
@@ -394,7 +394,7 @@ var oldItems = [
     {
       "Title": "O365 password for mobile devices",
       "Type": "share",
-      "Category": "c.2",
+      "Category": "O365 on Mobile Devices",
       "Description": "quick link to get a password for setting up O365 on your mobile device:\nhttps://account.activedirectory.windowsazure.com/AppPasswords.aspx\n",
       "Date": "2017-03-22T08:18:29.381Z",
       "Ratings": 0,
@@ -405,7 +405,7 @@ var oldItems = [
     {
       "Title": "SPOL tips",
       "Type": "request",
-      "Category": "c.8",
+      "Category": "SharePoint Online",
       "Description": "Would like to learn how to use task lists and document mng in spol.",
       "Date": "2017-03-21T17:01:02.120Z",
       "Ratings": 0,
@@ -415,7 +415,7 @@ var oldItems = [
     {
       "Title": "SPOL tips",
       "Type": "share",
-      "Category": "c.8",
+      "Category": "SharePoint Online",
       "Description": "Sharing some tips I came accross in my experience with SPOL.",
       "Date": "2017-03-21T16:59:02.950Z",
       "Ratings": 0,
@@ -426,7 +426,7 @@ var oldItems = [
     {
       "Title": "JIRA agile project tips and tricks",
       "Type": "request",
-      "Category": "c.3",
+      "Category": "Agility",
       "Description": "Would like to get some tips and tricks from JIRA users using it for Agile project mgmt",
       "Date": "2017-03-16T09:20:48.339Z",
       "Ratings": 0,
@@ -436,7 +436,7 @@ var oldItems = [
     {
       "Title": "Big Data as a Service Intro",
       "Type": "share",
-      "Category": "c.4",
+      "Category": "Big Data",
       "Description": "We offer Big Data as a Service in R&D IT.  Please contact me for a brief intro if interested.",
       "Date": "2017-03-16T09:18:54.404Z",
       "Ratings": 0,
@@ -447,7 +447,7 @@ var oldItems = [
     {
       "Title": "Healthier Together",
       "Type": "share",
-      "Category": "c.5",
+      "Category": "Collaboration",
       "Description": "Did you know there is a new program at Nokia for health and wellbeing in partnership with our digital health vision? Come learn more!",
       "Date": "2017-03-16T08:37:29.864Z",
       "Ratings": 0,
@@ -491,7 +491,7 @@ var oldItems = [
     {
       "Title": "Introduction to Microsoft Teams",
       "Type": "share",
-      "Category": "c.5",
+      "Category": "Collaboration",
       "Description": "Microsoft Teams is the Microsoft version of Slack. It's made for team to work together on projects. It's available on all devices. \n\nIn 15 minutes I can show you how to install and use the application.\n\nBest for a small team to it together. ",
       "Date": "2017-03-15T08:36:54.719Z",
       "Ratings": 0,
@@ -502,7 +502,7 @@ var oldItems = [
     {
       "Title": "Hands-on demonstration of using O365 to co-edit documents",
       "Type": "share",
-      "Category": "c.9",
+      "Category": "Word, Excel, etc.",
       "Description": "I can show you how a small group of people can edit together the same document (Excel, PowerPoint, etc.) in a very simple way without the complexity of multiple copies circulating through mails and without having to consolidate the copies.\n\nBest to do with a team (3 to 10 people or more).",
       "Date": "2017-03-15T08:31:57.387Z",
       "Ratings": 0,
@@ -513,7 +513,7 @@ var oldItems = [
     {
       "Title": "Outlook Group - set up",
       "Type": "share",
-      "Category": "c.5",
+      "Category": "Collaboration",
       "Description": "I can help you learn about setting up a project group in your Outlook (Exchange Online) for efficient collaboration within a (project) team.\nThe group results in a team or project email address, a OneNote notebook and a OneDrive on SharePoint Online.",
       "Date": "2017-03-14T11:46:03.612Z",
       "Ratings": 0,
@@ -524,7 +524,7 @@ var oldItems = [
     {
       "Title": "Javascript library for Sharepoint Online",
       "Type": "share",
-      "Category": "c.1",
+      "Category": "Office 365",
       "Description": "An easy way to create, read, update and delete data using the SharePoint 2013/Online REST API.",
       "Date": "2017-02-18T15:27:03.021Z",
       "Ratings": 0,

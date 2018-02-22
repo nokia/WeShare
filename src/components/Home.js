@@ -28,8 +28,9 @@ export default class Home extends Component {
         this.hideModal = this.hideModal.bind(this);
         this.showMessage = this.showMessage.bind(this);
         this.onLoaded = this.onLoaded.bind(this);
+        this.refresh = this.refresh.bind(this);
         
-        this.user = userLibrary.get();
+        // this.user = userLibrary.get();
     }
 
 
@@ -38,6 +39,10 @@ export default class Home extends Component {
     }
     hideModal(){
         this.setState( {openModal: false});
+    }
+
+    refresh(){
+        this.forceUpdate();
     }
     
     showMessage(color, text){
@@ -99,10 +104,10 @@ export default class Home extends Component {
                 </ScrollableAnchor>
                 
                 {this.state.openModal && this.state.typeModal === "share" ? (
-                    <ModalForm modalFormMessage={this.showMessage} modalFormHide={this.hideModal} type="share" />
+                    <ModalForm refresh={this.refresh} modalFormMessage={this.showMessage} modalFormHide={this.hideModal} type="share" />
                 ) : null}
                 {this.state.openModal && this.state.typeModal === "request" ? (
-                    <ModalForm modalFormMessage={this.showMessage}  modalFormHide={this.hideModal} type="request" />
+                    <ModalForm refresh={this.refresh} modalFormMessage={this.showMessage}  modalFormHide={this.hideModal} type="request" />
                 ) : null}
             </div>
         );
