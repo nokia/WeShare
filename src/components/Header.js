@@ -34,6 +34,9 @@ export default class Header extends Component {
             return;
         }
         this.setState({number: value})
+        this.user.Number = value;
+        userLibrary.update(this.user).then((result) => {
+        });
     }
 
     handleOpen = () => {

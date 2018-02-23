@@ -95,7 +95,7 @@ export default class Item extends Component {
         this.setState({ openConfirm: false });
         this.showMessage('green', 'Successully removed');
         setTimeout( () => { 
-            this.props.history.push('/');
+            this.props.history.push('/index.aspx');
         }, 1000);
     }
     render() {

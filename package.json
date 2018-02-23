@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://nokia.sharepoint.com/sites/learn/weshare/SitePages",
   "dependencies": {
-    "gd-sprest": "^3.3.3",
+    "gd-sprest": "^3.4.9",
     "lz-string": "^1.4.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

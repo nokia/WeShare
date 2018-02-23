@@ -50,6 +50,15 @@ export default class Browse extends Component {
             
         // }, 2000);
     }
+    componentWillReceiveProps(){
+        // console.log('update browse');
+        let data = dataLibrary.get();
+        // this.initDropdown(this.state.filterCategory);
+        data.then((result) =>{
+            // console.log('res', result);
+            this.setState({data: result, displayedData: result});
+        });
+    }
     dropDownOptions = [];
     initDropdown(act){
         this.dropDownOptions = [
@@ -163,6 +172,7 @@ export default class Browse extends Component {
 
     render() {
         // console.log('render browser : ', this.state.filterCategory);
+        // console.log('browse', this.state.displayedData);
        if (this.state.isLoading) {
             return (
                 <div className="browse">

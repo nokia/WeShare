@@ -64,7 +64,12 @@ export default class ModalForm extends Component {
             dataLibrary.update(this.item);
             this.forceUpdate();
         }
-        /////// SEND EMAIL VIA SHAREPOINT
+        // SH.contact(this.user.Email).then((result) => {
+        //     console.log('sent')
+        // });
+        userLibrary.contact("felix.fuin@nokia.com", title, message).then((result) => {
+            console.log('sent')
+        });
         textMessage = "Your message has been sent with success";
         
         

@@ -11,6 +11,25 @@ class User{
     currentUser;
     users;
     
+    update(user){
+        var self = this;
+        console.log('update user', this.currentUser, user)
+        return new Promise(function(resolve, reject){
+            self.currentUser = user;
+            SH.updateListItem('Users', user, user.ID).then((results) => {
+                resolve(results);
+            });
+        });
+        
+    }
+    contact(email, title, message){
+        console.log('user contact', email, title, message);
+        var self = this;
+        return new Promise(function(resolve, reject){
+            SH.contact(self.currentUser.Email, email, title, message)
+        });
+
+    }
 
 
     getCurrentUser(){

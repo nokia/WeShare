@@ -80,33 +80,55 @@ class Data{
         
     }
     add(item){
-        this.data.push(item);
-
-        SH.createListItem('Items', item).then((results) => {
-            console.log('created item', results);
+        var self = this;
+        return new Promise(function(resolve, reject){
+            SH.createListItem('Items', item).then((results) => {
+                // console.log('created item', results);
+                item.ID = results.ID;
+                self.data.unshift(item);
+                resolve(item);
+            });
         });
+
+        
     }
     update(item){
-        var tmp = 0;
-        var found = false;
-        while(tmp < this.data.length && !found){
-            if(this.data.ID === item.ID){
-                this.data[tmp] = item;
-                found = true;
+        var self = this;
+        return new Promise(function(resolve, reject){
+            var tmp = 0;
+            var found = false;
+            while(tmp < self.data.length && !found){
+                if(self.data[tmp].ID === item.ID){
+                    self.data[tmp] = item;
+                    found = true;
+                    SH.updateListItem('Items', item, item.ID).then((results) => {
+                        resolve(item);
+                    });
+                }
+                tmp++;
             }
-            tmp++;
-        }
+        });
+        
     }
     remove(item){
-        var tmp = 0;
-        var found = false;
-        while(tmp < this.data.length && !found){
-            if(this.data[tmp].ID === item.ID){
-                this.data.splice(tmp, 1);
-                found = true;
+        var self = this;
+        return new Promise(function(resolve, reject){
+            var tmp = 0;
+            var found = false;
+            console.log('delete')
+            while(tmp < self.data.length && !found){
+                if(self.data[tmp].ID === item.ID){
+                    self.data.splice(tmp, 1);
+                    console.log('deleting')
+                    SH.removeItemById('Items', item.ID).then((results) => {
+                        resolve('deleted');
+                    });
+                    found = true;
+                }
+                tmp++;
             }
-            tmp++;
-        }
+        });
+        
     }
     get(){
         var self = this;

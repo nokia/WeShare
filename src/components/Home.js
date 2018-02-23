@@ -42,6 +42,8 @@ export default class Home extends Component {
     }
 
     refresh(){
+        console.log('refresh');
+
         this.forceUpdate();
     }
     

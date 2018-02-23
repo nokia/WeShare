@@ -60,13 +60,11 @@ SH = (function() {
       var list, web, obj;
       web = new $REST.Web(self.url);
       list = web.Lists(listName);
-      // console.log('create', object, lz.compressToBase64(JSON.stringify(object)));
       obj = lz.compressToBase64(JSON.stringify(object))
       list.Items().add({
         Data: obj
       }).execute((function(_this) {
         return function(item) {
-          // console.log('iiiiittt', _this, item);
           resolve(item);
         };
       })(this));
@@ -74,31 +72,96 @@ SH = (function() {
     
   };
 
-
-  SH.prototype.getItemById = function(listName, id) {
-    var def, list, web;
-    def = new Promise();
-    web = new $REST.Web;
-    list = web.Lists(listName);
-    list.getItemById(id).execute(function(item) {
-      var obj;
-      obj = JSON.parse(item.Object);
-      obj.ID = parseInt(id);
-      return def.resolve(obj);
+  SH.prototype.updateListItem = function(listName, object, id) {
+    var self = this;
+    return new Promise((resolve, reject) => {
+      var list, web, obj;
+      web = new $REST.Web(self.url);
+      list = web.Lists(listName);
+      obj = lz.compressToBase64(JSON.stringify(object))
+      list.getItemById(id).execute((function(_this) {
+        return function(item) {
+          return item.update({
+            Data: obj
+          }).execute(function(itemN) {
+            resolve(itemN);
+          });
+        };
+      })(this));
     });
-    return def;
   };
 
   SH.prototype.removeItemById = function(listName, id) {
-    var def, list, web;
-    def = new Promise();
-    web = new $REST.Web;
-    list = web.Lists(listName);
-    list.getItemById(id)["delete"]().execute(function(rep) {
-      return def.resolve('deleted');
+    var self = this;
+    console.log('remove');
+    return new Promise((resolve, reject) => {
+      var list, web;
+      web = new $REST.Web(self.url);
+      list = web.Lists(listName);
+      list.getItemById(id)["delete"]().execute(function(rep) {
+        resolve(rep);
+      });
     });
-    return def;
   };
+
+
+  // SH.prototype.getItemById = function(listName, id) {
+  //   var def, list, web;
+  //   def = new Promise();
+  //   web = new $REST.Web;
+  //   list = web.Lists(listName);
+  //   list.getItemById(id).execute(function(item) {
+  //     var obj;
+  //     obj = JSON.parse(item.Object);
+  //     obj.ID = parseInt(id);
+  //     return def.resolve(obj);
+  //   });
+  //   return def;
+  // };
+
+
+  SH.prototype.contact = function(FromMail, ToMail, title, message) {
+    var self = this;
+
+    
+    console.log('SH contact');
+    return new Promise((resolve, reject) => {
+      let to, subject, body, from;
+      
+      to = ToMail;
+      subject = title;
+      body = message.replace(/\r\n|\r|\n/g,"<br />");
+      from = FromMail;
+
+      $REST.Utility().sendEmail({
+        To:to, 
+        // BCC:from, 
+        // From:from, 
+        Subject:subject, 
+        Body:body
+      }).execute(function(rep) {
+        resolve(rep);
+      });
+
+    });
+
+
+  };
+
+
+  
+
+  // SH.prototype.removeItemById = function(listName, id) {
+  //   console.log('remove');
+  //   var def, list, web;
+  //   def = new Promise();
+  //   web = new $REST.Web;
+  //   list = web.Lists(listName);
+  //   list.getItemById(id)["delete"]().execute(function(rep) {
+  //     return def.resolve('deleted');
+  //   });
+  //   return def;
+  // };
 
   
 
@@ -119,35 +182,7 @@ SH = (function() {
   // };
   
 
-  SH.prototype.updateListItem = function(listName, object, id, document) {
-    var def, ext, file, list, web;
-    def = new Promise();
-    web = new $REST.Web;
-    list = web.Lists(listName);
-    // if (document && document.input) {
-    //   file = document.input[0].files[0];
-    //   if (file) {
-    //     ext = document.name.split('.').pop();
-    //     document.name = Math.floor(Math.random() * (90000000 - 10000000 + 1)) + 10000000 + "." + ext;
-    //     object.Document = document.name;
-    //     object.DocumentName = document.fullName;
-    //     this.AddFileToFolder(document.name, file, document.folder);
-    //   }
-    // } else if (document && document.DocumentName) {
-    //   object.Document = document.Document;
-    //   object.DocumentName = document.DocumentName;
-    // }
-    list.getItemById(id).execute((function(_this) {
-      return function(item) {
-        return item.update({
-          Object: JSON.stringify(object)
-        }).execute(function(itemN) {
-          return def.resolve(item);
-        });
-      };
-    })(this));
-    return def;
-  };
+ 
 
   // SH.prototype.AddFileToFolder = function(name, file, folder) {
   //   var def, getFileBuffer;

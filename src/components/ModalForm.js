@@ -36,7 +36,6 @@ export default class ModalForm extends Component {
         this.init = this.init.bind(this);
         userLibrary.getCurrentUser().then((result) =>{
             this.user = result;
-            console.log('form good', result);
         });
 
         Config.Categories.forEach(category => {
@@ -95,14 +94,15 @@ export default class ModalForm extends Component {
         if(tmp.length > 0){
             return;
         }
-        console.log('ths user', this.user);
         let textMessage;
         if(this.editItem){
             this.editItem.Title = title;
             this.editItem.Duration = duration;
             this.editItem.Category = category;
             this.editItem.Description = description;
-            dataLibrary.update(this.editItem);
+            dataLibrary.update(this.editItem).then((result)=>{
+                this.props.refresh();
+            });
             textMessage = "Your post has been updated with success";
         }else{
             let item = {
@@ -116,9 +116,10 @@ export default class ModalForm extends Component {
                 User: this.user.ID,
                 Ratings:0
             }
-            dataLibrary.add(item);
-            this.props.refresh();
             textMessage = "Your post has been added with success";
+            dataLibrary.add(item).then((result)=>{
+                this.props.refresh();
+            });
         }
         this.closeModal();
         this.props.modalFormMessage('green', textMessage);        
