@@ -15,8 +15,8 @@ import Item from './components/Item';
 import NotFound from './components/NotFound';
 import SH from './sharePoint.js';
 
-import old from './lib/oldItems.js';
-import oldUsers from './lib/oldUsers.js';
+// import old from './lib/oldItems.js';
+// import oldUsers from './lib/oldUsers.js';
 var lz = require('lz-string');
 
 export default class App extends Component {

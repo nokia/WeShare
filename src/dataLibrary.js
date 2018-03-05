@@ -1,7 +1,8 @@
 import {Config} from './config.js';
 import userLibrary from './userLibrary.js';
-import oldItems from './lib/oldItems.js';
+import Categories from './lib/categories.js';
 import SH from './sharePoint.js';
+import oldItems from './lib/oldItems.js';
 class Data{
     data = [];
 
@@ -37,7 +38,7 @@ class Data{
         return new Promise(function(resolve, reject){
             userLibrary.getCurrentUser().then((cur) => {
                 var countTab = [];
-                Config.Categories.forEach(confCat => {
+                Categories.forEach(confCat => {
                     countTab[confCat] = 0;
                 });
                 countTab["all"] = 0;
@@ -91,6 +92,13 @@ class Data{
         });
 
         
+    }
+    notify(item){
+        let list = [];
+        userLibrary.users.forEach(u => {
+            list.push(u.Email);
+        });
+        SH.notify(item.Title, item.Type, Config.itemUrl + item.ID, list);
     }
     update(item){
         var self = this;
@@ -175,12 +183,12 @@ class Data{
             if(!item.Category){
                 item.Category = "Unclassified";
             }else{
-                if(Config.Categories.includes(item.Category)){
+                if(Categories.includes(item.Category)){
                     return;
                 }
                 else{
                     let found = false;
-                    Config.Categories.forEach(confCat => {
+                    Categories.forEach(confCat => {
                         if(Array.isArray(confCat)){
                             if(confCat[1].includes(item.Category)){
                                 found = true;

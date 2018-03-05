@@ -4,16 +4,17 @@
 */
 import React, { Component } from 'react';
 import {Config} from './../config.js';
-import {Modal, Form, Button, TextArea } from 'semantic-ui-react';
+import {Modal, Form, Button, TextArea, Checkbox } from 'semantic-ui-react';
 
 import '../css/ModalForm.css';
 import dataLibrary from '../dataLibrary';
 import userLibrary from '../userLibrary';
+import Categories from '../lib/categories.js';
 
 
 export default class ModalForm extends Component {
     state = { formError: [], typeModal: this.props.type, openModal: true,
-        title: '', category: '', duration: '', description: ''};
+        title: '', category: '', checked:false, duration: '', description: ''};
     optionsType = [
         { key: 'request', text: 'Request', value: 'request' },
         { key: 'share', text: 'Share', value: 'share' }
@@ -27,18 +28,21 @@ export default class ModalForm extends Component {
         { key: 'Unclassified', text: 'Unclassified', value: 'Unclassified' }
     ]
 
+
+    toggle = () => this.setState({ checked: !this.state.checked })
     componentWillMount(){
         if(this.props.item){
             this.init(this.props.item);
         }
         this.closeModal = this.closeModal.bind(this);
+        this.toggle = this.toggle.bind(this);
         this.submitModal = this.submitModal.bind(this);
         this.init = this.init.bind(this);
         userLibrary.getCurrentUser().then((result) =>{
             this.user = result;
         });
 
-        Config.Categories.forEach(category => {
+        Categories.forEach(category => {
             if(Array.isArray(category)){
                 // this.optionsCategory.push({key: category[0], text: category[0], value: category[0]});
                 category[1].forEach( subCategory => {
@@ -119,6 +123,9 @@ export default class ModalForm extends Component {
             textMessage = "Your post has been added with success";
             dataLibrary.add(item).then((result)=>{
                 this.props.refresh();
+                if(this.state.checked){
+                    dataLibrary.notify(result);
+                }                
             });
         }
         this.closeModal();
@@ -139,7 +146,7 @@ export default class ModalForm extends Component {
                 >
                     <Modal.Header>
                         {
-                            this.item ? (
+                            this.editItem ? (
                                 <span>Edit</span>
                             ) : this.state.typeModal === "request" ? (
                                 <span>I need some help</span>
@@ -165,6 +172,11 @@ export default class ModalForm extends Component {
                         <div className="homeFormRequired">*These fields are required.</div>
                     </Modal.Content>
                     <Modal.Actions>
+                        {
+                            !this.editItem ? (
+                                <Checkbox className="modalCheck" onChange={this.toggle} checked={this.state.checked} label='Notify the community by email' />  
+                            ) : null
+                        }
                         <Button positive icon='checkmark' labelPosition='right' content="Submit" onClick={this.submitModal} />
                     </Modal.Actions>
                 </Modal>

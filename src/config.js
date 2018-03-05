@@ -11,11 +11,12 @@ if(window.location.hostname == "localhost"){
 export const Config = { 
   Name: 'WeShare', 
   local: lcl,
+  Admin: 'Nokia Admin',
   // Source: '/',
   // Source: '/WeShare',
   Source: src,
+  Email: 'learningstore@nokia.com',
   // Source: '/sites/learn/weshare/SitePages/',
-  // Categories: ["Word, Excel, etc.", ["Information Technology", ["JavaScript", "Python", "C++", "PHP"]], "Science", "Art"],
-  Categories: ["Word, Excel, etc.", "OneDrive", "SharePoint Online", "Cloud", "Collaboration", "Big Data", "O365 on Mobile Devices", "Agility", "Get 1 Hour Back", "Office 365", "Power BI"],
+  itemUrl: 'https://nokia.sharepoint.com/sites/learn/weshare/SitePages/index.aspx/item/',
   trackingID: 'UA-107717760-1', // Google Analytics 
 };

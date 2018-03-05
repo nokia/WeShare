@@ -12,6 +12,7 @@ import dataLibrary from '../dataLibrary';
 // import { ClipLoader } from 'halogenium';
 import MdClear from 'react-icons/lib/md/clear';
 import userLibrary from '../userLibrary';
+import Categories from '../lib/categories.js';
 
 export default class Browse extends Component {
     state = { isLoading:true, countCategories: [], sortActive: 'All', data:[], displayedData: [], searchValue: "", filterCategory: "All topics" }
@@ -66,7 +67,7 @@ export default class Browse extends Component {
             <Dropdown.Item value='My topics' active={act === "My topics" ? true : false} onClick={this.handleCategoryClick.bind(this)}>My topics ({this.state.countCategories['my']})</Dropdown.Item>,
             <Dropdown.Item value='Unclassified' active={act === "Unclassified" ? true : false} onClick={this.handleCategoryClick.bind(this)}>Unclassified ({this.state.countCategories['unclassified']})</Dropdown.Item>
         ];
-        Config.Categories.forEach( category => {
+        Categories.forEach( category => {
             let count = 0;
             let countSubTotal = 0;
             if(Array.isArray(category)){

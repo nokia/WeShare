@@ -35,8 +35,7 @@ export default class Header extends Component {
         }
         this.setState({number: value})
         this.user.Number = value;
-        userLibrary.update(this.user).then((result) => {
-        });
+        userLibrary.update(this.user);
     }
 
     handleOpen = () => {
@@ -53,9 +52,10 @@ export default class Header extends Component {
         let siteName = Config.Name;
         const {number} = this.state;
         if(this.state.userLoaded){
-            profil = this.user.Lastname 
-                + " " + this.user.Name 
-                + " at " + this.user.Location;
+            profil = this.user.Lastname + " " + this.user.Name;
+            if(this.user.Location){
+                profil += " at " + this.user.Location;
+            }
             if(number){
                 profil += " - " + number;
             }

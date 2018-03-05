@@ -23,7 +23,6 @@ class User{
         
     }
     contact(email, title, message){
-        console.log('user contact', email, title, message);
         var self = this;
         return new Promise(function(resolve, reject){
             SH.contact(self.currentUser.Email, email, title, message)
@@ -38,13 +37,9 @@ class User{
             if(self.currentUser){
                 resolve(self.currentUser);
             } else{
-                
                 var s = self.get();
                 SH.getCurrentUser().then((cur) =>{
-                    
-
                     s.then((tabUsers) => {
-
                         var found = false;
                         for(var i = 0; i < tabUsers.length; i++) {
                             if (tabUsers[i].Email === cur.Email) {
@@ -53,30 +48,29 @@ class User{
                                 break;
                             }
                         }
-                        // console.log('found ?', found)
                         if(!found){
                             SH.createListItem('Users', cur).then((result) => {
-                                // console.log('create userrrrr', result);
                                 cur.ID = result.ID;
                                 self.currentUser = cur;
                                 resolve(self.currentUser);
                             });
+                        }else{
+                            // console.log('get', self.currentUser, cur);
+                            if(self.currentUser.Number){
+                                cur.Number = self.currentUser.Number;
+                            }
+                            if(self.currentUser.ID){
+                                cur.ID = self.currentUser.ID;
+                            }
+                            
+                            self.currentUser = cur;
+                            self.update(cur);
+                            resolve(cur);
                         }
-                        else{
-                            resolve(self.currentUser);
-                        }
-                    
-
-
-                        
                     });
-                        
-                    
                 });
             }
-           
         });
-        
     }
 
     get(){

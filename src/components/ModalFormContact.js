@@ -67,7 +67,7 @@ export default class ModalForm extends Component {
         // SH.contact(this.user.Email).then((result) => {
         //     console.log('sent')
         // });
-        userLibrary.contact("felix.fuin@nokia.com", title, message).then((result) => {
+        userLibrary.contact(this.user.Email, title, message).then((result) => {
             console.log('sent')
         });
         textMessage = "Your message has been sent with success";
@@ -80,7 +80,7 @@ export default class ModalForm extends Component {
     render() {
         // console.log(this.item);
         const { title, message } = this.state;
-        console.log(this.user)
+        // console.log(this.user)
         return (
             <div>
                 <Modal 
