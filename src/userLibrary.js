@@ -13,7 +13,7 @@ class User{
     
     update(user){
         var self = this;
-        console.log('update user', this.currentUser, user)
+        // console.log('update user', this.currentUser, user)
         return new Promise(function(resolve, reject){
             self.currentUser = user;
             SH.updateListItem('Users', user, user.ID).then((results) => {
@@ -24,6 +24,7 @@ class User{
     }
     contact(email, title, message){
         var self = this;
+        // console.log('title', title);
         return new Promise(function(resolve, reject){
             SH.contact(self.currentUser.Email, email, title, message)
         });

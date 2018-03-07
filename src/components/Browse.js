@@ -16,7 +16,6 @@ import Categories from '../lib/categories.js';
 
 export default class Browse extends Component {
     state = { isLoading:true, countCategories: [], sortActive: 'All', data:[], displayedData: [], searchValue: "", filterCategory: "All topics" }
-    
     componentWillMount(){
         // console.log(SH);
         // var i = SH.getListItems('Items');
@@ -52,13 +51,13 @@ export default class Browse extends Component {
         // }, 2000);
     }
     componentWillReceiveProps(){
-        // console.log('update browse');
-        let data = dataLibrary.get();
-        // this.initDropdown(this.state.filterCategory);
-        data.then((result) =>{
-            // console.log('res', result);
-            this.setState({data: result, displayedData: result});
-        });
+       
+        // let data = dataLibrary.get();
+        // // this.initDropdown(this.state.filterCategory);
+        // data.then((result) =>{
+        //     // console.log('res', result);
+        //     this.setState({data: result, displayedData: result});
+        // });
     }
     dropDownOptions = [];
     initDropdown(act){

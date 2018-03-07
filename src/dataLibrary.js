@@ -77,14 +77,12 @@ class Data{
             });
             
         });
-        
-        
     }
     add(item){
         var self = this;
         return new Promise(function(resolve, reject){
             SH.createListItem('Items', item).then((results) => {
-                // console.log('created item', results);
+                console.log('created item', results);
                 item.ID = results.ID;
                 self.data.unshift(item);
                 resolve(item);
@@ -158,6 +156,7 @@ class Data{
                         // result.forEach(r => {
                         //     ret.push(r.Data);
                         // });
+                        console.log('all', result);
                         self.data = result;
                         self.sortByCategories();
                         self.sortByDate();
@@ -210,6 +209,7 @@ class Data{
                 var item;
                 var i = 0;
                 var found = false;
+                console.log('data', self.data, id)
                 while(!found && i < self.data.length){
                     // console.log(this.data[i].ID, id)
                     if(self.data[i].ID === Number(id)){

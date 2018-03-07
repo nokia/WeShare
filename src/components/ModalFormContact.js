@@ -19,7 +19,7 @@ export default class ModalForm extends Component {
         this.submitModal = this.submitModal.bind(this);
         // this.user = userLibrary.get();
         this.item = this.props.item;
-        console.log(userLibrary.users, this.item)
+        // console.log(userLibrary.users, this.item)
         for(var i = 0; i < userLibrary.users.length; i++) {
             if(userLibrary.users[i].ID === this.item.User){
                 this.user = userLibrary.users[i];
@@ -67,8 +67,8 @@ export default class ModalForm extends Component {
         // SH.contact(this.user.Email).then((result) => {
         //     console.log('sent')
         // });
+        // console.log('title', title);
         userLibrary.contact(this.user.Email, title, message).then((result) => {
-            console.log('sent')
         });
         textMessage = "Your message has been sent with success";
         

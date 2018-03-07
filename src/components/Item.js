@@ -28,7 +28,7 @@ export default class Item extends Component {
         // console.log('prop', this.props);
         var userQuery = userLibrary.getCurrentUser();
         dataLibrary.getById(this.props.match.params.id).then((result) => {
-            // console.log('res', result);
+            console.log('res', result);
             this.item = result;
 
             if(!this.item){
@@ -43,7 +43,7 @@ export default class Item extends Component {
             this.upRatings = this.upRatings.bind(this);
             this.showMessage = this.showMessage.bind(this);
             userQuery.then((user) => {
-                console.log('next rest', user);
+                // console.log('next rest', user);
                 this.setState({typeModal: this.item.Type, loaded: true});
                 if(this.item.User === user.ID){
                     this.setState({owner: true});
@@ -99,7 +99,7 @@ export default class Item extends Component {
         }, 1000);
     }
     render() {
-        if (!this.state.loaded) {
+        if(!this.state.loaded) {
             return (
                 <div className="item">
                     <Header />

@@ -4,7 +4,7 @@
 */
 import React, { Component } from 'react';
 import {Grid} from 'semantic-ui-react';
-import ScrollableAnchor from 'react-scrollable-anchor';
+import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
 import { Message, Loader } from 'semantic-ui-react';
 
 import '../css/Home.css';
@@ -24,6 +24,7 @@ export default class Home extends Component {
 
     
     componentWillMount(){
+        configureAnchors({scrollUrlHashUpdate:false});
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
         this.showMessage = this.showMessage.bind(this);
@@ -35,6 +36,7 @@ export default class Home extends Component {
 
 
     showModal(type){
+        console.log('show modal');
         this.setState( {openModal: true, typeModal: type});
     }
     hideModal(){
@@ -42,7 +44,7 @@ export default class Home extends Component {
     }
 
     refresh(){
-        console.log('refresh');
+        // console.log('refresh');
 
         this.forceUpdate();
     }

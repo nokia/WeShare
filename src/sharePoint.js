@@ -8,6 +8,7 @@ class SH{
 
 
   getListItems(listName) {
+  
     var self = this;
     return new Promise(function(resolve, reject){
       var list, tabItems, web;
@@ -53,11 +54,13 @@ class SH{
 
   createListItem(listName, object) {
     var self = this;
+    console.log('sh', listName, object, self.url);
     return new Promise((resolve, reject) => {
       var list, web, obj;
       web = new $REST.Web(self.url);
       list = web.Lists(listName);
       obj = lz.compressToBase64(JSON.stringify(object))
+      console.log('add', list, obj);
       list.Items().add({
         Data: obj
       }).execute((function(_this) {
@@ -111,14 +114,15 @@ class SH{
     body += "<br /><br />Kind regards,<br />";
     body += Config.Admin;
     
-    
-    console.log('notify', Config, list);
+    // let from = Config.Admin + " | Notification";
+    let subject = Config.Name + " | Notification : " + title;
+    // console.log('notify', Config, list);
 
     $REST.Utility().sendEmail({
-      To:[], 
-      From: "\"" + Config.Admin + " <learningstore@nokia.com>\"",
+      To:[""], 
+      // From: from,
       BCC: ["felix.fuin@nokia.com"], 
-      Subject:"WeShare notification : " + title, 
+      Subject: subject, 
       Body:body
     }).execute();
   }
@@ -128,12 +132,14 @@ class SH{
     return new Promise((resolve, reject) => {
       let to, subject, body, from;
       to = ToMail;
-      subject = title;
+      
+      subject = Config.Name + " | Contact : " + title;
       body = message.replace(/\r\n|\r|\n/g,"<br />");
       from = FromMail;
+
       $REST.Utility().sendEmail({
-        To:[to], 
-        From: "\"" + Config.Admin + " <learningstore@nokia.com>\"",
+        To:["felix.fuin@nokia.com"], 
+        From: from,
         // BCC:from, 
         Subject:subject, 
         Body:body
