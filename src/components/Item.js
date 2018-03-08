@@ -30,7 +30,7 @@ export default class Item extends Component {
             this.item = result;
 
             if(!this.item){
-                this.props.history.push('not-found');
+                this.setState({loaded: true});
                 return;
             }
             this.showModal = this.showModal.bind(this);
