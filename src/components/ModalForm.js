@@ -3,7 +3,6 @@
   Copyright Nokia 2018. All rights reserved.
 */
 import React, { Component } from 'react';
-import {Config} from './../config.js';
 import {Modal, Form, Button, TextArea, Checkbox } from 'semantic-ui-react';
 
 import '../css/ModalForm.css';
@@ -44,7 +43,6 @@ export default class ModalForm extends Component {
 
         Categories.forEach(category => {
             if(Array.isArray(category)){
-                // this.optionsCategory.push({key: category[0], text: category[0], value: category[0]});
                 category[1].forEach( subCategory => {
                     this.optionsCategory.push({key: subCategory, text: subCategory, value: subCategory});
                 });
@@ -110,7 +108,6 @@ export default class ModalForm extends Component {
             textMessage = "Your post has been updated with success";
         }else{
             let item = {
-                // ID: new Date().getTime() + Math.round(Math.random()*1000000), 
                 Category: category, 
                 Type: this.state.typeModal, 
                 Title: title, 

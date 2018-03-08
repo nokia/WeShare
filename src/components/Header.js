@@ -57,7 +57,7 @@ export default class Header extends Component {
                 profil += " at " + this.user.Location;
             }
             if(number){
-                profil += " - " + number;
+                profil += " | " + number;
             }
         }
         

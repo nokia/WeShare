@@ -1,20 +1,28 @@
 import SH from './sharePoint.js';
+import { Config } from './config.js';
 class User{
 
-    // user = {
-    //     email: "felix.fuin@nokia.com",
-    //     lastname: "Félix",
-    //     name: "Fuin",
-    //     ID: 50,
-    //     location: "Paris-Saclay"
-    // };
+    localCurrentUser(){
+        return {
+            Email: "john.doe@nokia.com",
+            Number: "+3611223344",
+            Location: "Paris-Saclay",
+            Lastname: "John",
+            Name: "Doe",
+            ID: 999999999
+        };
+    }
     currentUser;
     users;
-    
+
     update(user){
         var self = this;
-        // console.log('update user', this.currentUser, user)
         return new Promise(function(resolve, reject){
+            if(Config.local){
+                self.currentUser = user;
+                resolve('user')
+                return;
+            }
             self.currentUser = user;
             SH.updateListItem('Users', user, user.ID).then((results) => {
                 resolve(results);
@@ -24,17 +32,25 @@ class User{
     }
     contact(email, title, message){
         var self = this;
-        // console.log('title', title);
         return new Promise(function(resolve, reject){
-            SH.contact(self.currentUser.Email, email, title, message)
+            if(Config.local){
+                resolve('local')
+                return;
+            }
+            SH.contact(self.currentUser.Email, email, title, message).then((result) =>{
+                resolve('sent');
+            });
         });
-
     }
 
 
     getCurrentUser(){
         var self = this;
         return new Promise(function(resolve, reject){
+            if(Config.local){
+                resolve(self.localCurrentUser());
+                return;
+            }
             if(self.currentUser){
                 resolve(self.currentUser);
             } else{
@@ -56,14 +72,12 @@ class User{
                                 resolve(self.currentUser);
                             });
                         }else{
-                            // console.log('get', self.currentUser, cur);
                             if(self.currentUser.Number){
                                 cur.Number = self.currentUser.Number;
                             }
                             if(self.currentUser.ID){
                                 cur.ID = self.currentUser.ID;
                             }
-                            
                             self.currentUser = cur;
                             self.update(cur);
                             resolve(cur);
@@ -77,19 +91,13 @@ class User{
     get(){
         var self = this;
         return new Promise(function(resolve, reject){
+            
             if(!self.users){
-                // this.data = [this.dataLocal3, this.dataLocal4, this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal2,this.dataLocal2,this.dataLocal2,this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal2,this.dataLocal2,this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal2,this.dataLocal1,this.dataLocal2, this.dataLocal2,this.dataLocal2,this.dataLocal2];
-                
                 var s = SH.getListItems('Users');
                 s.then((result) => {
-                    // result.forEach(r => {
-                    //     ret.push(r.Data);
-                    // });
-                    // console.log('res us', result);
                     self.users = result;
                     resolve(self.users);
                 });
-                
             }
             else{
                 resolve(self.users);
@@ -98,4 +106,3 @@ class User{
     }
 }
 export default new User();
-

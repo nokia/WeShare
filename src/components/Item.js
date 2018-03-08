@@ -25,10 +25,8 @@ export default class Item extends Component {
     state = {loaded: false, openConfirm: false, openContactModal: false, openModal: false, typeModal: "", owner: false, message: []};
 
     componentWillMount(){
-        // console.log('prop', this.props);
         var userQuery = userLibrary.getCurrentUser();
         dataLibrary.getById(this.props.match.params.id).then((result) => {
-            console.log('res', result);
             this.item = result;
 
             if(!this.item){
@@ -43,7 +41,6 @@ export default class Item extends Component {
             this.upRatings = this.upRatings.bind(this);
             this.showMessage = this.showMessage.bind(this);
             userQuery.then((user) => {
-                // console.log('next rest', user);
                 this.setState({typeModal: this.item.Type, loaded: true});
                 if(this.item.User === user.ID){
                     this.setState({owner: true});
@@ -153,12 +150,12 @@ export default class Item extends Component {
         };
         for(var y = 0; y < halfStarsNb; y++){
             halfStars.push(
-                <FaStarHalfEmpty color='#984B43' />
+                <FaStarHalfEmpty key={y} color='#984B43' />
             )
         };
         for(var z = 0; z < emptyStarsNb; z++){
             emptyStars.push(
-                <FaStarO color='#984B43' />
+                <FaStarO key={z} color='#984B43' />
             )
         };
 

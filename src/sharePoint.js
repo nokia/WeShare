@@ -1,6 +1,14 @@
-import { $REST } from 'gd-sprest';
 import lz from 'lz-string';
 import {Config} from './config.js';
+var Web, Utility
+if(!Config.local){
+  import('gd-sprest')
+  .then( (sprest) => {
+      Web = sprest.Web;
+      Utility = sprest.Utility;
+  });
+}
+
 class SH{
   init(url) {
     this.url = url;
@@ -8,17 +16,17 @@ class SH{
 
 
   getListItems(listName) {
-  
     var self = this;
     return new Promise(function(resolve, reject){
       var list, tabItems, web;
-      web = new $REST.Web(self.url);
+
+      web = new Web(self.url);
       list = web.Lists(listName);
       tabItems = [];
-      list.Items().execute(function(items) {
-        // console.log('res', items);
+
+      list.Items().query({ Top: 5000, GetAllItems: true }).execute(function(items) {
         items.results.forEach( function(item) {
-          var obj = new Object();
+          var obj = {};
           obj = JSON.parse(lz.decompressFromBase64(item.Data));
           obj.ID = item.ID;
           tabItems.push(obj);
@@ -31,19 +39,18 @@ class SH{
   getCurrentUser() {
     var self = this;
     return new Promise(function(resolve, reject){
+     
       var web;
-      web = new $REST.Web(self.url);
+      web = new Web(self.url);
       web.CurrentUser().execute(function(user) {
-        // console.log('us', user);
         var loc = user.Title.split('/')[1];
         var name = user.Title.split(' ')[0];
-        var obj = new Object();
+        var obj = {};
         obj.Email = user.Email;
         obj.Lastname = user.Title.split(' ')[1];
         obj.Name = name.substring(0, name.length - 1);
         obj.Location = loc.substring(0, loc.length - 1);
         resolve(obj);
-      
       });
     });
 
@@ -54,13 +61,11 @@ class SH{
 
   createListItem(listName, object) {
     var self = this;
-    console.log('sh', listName, object, self.url);
     return new Promise((resolve, reject) => {
       var list, web, obj;
-      web = new $REST.Web(self.url);
+      web = new Web(self.url);
       list = web.Lists(listName);
       obj = lz.compressToBase64(JSON.stringify(object))
-      console.log('add', list, obj);
       list.Items().add({
         Data: obj
       }).execute((function(_this) {
@@ -76,7 +81,7 @@ class SH{
     var self = this;
     return new Promise((resolve, reject) => {
       var list, web, obj;
-      web = new $REST.Web(self.url);
+      web = new Web(self.url);
       list = web.Lists(listName);
       obj = lz.compressToBase64(JSON.stringify(object))
       list.getItemById(id).execute((function(_this) {
@@ -93,10 +98,9 @@ class SH{
 
   removeItemById(listName, id) {
     var self = this;
-    console.log('remove');
     return new Promise((resolve, reject) => {
       var list, web;
-      web = new $REST.Web(self.url);
+      web = new Web(self.url);
       list = web.Lists(listName);
       list.getItemById(id)["delete"]().execute(function(rep) {
         resolve(rep);
@@ -113,14 +117,11 @@ class SH{
     body += " <a href='" + url + "'>" + title + "</a>";
     body += "<br /><br />Kind regards,<br />";
     body += Config.Admin;
-    
-    // let from = Config.Admin + " | Notification";
     let subject = Config.Name + " | Notification : " + title;
-    // console.log('notify', Config, list);
 
-    $REST.Utility().sendEmail({
+    let util = new Utility();
+    util.sendEmail({
       To:[""], 
-      // From: from,
       BCC: ["felix.fuin@nokia.com"], 
       Subject: subject, 
       Body:body
@@ -128,19 +129,18 @@ class SH{
   }
 
   contact(FromMail, ToMail, title, message) {
-    var self = this;
     return new Promise((resolve, reject) => {
-      let to, subject, body, from;
-      to = ToMail;
+      let subject, body, from;
       
       subject = Config.Name + " | Contact : " + title;
       body = message.replace(/\r\n|\r|\n/g,"<br />");
       from = FromMail;
 
-      $REST.Utility().sendEmail({
+      let util = new Utility();
+      util.sendEmail({
         To:["felix.fuin@nokia.com"], 
+        // To:[ToMail], 
         From: from,
-        // BCC:from, 
         Subject:subject, 
         Body:body
       }).execute(function(rep) {
@@ -149,5 +149,4 @@ class SH{
     });
   };
 }
-
 export default new SH();

@@ -3,13 +3,11 @@
   Copyright Nokia 2018. All rights reserved.
 */
 import React, { Component } from 'react';
-import {Config} from './../config.js';
-import {Input, Grid, Loader, Menu, Dropdown, Segment} from 'semantic-ui-react';
+import {Input, Grid, Menu, Dropdown} from 'semantic-ui-react';
 
 import '../css/Browse.css';
 import Line from './Line';
 import dataLibrary from '../dataLibrary';
-// import { ClipLoader } from 'halogenium';
 import MdClear from 'react-icons/lib/md/clear';
 import userLibrary from '../userLibrary';
 import Categories from '../lib/categories.js';
@@ -17,54 +15,30 @@ import Categories from '../lib/categories.js';
 export default class Browse extends Component {
     state = { isLoading:true, countCategories: [], sortActive: 'All', data:[], displayedData: [], searchValue: "", filterCategory: "All topics" }
     componentWillMount(){
-        // console.log(SH);
-        // var i = SH.getListItems('Items');
-        // console.log('i', i);
-        // i.then((result) => {
-        //     console.log('res', result); 
-        // });
         this.searchClear = this.searchClear.bind(this);
         this.initDropdown = this.initDropdown.bind(this);
-
-        // setTimeout( () => {
-        
         let data = dataLibrary.get();
-        // this.initDropdown(this.state.filterCategory);
         data.then((result) =>{
             this.setState({data: result, displayedData: result});
             this.props.onLoaded(true);
-
             let countQuery = dataLibrary.countCategories();
             countQuery.then((result) =>{
-                // console.log('count all', result);
                 this.setState({countCategories: result});
                 this.initDropdown(this.state.filterCategory);
                 this.setState({isLoading:false});
             });
-            
         });
         userLibrary.getCurrentUser().then((result) => {
             this.user = result;
         });
-        
-            
-        // }, 2000);
     }
-    componentWillReceiveProps(){
-       
-        // let data = dataLibrary.get();
-        // // this.initDropdown(this.state.filterCategory);
-        // data.then((result) =>{
-        //     // console.log('res', result);
-        //     this.setState({data: result, displayedData: result});
-        // });
-    }
+
     dropDownOptions = [];
     initDropdown(act){
         this.dropDownOptions = [
-            <Dropdown.Item value='All topics' active={act === "All topics" ? true : false} onClick={this.handleCategoryClick.bind(this)}>All topics ({this.state.countCategories['all']})</Dropdown.Item>,
-            <Dropdown.Item value='My topics' active={act === "My topics" ? true : false} onClick={this.handleCategoryClick.bind(this)}>My topics ({this.state.countCategories['my']})</Dropdown.Item>,
-            <Dropdown.Item value='Unclassified' active={act === "Unclassified" ? true : false} onClick={this.handleCategoryClick.bind(this)}>Unclassified ({this.state.countCategories['unclassified']})</Dropdown.Item>
+            <Dropdown.Item key="All" value='All topics' active={act === "All topics" ? true : false} onClick={this.handleCategoryClick.bind(this)}>All topics ({this.state.countCategories['all']})</Dropdown.Item>,
+            <Dropdown.Item key="My" value='My topics' active={act === "My topics" ? true : false} onClick={this.handleCategoryClick.bind(this)}>My topics ({this.state.countCategories['my']})</Dropdown.Item>,
+            <Dropdown.Item key="Unclassified" value='Unclassified' active={act === "Unclassified" ? true : false} onClick={this.handleCategoryClick.bind(this)}>Unclassified ({this.state.countCategories['unclassified']})</Dropdown.Item>
         ];
         Categories.forEach( category => {
             let count = 0;
@@ -79,9 +53,7 @@ export default class Browse extends Component {
                         <Dropdown.Item key={subCategory} value={subCategory} active={act === subCategory ? true : false} onClick={this.handleCategoryClick.bind(this)}>{subCategory} ({count})</Dropdown.Item>
                     );
                 });
-                // console.log(countSubTotal)
                 let subText = category[0] + " (" + countSubTotal.toString() + ")";
-                // console.log(subText);
                 this.dropDownOptions.push(
                     <Dropdown.Item className="subcategories">
                         <Dropdown pointing='left' text={subText}>
@@ -97,6 +69,7 @@ export default class Browse extends Component {
                 this.dropDownOptions.push(
                     <Dropdown.Item 
                         value={category} 
+                        key={category}
                         active={act === category ? true : false} 
                         onClick={this.handleCategoryClick.bind(this)}
                     >{category} ({count}) </Dropdown.Item>
@@ -104,12 +77,6 @@ export default class Browse extends Component {
             }
         });
     }
-    // componentWillReceiveProps(){
-    //     console.log('browse received props');
-    //     // let data = dataLibrary.get();
-    //     // this.setState({data: data, displayedData: data});
-    // }
-
     searchClear(){
         this.search("");
     }
@@ -171,17 +138,9 @@ export default class Browse extends Component {
     }
 
     render() {
-        // console.log('render browser : ', this.state.filterCategory);
-        // console.log('browse', this.state.displayedData);
        if (this.state.isLoading) {
             return (
-                <div className="browse">
-                    {/* <Segment basic>
-                    <div className="wrapper loader">
-                        <Loader active>Displaying topics</Loader>
-                    </div>
-                    </Segment> */}
-                </div>
+                <div className="browse"></div>
             );
         }else{
             const { sortActive } = this.state;
@@ -194,7 +153,7 @@ export default class Browse extends Component {
                 });
             }else{
                 lines = (
-                        <div className="nothing">Nothing for the moment...</div>
+                    <div className="nothing">Nothing for the moment...</div>
                 )
             }
 

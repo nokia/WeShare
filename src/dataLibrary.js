@@ -6,34 +6,23 @@ import oldItems from './lib/oldItems.js';
 class Data{
     data = [];
 
-    //Local
-    // dataLocal1 = {ID: 2373726535663, User: {email: "felix.fuin@nokia.com", phone: "07383883"}, Category: 'JavaScript', Type:'request', Title:'Healthier Together', Description:"dsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessef", Duration:15, Date:new Date(), Ratings:2.5};
-    // dataLocal2 = {ID: 3899787878290, User: {email: "feliiiiix.fuin@nokia.com"}, Category: 'Bureautique', Type:'share', Title:'Pivotable Excel file for NokiaEdu team', Description:"dsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessef", Duration:30, Date:new Date('December 17, 1995 03:24:00'), Ratings:4};
-    // dataLocal3 = {ID: 2373787655668, User: {email: "felix.fuin@nokia.com", phone: "3344343"}, Type:'request', Title:'Need to know how to send emoji in Outlook', Description:"dsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessef", Duration:15, Date:new Date('December 19, 1995 03:24:00'), Ratings:1};
-    // dataLocal4 = {ID: 2373745433666, User: {email: "feliiiiiix.fuin@nokia.com"}, Category: 'Fake Category', Type:'share', Title:'How to use the Learning Store', Description:"dsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessefdsesefsefsef osiefsefsfefes oishef fessef", Duration:15, Date:new Date('December 24, 1995 03:24:00'), Ratings:5};
-
-
     countCategory(category){
-        // console.log('count', category, this.data);
         var count = 0;
         if(category === 'all'){
             count = this.data.length;
         }else if(category === 'my'){
             this.data.forEach(item => {
-            // console.log('my', item.User, userLibrary.get().email)
                 count += item.User === userLibrary.get().ID ? 1 : 0;
             });
         }else{
             this.data.forEach(item => {
                 count += item.Category === category ? 1 : 0;
             });
-            // console.log(count);
         }
         return count; 
         
     }
     countCategories(){
-        // console.log('count', category, this.data);
         var self = this;
         return new Promise(function(resolve, reject){
             userLibrary.getCurrentUser().then((cur) => {
@@ -44,35 +33,17 @@ class Data{
                 countTab["all"] = 0;
                 countTab["my"] = 0;
                 countTab["unclassified"] = 0;
-                // console.log('tab', countTab);
-                // console.log('cur', cur.ID);
                 self.data.forEach(item => {
-                    // console.log('it', item);
                     countTab["all"] = countTab["all"] + 1;
-                    item.User === cur.ID ? countTab["my"] = countTab["my"] + 1 : null;
+                    if(item.User === cur.ID){
+                        countTab["my"] = countTab["my"] + 1
+                    }
                     if(item.Category === "Unclassified"){
                         countTab["unclassified"] = countTab["unclassified"] + 1;
                     }else{
                         countTab[item.Category] = countTab[item.Category] + 1;
                     }
                 });
-
-
-                // if(category === 'all'){
-                //     count = this.data.length;
-                // }else if(category === 'my'){
-                //     this.data.forEach(item => {
-                //     // console.log('my', item.User, userLibrary.get().email)
-                //         count += item.User === cur.ID ? 1 : 0;
-                //     });
-                // }else{
-                //     this.data.forEach(item => {
-                //         count += item.Category === category ? 1 : 0;
-                //     });
-                //     // console.log(count);
-                // }
-                // return count; 
-
                 resolve(countTab);
             });
             
@@ -81,8 +52,12 @@ class Data{
     add(item){
         var self = this;
         return new Promise(function(resolve, reject){
+            if(Config.local){
+                self.data.unshift(item);
+                resolve(item)
+                return;
+            }
             SH.createListItem('Items', item).then((results) => {
-                console.log('created item', results);
                 item.ID = results.ID;
                 self.data.unshift(item);
                 resolve(item);
@@ -92,6 +67,9 @@ class Data{
         
     }
     notify(item){
+        if(Config.local){
+            return;
+        }
         let list = [];
         userLibrary.users.forEach(u => {
             list.push(u.Email);
@@ -101,8 +79,22 @@ class Data{
     update(item){
         var self = this;
         return new Promise(function(resolve, reject){
-            var tmp = 0;
-            var found = false;
+            var tmp, found;
+            if(Config.local){
+                tmp = 0;
+                found = false;
+                while(tmp < self.data.length && !found){
+                    if(self.data[tmp].ID === item.ID){
+                        self.data[tmp] = item;
+                        found = true;
+                    }
+                    tmp++;
+                }
+                resolve(item)
+                return;
+            }
+            tmp = 0;
+            found = false;
             while(tmp < self.data.length && !found){
                 if(self.data[tmp].ID === item.ID){
                     self.data[tmp] = item;
@@ -119,13 +111,25 @@ class Data{
     remove(item){
         var self = this;
         return new Promise(function(resolve, reject){
-            var tmp = 0;
-            var found = false;
-            console.log('delete')
+            var tmp, found;
+            if(Config.local){
+                tmp = 0;
+                found = false;
+                while(tmp < self.data.length && !found){
+                    if(self.data[tmp].ID === item.ID){
+                        self.data.splice(tmp, 1);
+                        found = true;
+                    }
+                    tmp++;
+                }
+                resolve('deleted')
+                return;
+            }
+            tmp = 0;
+            found = false;
             while(tmp < self.data.length && !found){
                 if(self.data[tmp].ID === item.ID){
                     self.data.splice(tmp, 1);
-                    console.log('deleting')
                     SH.removeItemById('Items', item.ID).then((results) => {
                         resolve('deleted');
                     });
@@ -138,14 +142,10 @@ class Data{
     }
     get(){
         var self = this;
-        var ret = [];
         return new Promise(function(resolve, reject){
             if(self.data.length === 0){
-                // this.data = [this.dataLocal3, this.dataLocal4, this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal2,this.dataLocal2,this.dataLocal2,this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal2,this.dataLocal2,this.dataLocal1,this.dataLocal1,this.dataLocal1,this.dataLocal2,this.dataLocal1,this.dataLocal2, this.dataLocal2,this.dataLocal2,this.dataLocal2];
                 if(Config.local){
                     var d = oldItems;
-                    // console.log('oldItems', d);
-
                     self.data = d;
                     self.sortByCategories();
                     self.sortByDate();
@@ -153,17 +153,12 @@ class Data{
                 }else{
                     var s = SH.getListItems('Items');
                     s.then((result) => {
-                        // result.forEach(r => {
-                        //     ret.push(r.Data);
-                        // });
-                        console.log('all', result);
                         self.data = result;
                         self.sortByCategories();
                         self.sortByDate();
                         resolve(self.data);
                     });
                 }
-                
             }
             else{
                 resolve(self.data);
@@ -198,7 +193,6 @@ class Data{
                         item.Category = "Unclassified";
                     }
                 }
-               
             }
         });
     }
@@ -209,9 +203,7 @@ class Data{
                 var item;
                 var i = 0;
                 var found = false;
-                console.log('data', self.data, id)
                 while(!found && i < self.data.length){
-                    // console.log(this.data[i].ID, id)
                     if(self.data[i].ID === Number(id)){
                         item = self.data[i];
                         found = true;

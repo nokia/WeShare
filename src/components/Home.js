@@ -8,7 +8,6 @@ import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
 import { Message, Loader } from 'semantic-ui-react';
 
 import '../css/Home.css';
-import userLibrary from '../userLibrary';
 import HeaderBanner from './Header';
 import Browse from './Browse';
 import ModalForm from './ModalForm';
@@ -30,13 +29,10 @@ export default class Home extends Component {
         this.showMessage = this.showMessage.bind(this);
         this.onLoaded = this.onLoaded.bind(this);
         this.refresh = this.refresh.bind(this);
-        
-        // this.user = userLibrary.get();
     }
 
 
     showModal(type){
-        console.log('show modal');
         this.setState( {openModal: true, typeModal: type});
     }
     hideModal(){
@@ -44,8 +40,6 @@ export default class Home extends Component {
     }
 
     refresh(){
-        // console.log('refresh');
-
         this.forceUpdate();
     }
     
@@ -54,7 +48,6 @@ export default class Home extends Component {
         setTimeout( () => { 
             this.setState({message: []});
         }, 3000);
-
     }
     
     onLoaded(bool){

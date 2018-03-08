@@ -50,12 +50,12 @@ export default class Line extends Component {
         };
         for(var y = 0; y < halfStarsNb; y++){
             halfStars.push(
-                <FaStarHalfEmpty color='#984B43' />
+                <FaStarHalfEmpty key={y} color='#984B43' />
             )
         };
         for(var z = 0; z < emptyStarsNb; z++){
             emptyStars.push(
-                <FaStarO color='#984B43' />
+                <FaStarO key={z} color='#984B43' />
             )
         };
 
@@ -95,7 +95,6 @@ export default class Line extends Component {
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
-                    
                 </div>
             </Link>
 

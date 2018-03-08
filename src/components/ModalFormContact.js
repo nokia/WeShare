@@ -17,9 +17,11 @@ export default class ModalForm extends Component {
     componentWillMount(){
         this.closeModal = this.closeModal.bind(this);
         this.submitModal = this.submitModal.bind(this);
-        // this.user = userLibrary.get();
         this.item = this.props.item;
-        // console.log(userLibrary.users, this.item)
+        if(Config.local){
+            this.user = userLibrary.localCurrentUser();
+            return;
+        }
         for(var i = 0; i < userLibrary.users.length; i++) {
             if(userLibrary.users[i].ID === this.item.User){
                 this.user = userLibrary.users[i];
@@ -44,6 +46,7 @@ export default class ModalForm extends Component {
     }
    
     submitModal(){
+        
         let { title, message } = this.state;
 
         let tmp = [];
@@ -64,23 +67,26 @@ export default class ModalForm extends Component {
             dataLibrary.update(this.item);
             this.forceUpdate();
         }
-        // SH.contact(this.user.Email).then((result) => {
-        //     console.log('sent')
-        // });
-        // console.log('title', title);
         userLibrary.contact(this.user.Email, title, message).then((result) => {
+            if(result === "sent"){
+                textMessage = "Your message has been sent with success";
+                this.props.modalFormMessage('green', textMessage);    
+            }else if(result === "local"){
+                textMessage = "Unable to send email in this local version";
+                this.props.modalFormMessage('red', textMessage); 
+            }else{
+                textMessage = "An error occured";
+                this.props.modalFormMessage('red', textMessage); 
+            }
         });
-        textMessage = "Your message has been sent with success";
         
         
-        this.closeModal();
-        this.props.modalFormMessage('green', textMessage);        
+        
+        this.closeModal();    
     }
 
     render() {
-        // console.log(this.item);
         const { title, message } = this.state;
-        // console.log(this.user)
         return (
             <div>
                 <Modal 
