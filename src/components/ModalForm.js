@@ -76,6 +76,7 @@ export default class ModalForm extends Component {
         this.props.modalFormHide();
     }
     handleFormChange = (e, {name, value}) => {
+        // console.log('change', name, value);
         this.setState({ [name]: value });
     }
    
@@ -103,7 +104,7 @@ export default class ModalForm extends Component {
             this.editItem.Category = category;
             this.editItem.Description = description;
             dataLibrary.update(this.editItem).then((result)=>{
-                this.props.refresh();
+                
             });
             textMessage = "Your post has been updated with success";
         }else{
@@ -118,6 +119,7 @@ export default class ModalForm extends Component {
                 Ratings:0
             }
             textMessage = "Your post has been added with success";
+            // console.log('add',item);
             dataLibrary.add(item).then((result)=>{
                 this.props.refresh();
                 if(this.state.checked){

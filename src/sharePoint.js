@@ -1,14 +1,15 @@
 import lz from 'lz-string';
 import {Config} from './config.js';
-// import {$REST} from 'gd-sprest';
-var Web, Utility
-if(!Config.local){
-  import('gd-sprest')
-  .then( (sprest) => {
-      Web = sprest.Web;
-      Utility = sprest.Utility;
-  });
-}
+import {Web, Utility} from 'gd-sprest';
+
+// var Web, Utility
+// if(!Config.local){
+//   import('gd-sprest')
+//   .then( (sprest) => {
+//       Web = sprest.Web;
+//       Utility = sprest.Utility;
+//   });
+// }
 
 class SH{
   init(url) {

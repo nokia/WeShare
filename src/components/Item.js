@@ -42,6 +42,7 @@ export default class Item extends Component {
             this.showMessage = this.showMessage.bind(this);
             userQuery.then((user) => {
                 this.setState({typeModal: this.item.Type, loaded: true});
+                // console.log(this.item, this.item.Description);
                 if(this.item.User === user.ID){
                     this.setState({owner: true});
                 }
@@ -188,7 +189,9 @@ export default class Item extends Component {
 
                     <h2>Description</h2>
                     <div className="description">
-                        {this.item.Description}
+                        {this.item.Description.split('\n').map((item, key) => {
+                            return <span key={key}>{item}<br/></span>
+                        })}
                     </div>
 
                     {!this.state.owner ? (

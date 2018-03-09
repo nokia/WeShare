@@ -53,6 +53,7 @@ class Data{
         var self = this;
         return new Promise(function(resolve, reject){
             if(Config.local){
+                item.ID = new Date().getTime();
                 self.data.unshift(item);
                 resolve(item)
                 return;
@@ -199,6 +200,24 @@ class Data{
     getById(id){
         var self = this;
         return new Promise(function(resolve, reject){
+            if(Config.local){
+                if(self.data.length === 0){
+
+                    self.data = oldItems;
+                }
+                var item;
+                var i = 0;
+                var found = false;
+                while(!found && i < self.data.length){
+                    if(self.data[i].ID === Number(id)){
+                        item = self.data[i];
+                        found = true;
+                    }
+                    i++;
+                }
+                resolve(item);
+                return;
+            }
             self.get().then((result) =>{
                 var item;
                 var i = 0;
