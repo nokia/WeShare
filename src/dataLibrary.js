@@ -23,8 +23,7 @@ class Data{
         
     }
     countCategories(){
-        var self = this;
-        return new Promise(function(resolve, reject){
+        return new Promise((resolve, reject) => {
             userLibrary.getCurrentUser().then((cur) => {
                 var countTab = [];
                 Categories.forEach(confCat => {
@@ -33,7 +32,7 @@ class Data{
                 countTab["all"] = 0;
                 countTab["my"] = 0;
                 countTab["unclassified"] = 0;
-                self.data.forEach(item => {
+                this.data.forEach(item => {
                     countTab["all"] = countTab["all"] + 1;
                     if(item.User === cur.ID){
                         countTab["my"] = countTab["my"] + 1
@@ -50,17 +49,16 @@ class Data{
         });
     }
     add(item){
-        var self = this;
-        return new Promise(function(resolve, reject){
+        return new Promise((resolve, reject)=>{
             if(Config.local){
                 item.ID = new Date().getTime();
-                self.data.unshift(item);
-                resolve(item)
+                this.data.unshift(item);
+                resolve(item);
                 return;
             }
             SH.createListItem('Items', item).then((results) => {
                 item.ID = results.ID;
-                self.data.unshift(item);
+                this.data.unshift(item);
                 resolve(item);
             });
         });
@@ -78,27 +76,26 @@ class Data{
         SH.notify(item.Title, item.Type, Config.itemUrl + item.ID, list);
     }
     update(item){
-        var self = this;
-        return new Promise(function(resolve, reject){
+        return new Promise((resolve, reject)=>{
             var tmp, found;
             if(Config.local){
                 tmp = 0;
                 found = false;
-                while(tmp < self.data.length && !found){
-                    if(self.data[tmp].ID === item.ID){
-                        self.data[tmp] = item;
+                while(tmp < this.data.length && !found){
+                    if(this.data[tmp].ID === item.ID){
+                        this.data[tmp] = item;
                         found = true;
                     }
                     tmp++;
                 }
-                resolve(item)
+                resolve(item);
                 return;
             }
             tmp = 0;
             found = false;
-            while(tmp < self.data.length && !found){
-                if(self.data[tmp].ID === item.ID){
-                    self.data[tmp] = item;
+            while(tmp < this.data.length && !found){
+                if(this.data[tmp].ID === item.ID){
+                    this.data[tmp] = item;
                     found = true;
                     SH.updateListItem('Items', item, item.ID).then((results) => {
                         resolve(item);
@@ -110,27 +107,26 @@ class Data{
         
     }
     remove(item){
-        var self = this;
-        return new Promise(function(resolve, reject){
+        return new Promise((resolve, reject)=>{
             var tmp, found;
             if(Config.local){
                 tmp = 0;
                 found = false;
-                while(tmp < self.data.length && !found){
-                    if(self.data[tmp].ID === item.ID){
-                        self.data.splice(tmp, 1);
+                while(tmp < this.data.length && !found){
+                    if(this.data[tmp].ID === item.ID){
+                        this.data.splice(tmp, 1);
                         found = true;
                     }
                     tmp++;
                 }
-                resolve('deleted')
+                resolve('deleted');
                 return;
             }
             tmp = 0;
             found = false;
-            while(tmp < self.data.length && !found){
-                if(self.data[tmp].ID === item.ID){
-                    self.data.splice(tmp, 1);
+            while(tmp < this.data.length && !found){
+                if(this.data[tmp].ID === item.ID){
+                    this.data.splice(tmp, 1);
                     SH.removeItemById('Items', item.ID).then((results) => {
                         resolve('deleted');
                     });
@@ -142,33 +138,32 @@ class Data{
         
     }
     get(){
-        var self = this;
-        return new Promise(function(resolve, reject){
-            if(self.data.length === 0){
+        return new Promise((resolve, reject)=>{
+            if(this.data.length === 0){
                 if(Config.local){
                     var d = oldItems;
-                    self.data = d;
-                    self.sortByCategories();
-                    self.sortByDate();
-                    resolve(self.data);
+                    this.data = d;
+                    this.sortByCategories();
+                    this.sortByDate();
+                    resolve(this.data);
                 }else{
                     var s = SH.getListItems('Items');
                     s.then((result) => {
-                        self.data = result;
-                        self.sortByCategories();
-                        self.sortByDate();
-                        resolve(self.data);
+                        this.data = result;
+                        this.sortByCategories();
+                        this.sortByDate();
+                        resolve(this.data);
                     });
                 }
             }
             else{
-                resolve(self.data);
+                resolve(this.data);
             }
         });
         
     }
     sortByDate(){
-        this.data.sort(function(a, b) {
+        this.data.sort((a, b) =>{
             var dateA = new Date(a.Date), dateB = new Date(b.Date);
             return dateB - dateA;
         });
@@ -198,19 +193,18 @@ class Data{
         });
     }
     getById(id){
-        var self = this;
-        return new Promise(function(resolve, reject){
+        return new Promise((resolve, reject)=>{
             if(Config.local){
-                if(self.data.length === 0){
+                if(this.data.length === 0){
 
-                    self.data = oldItems;
+                    this.data = oldItems;
                 }
                 var item;
                 var i = 0;
                 var found = false;
-                while(!found && i < self.data.length){
-                    if(self.data[i].ID === Number(id)){
-                        item = self.data[i];
+                while(!found && i < this.data.length){
+                    if(this.data[i].ID === Number(id)){
+                        item = this.data[i];
                         found = true;
                     }
                     i++;
@@ -218,13 +212,13 @@ class Data{
                 resolve(item);
                 return;
             }
-            self.get().then((result) =>{
+            this.get().then((result) =>{
                 var item;
                 var i = 0;
                 var found = false;
-                while(!found && i < self.data.length){
-                    if(self.data[i].ID === Number(id)){
-                        item = self.data[i];
+                while(!found && i < this.data.length){
+                    if(this.data[i].ID === Number(id)){
+                        item = this.data[i];
                         found = true;
                     }
                     i++;
