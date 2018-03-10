@@ -2,7 +2,7 @@
   "name": "weshare",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://nokia.sharepoint.com/sites/learn/weshare/SitePages",
+  "homepage": "https://nokia.github.io/WeShare",
   "dependencies": {
     "gd-sprest": "^3.5.5",
     "lz-string": "^1.4.4",
