@@ -78,12 +78,21 @@ export default class ModalForm extends Component {
     handleFormChange = (e, {name, value}) => {
         // console.log('change', name, value);
         this.setState({ [name]: value });
+        // e.preventDefault();
+        // e.stopPropagation();
     }
+
+    getValue = (e) => {
+        const select = e.target;
+        return select.options[select.selectedIndex].value;
+    }
+    durationChange = (e) => this.setState({ duration: this.getValue(e) });    
+    categoryChange = (e) => this.setState({ category: this.getValue(e) });
    
     submitModal(){
-        let { title, category, duration, description } = this.state;
+        const { title, category, duration, description } = this.state;
 
-        let tmp = [];
+        const tmp = [];
         if(title === ""){
             tmp.push('title');
         }if(category === ""){
@@ -108,7 +117,7 @@ export default class ModalForm extends Component {
             });
             textMessage = "Your post has been updated with success";
         }else{
-            let item = {
+            const item = {
                 Category: category, 
                 Type: this.state.typeModal, 
                 Title: title, 
@@ -131,6 +140,24 @@ export default class ModalForm extends Component {
         this.props.modalFormMessage('green', textMessage);        
     }
 
+    durationControl() {
+        return (
+            <select onChange={this.durationChange} id='form-select-control-duration' required value={this.state.duration}>
+                <option value="" disabled >The approximative duration of the session</option>
+                {this.optionsDuration.map( (item, i) => <option key={i} value={item.value}>{item.text}</option>)}
+            </select>
+        );
+    }
+
+    categoryControl() {
+        return (
+            <select onChange={this.categoryChange} id='form-select-control-category' required value={this.state.category}>
+                <option value="" disabled>Help people to find your post</option>
+                {this.optionsCategory.map( (item, i) => <option key={i} value={item.value}>{item.text}</option> )}
+            </select>
+        )
+    }
+
     render() {
         const { title, category, duration, description } = this.state;
         return (
@@ -140,8 +167,9 @@ export default class ModalForm extends Component {
                 open={this.state.openModal}
                 onClose={this.closeModal} 
                 closeIcon
-                closeOnEscape={false}
+                closeOnEscape={true}
                 closeOnRootNodeClick={false}
+                style={{marginTop:0}}
                 >
                     <Modal.Header>
                         {
@@ -162,8 +190,10 @@ export default class ModalForm extends Component {
                             </Form.Group>
 
                             <Form.Group widths='equal'>
-                                <Form.Select error={this.state.formError.includes('duration') ? (true) : (false)} value={duration} name="duration" onChange={this.handleFormChange} id='form-select-control-duration' required label='Duration' options={this.optionsDuration} placeholder='The approximative duration of the session' />
-                                <Form.Select error={this.state.formError.includes('category') ? (true) : (false)} value={category} name="category" onChange={this.handleFormChange} id='form-select-control-category' required label='Category' options={this.optionsCategory} placeholder='Help people to find your post' />
+                                <Form.Field error={this.state.formError.includes('duration') ? (true) : (false)} name="duration" id='form-select-control-duration' required label='Duration' control={this.durationControl.bind(this)} />
+                                {/* <Form.Select error={this.state.formError.includes('duration') ? (true) : (false)} value={duration} name="duration" onChange={this.handleFormChange} id='form-select-control-duration' required label='Duration' options={this.optionsDuration} placeholder='The approximative duration of the session' /> */}
+                                <Form.Field error={this.state.formError.includes('category') ? (true) : (false)} name="category" id='form-select-control-category' required label='Category' control={this.categoryControl.bind(this)} />
+                                {/* <Form.Select error={this.state.formError.includes('category') ? (true) : (false)} value={category} name="category" onChange={this.handleFormChange} id='form-select-control-category' required label='Category' options={this.optionsCategory} placeholder='Help people to find your post' /> */}
                             </Form.Group>
 
                             <Form.Input error={this.state.formError.includes('description') ? (true) : (false)} value={description} name="description" onChange={this.handleFormChange} id='form-textarea-control-description' required control={TextArea} label='Description' placeholder='A rich description' />  

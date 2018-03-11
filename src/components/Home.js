@@ -24,7 +24,7 @@ export default class Home extends Component {
     
     componentWillMount(){
         configureAnchors({scrollUrlHashUpdate:false});
-        this.showModal = this.showModal.bind(this);
+        // this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
         this.showMessage = this.showMessage.bind(this);
         this.onLoaded = this.onLoaded.bind(this);
@@ -80,7 +80,6 @@ export default class Home extends Component {
                             ) : (
                                 <Grid.Column>
                                     <a className="presentationNotLoaded">
-
                                         <Loader active />
                                         <FaThList size={45} className="icon" color='#d8d8d8' />
                                         <h2>Browse topics</h2>

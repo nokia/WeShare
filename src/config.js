@@ -6,7 +6,6 @@ if(window.location.hostname === "localhost" || window.location.hostname === 'nok
 }else{
   src = '/sites/learn/weshare/SitePages';
   lcl = false;
-  lcl = true;
 }
 
 export const Config = { 
