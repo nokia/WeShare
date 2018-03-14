@@ -1,6 +1,15 @@
+/*
+  @author Félix Fuin
+  Copyright Nokia 2018. All rights reserved.
+*/
+
 import SH from './sharePoint.js';
 import { Config } from './config.js';
+
 class User{
+
+    currentUser;
+    users;
 
     localCurrentUser(){
         return {
@@ -12,97 +21,87 @@ class User{
             ID: 999999999
         };
     }
-    currentUser;
-    users;
 
     update(user){
-        var self = this;
-        return new Promise(function(resolve, reject){
+        return new Promise( (resolve, reject) => {
             if(Config.local){
-                self.currentUser = user;
+                this.currentUser = user;
                 resolve('user')
                 return;
             }
-            self.currentUser = user;
-            SH.updateListItem('Users', user, user.ID).then((results) => {
-                resolve(results);
-            });
+            this.currentUser = user;
+            SH.updateListItem('Users', user, user.ID).then( results => resolve(results) );
         });
         
     }
+
     contact(email, title, message){
-        var self = this;
-        return new Promise(function(resolve, reject){
+        return new Promise( (resolve, reject) => {
             if(Config.local){
                 resolve('local')
                 return;
             }
-            SH.contact(self.currentUser.Email, email, title, message).then((result) =>{
-                resolve('sent');
-            });
+            SH.contact(this.currentUser.Email, email, title, message).then( result => resolve('sent') );
         });
     }
 
 
     getCurrentUser(){
-        var self = this;
-        return new Promise(function(resolve, reject){
+        return new Promise( (resolve, reject) => {
             if(Config.local){
-                resolve(self.localCurrentUser());
+                resolve(this.localCurrentUser());
                 return;
             }
-            if(self.currentUser){
-                resolve(self.currentUser);
+            if(this.currentUser){
+                resolve(this.currentUser);
             } else{
-                var s = self.get();
-                SH.getCurrentUser().then((cur) =>{
-                    s.then((tabUsers) => {
-                        var found = false;
-                        for(var i = 0; i < tabUsers.length; i++) {
-                            if (tabUsers[i].Email === cur.Email) {
-                                found = true;
-                                self.currentUser = tabUsers[i];
-                                break;
-                            }
+                const cur = SH.getCurrentUser();
+                this.get().then( tabUsers => {
+                    let found = false;
+                    for(var i = 0; i < tabUsers.length; i++) {
+                        if (tabUsers[i].Email === cur.Email) {
+                            found = true;
+                            this.currentUser = tabUsers[i];
+                            break;
                         }
-                        if(!found){
-                            SH.createListItem('Users', cur).then((result) => {
-                                cur.ID = result.ID;
-                                self.currentUser = cur;
-                                resolve(self.currentUser);
-                            });
-                        }else{
-                            if(self.currentUser.Number){
-                                cur.Number = self.currentUser.Number;
-                            }
-                            if(self.currentUser.ID){
-                                cur.ID = self.currentUser.ID;
-                            }
-                            self.currentUser = cur;
-                            self.update(cur);
-                            resolve(cur);
+                    }
+                    if(!found){
+                        SH.createListItem('Users', cur).then( result => {
+                            cur.ID = result.ID;
+                            this.currentUser = cur;
+                            resolve(this.currentUser);
+                        });
+                    }else{
+                        if(this.currentUser.Number){
+                            cur.Number = this.currentUser.Number;
                         }
-                    });
+                        if(this.currentUser.ID){
+                            cur.ID = this.currentUser.ID;
+                        }
+                        this.currentUser = cur;
+                        this.update(cur);
+                        resolve(cur);
+                    }
                 });
             }
         });
     }
 
     get(){
-        var self = this;
-        return new Promise(function(resolve, reject){
+        return new Promise( (resolve, reject) => {
             
-            if(!self.users){
+            if(!this.users){
                 var s = SH.getListItems('Users');
-                s.then((result) => {
-                    self.users = result;
-                    resolve(self.users);
+                s.then( result => {
+                    this.users = result;
+                    resolve(this.users);
                 });
             }
             else{
-                resolve(self.users);
+                resolve(this.users);
             }
         });
     }
 }
+
 export default new User();

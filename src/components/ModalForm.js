@@ -76,7 +76,7 @@ export default class ModalForm extends Component {
         this.props.modalFormHide();
     }
     handleFormChange = (e, {name, value}) => {
-        // console.log('change', name, value);
+        console.log('change', name, value);
         this.setState({ [name]: value });
         // e.preventDefault();
         // e.stopPropagation();
@@ -140,24 +140,6 @@ export default class ModalForm extends Component {
         this.props.modalFormMessage('green', textMessage);        
     }
 
-    durationControl() {
-        return (
-            <select onChange={this.durationChange} id='form-select-control-duration' required value={this.state.duration}>
-                <option value="" disabled >The approximative duration of the session</option>
-                {this.optionsDuration.map( (item, i) => <option key={i} value={item.value}>{item.text}</option>)}
-            </select>
-        );
-    }
-
-    categoryControl() {
-        return (
-            <select onChange={this.categoryChange} id='form-select-control-category' required value={this.state.category}>
-                <option value="" disabled>Help people to find your post</option>
-                {this.optionsCategory.map( (item, i) => <option key={i} value={item.value}>{item.text}</option> )}
-            </select>
-        )
-    }
-
     render() {
         const { title, category, duration, description } = this.state;
         return (
@@ -190,10 +172,16 @@ export default class ModalForm extends Component {
                             </Form.Group>
 
                             <Form.Group widths='equal'>
-                                <Form.Field error={this.state.formError.includes('duration') ? (true) : (false)} name="duration" id='form-select-control-duration' required label='Duration' control={this.durationControl.bind(this)} />
                                 {/* <Form.Select error={this.state.formError.includes('duration') ? (true) : (false)} value={duration} name="duration" onChange={this.handleFormChange} id='form-select-control-duration' required label='Duration' options={this.optionsDuration} placeholder='The approximative duration of the session' /> */}
-                                <Form.Field error={this.state.formError.includes('category') ? (true) : (false)} name="category" id='form-select-control-category' required label='Category' control={this.categoryControl.bind(this)} />
+                                <Form.Field error={this.state.formError.includes('duration') ? (true) : (false)} name="duration" onChange={this.durationChange} id='form-select-control-duration' required label='Duration' control='select' >
+                                    <option value="" disabled selected>The approximative duration of the session</option>
+                                    {this.optionsDuration.map( (item, i) => <option key={i} value={item.value}>{item.text}</option>)}
+                                </Form.Field>
                                 {/* <Form.Select error={this.state.formError.includes('category') ? (true) : (false)} value={category} name="category" onChange={this.handleFormChange} id='form-select-control-category' required label='Category' options={this.optionsCategory} placeholder='Help people to find your post' /> */}
+                                <Form.Field error={this.state.formError.includes('category') ? (true) : (false)} name="category" onChange={this.categoryChange} id='form-select-control-category' required label='Category' control='select' >
+                                    <option value="" disabled selected>Help people to find your post</option>
+                                    {this.optionsCategory.map( (item, i) => <option key={i} value={item.value}>{item.text}</option> )}
+                                </Form.Field>
                             </Form.Group>
 
                             <Form.Input error={this.state.formError.includes('description') ? (true) : (false)} value={description} name="description" onChange={this.handleFormChange} id='form-textarea-control-description' required control={TextArea} label='Description' placeholder='A rich description' />  
