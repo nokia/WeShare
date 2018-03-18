@@ -12,7 +12,7 @@ class Data{
 
     init(){
         return new Promise( (resolve, reject) => {
-            window.fetch(Config.Source + "/categories.data", { credentials:'include' }).then( (file) => file.json() )
+            window.fetch(window.location.href.replace("index.aspx", "") + "json.categories", { credentials:'include' }).then( (file) => file.json() )
             .then( (json) => {
                 this.Categories = json;
                 resolve('OK');
