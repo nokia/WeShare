@@ -12,16 +12,23 @@ import './css/App.css';
 import Home from './components/Home';
 import Item from './components/Item';
 import NotFound from './components/NotFound';
-import SH from './sharePoint.js';
-
+import SH from './sharePoint';
+import dataLibrary from './dataLibrary';
 
 export default class App extends Component {
+
+  state = { loaded:false };
+  
   componentWillMount(){
     SH.init('https://nokia.sharepoint.com/sites/learn/weshare');
+    dataLibrary.init().then( () => this.setState({ loaded:true} ));
   }
 
   render() {
-    let basename = Config.Source.slice(1);
+
+    if (!this.state.loaded) return null;
+    
+    const basename = Config.Source.slice(1);
     return (
       <Router basename={basename}>
         <Switch>

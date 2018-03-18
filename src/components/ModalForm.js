@@ -8,8 +8,6 @@ import {Modal, Form, Button, TextArea, Checkbox } from 'semantic-ui-react';
 import '../css/ModalForm.css';
 import dataLibrary from '../dataLibrary';
 import userLibrary from '../userLibrary';
-import Categories from '../lib/categories.js';
-
 
 export default class ModalForm extends Component {
     state = { formError: [], typeModal: this.props.type, openModal: true,
@@ -41,7 +39,7 @@ export default class ModalForm extends Component {
             this.user = result;
         });
 
-        Categories.forEach(category => {
+        dataLibrary.Categories.forEach(category => {
             if(Array.isArray(category)){
                 category[1].forEach( subCategory => {
                     this.optionsCategory.push({key: subCategory, text: subCategory, value: subCategory});
@@ -141,7 +139,7 @@ export default class ModalForm extends Component {
     }
 
     render() {
-        const { title, category, duration, description } = this.state;
+        const { title, description } = this.state;
         return (
             <div>
                 <Modal 

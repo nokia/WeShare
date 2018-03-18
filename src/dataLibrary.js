@@ -1,10 +1,24 @@
+/*
+  @author Félix Fuin
+  Copyright Nokia 2018. All rights reserved.
+*/
 import {Config} from './config.js';
 import userLibrary from './userLibrary.js';
-import Categories from './lib/categories.js';
 import SH from './sharePoint.js';
 import oldItems from './lib/oldItems.js';
+
 class Data{
     data = [];
+
+    init(){
+        return new Promise( (resolve, reject) => {
+            window.fetch(Config.Source + "/categories.data", { credentials:'include' }).then( (file) => file.json() )
+            .then( (json) => {
+                this.Categories = json;
+                resolve('OK');
+            });
+        });
+    }
 
     countCategory(category){
         var count = 0;
@@ -26,7 +40,7 @@ class Data{
         return new Promise((resolve, reject) => {
             userLibrary.getCurrentUser().then((cur) => {
                 var countTab = [];
-                Categories.forEach(confCat => {
+                this.Categories.forEach(confCat => {
                     countTab[confCat] = 0;
                 });
                 countTab["all"] = 0;
@@ -173,12 +187,12 @@ class Data{
             if(!item.Category){
                 item.Category = "Unclassified";
             }else{
-                if(Categories.includes(item.Category)){
+                if(this.Categories.includes(item.Category)){
                     return;
                 }
                 else{
                     let found = false;
-                    Categories.forEach(confCat => {
+                    this.Categories.forEach(confCat => {
                         if(Array.isArray(confCat)){
                             if(confCat[1].includes(item.Category)){
                                 found = true;

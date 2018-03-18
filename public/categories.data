@@ -1,4 +1,4 @@
-var Categories = [
+[
     "Word, Excel, etc.", 
     "OneDrive", 
     "SharePoint Online", 
@@ -10,6 +10,4 @@ var Categories = [
     "Get 1 Hour Back", 
     "Office 365", 
     "Power BI"
-];
-
-export default Categories;
+]
