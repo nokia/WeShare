@@ -20,3 +20,6 @@
 .ui.modal.transition.visible.active{
     display: block !important;
 }
+.visible.transition{
+    display: none !important;
+}
