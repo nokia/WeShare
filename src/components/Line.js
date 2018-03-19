@@ -45,17 +45,17 @@ export default class Line extends Component {
         let stars = [], halfStars = [], emptyStars = [];
         for(var i = 0; i < starsNb; i++){
             stars.push(
-                <FaStar color='#984B43' />
+                <FaStar color='#004D9A' />
             )
         };
         for(var y = 0; y < halfStarsNb; y++){
             halfStars.push(
-                <FaStarHalfEmpty key={y} color='#984B43' />
+                <FaStarHalfEmpty key={y} color='#004D9A' />
             )
         };
         for(var z = 0; z < emptyStarsNb; z++){
             emptyStars.push(
-                <FaStarO key={z} color='#984B43' />
+                <FaStarO key={z} color='#004D9A' />
             )
         };
 

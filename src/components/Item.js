@@ -4,7 +4,7 @@
 */
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom'
-import {Grid, Button, Message, Confirm, Segment, Loader} from 'semantic-ui-react';
+import {Grid, Button, Confirm, Segment, Loader} from 'semantic-ui-react';
 import FaShareAlt from 'react-icons/lib/fa/share-alt';
 import FaExclamation from 'react-icons/lib/fa/exclamation';
 import FaStar from 'react-icons/lib/fa/star';
@@ -13,12 +13,15 @@ import FaStarHalfEmpty from 'react-icons/lib/fa/star-half-empty';
 import MdMailOutline from 'react-icons/lib/md/mail-outline';
 import MdCall from 'react-icons/lib/md/call';
 
+import { Modal } from 'antd';
+import { notification } from 'antd';
 import userLibrary from '../userLibrary';
 import '../css/Item.css';
 import Header from './Header';
 import dataLibrary from '../dataLibrary';
 import ModalForm from './ModalForm';
 import ModalFormContact from './ModalFormContact';
+const confirm = Modal.confirm;
 
 export default class Item extends Component {
     item;
@@ -64,11 +67,18 @@ export default class Item extends Component {
             this.forceUpdate();
         }
     }
-
-    confirmShow = () => this.setState({ openConfirm: true });
-    confirmConfirm = () => {
-        this.remove();
+    confirmShow() {
+        var self = this;
+        confirm({
+            title: 'Do you really want to delete this item?',
+            content: 'There is no rollback..',
+            onOk() {
+                self.remove();
+            }
+        });
     }
+      
+  
     confirmCancel = () => this.setState({ openConfirm: false });
 
     showModal(){
@@ -78,11 +88,11 @@ export default class Item extends Component {
         this.setState( {openModal: false} );
     }
     
-    showMessage(color, text){
-        this.setState({message: [color, text]});
-        setTimeout( () => { 
-            this.setState({message: []});
-        }, 3000);
+    showMessage(type, title, text){
+        notification[type]({
+            message: title,
+            description: text,
+        });
     }
 
     edit(){
@@ -91,10 +101,11 @@ export default class Item extends Component {
     remove(){
         dataLibrary.remove(this.item);
         this.setState({ openConfirm: false });
-        this.showMessage('green', 'Successully removed');
-        setTimeout( () => { 
-            this.props.history.push('/index.aspx');
-        }, 1000);
+        let notifTitle = "Success";
+        let notifMessage = "Your post has been successully removed";
+        this.showMessage('success', notifTitle, notifMessage); 
+        this.props.history.push('/index.aspx');
+
     }
     render() {
         if(!this.state.loaded) {
@@ -115,7 +126,7 @@ export default class Item extends Component {
         const requestIcon =  (
             <div>
                 <div className="center">
-                    <FaExclamation size={75} className="icon" color='#7a9eea' />
+                    <FaExclamation size={75} className="icon" color='#984B43' />
                 </div>
                 <div className="titleRequest">
                     {this.item.Category} - {this.item.Title}
@@ -146,17 +157,17 @@ export default class Item extends Component {
         let stars = [], halfStars = [], emptyStars = [];
         for(var i = 0; i < starsNb; i++){
             stars.push(
-                <FaStar color='#984B43' />
+                <FaStar color='#004D9A' />
             )
         };
         for(var y = 0; y < halfStarsNb; y++){
             halfStars.push(
-                <FaStarHalfEmpty key={y} color='#984B43' />
+                <FaStarHalfEmpty key={y} color='#004D9A' />
             )
         };
         for(var z = 0; z < emptyStarsNb; z++){
             emptyStars.push(
-                <FaStarO key={z} color='#984B43' />
+                <FaStarO key={z} color='#004D9A' />
             )
         };
 
@@ -165,7 +176,6 @@ export default class Item extends Component {
             <div className="item">
                 <Header />
                 <div className="wrapper">
-                    {this.state.message.length > 0 ? (<Message color={this.state.message[0]}>{this.state.message[1]}</Message>) : null}
 
                     {displayItem}
                     <div className="ratings">
@@ -198,14 +208,14 @@ export default class Item extends Component {
                         <Grid divided='vertically' container className="contact">
                             {this.item.User.phone ? (<Grid.Row>
                                 <a onClick={this.upRatings} href={'tel:' + this.item.User.phone}>
-                                    <MdCall color='#984B43' size={40} className="contactIcon" />
+                                    <MdCall color='#004D9A' size={40} className="contactIcon" />
                                     Call the author
                                 </a>
                             </Grid.Row>
                             ) : null }
                             <Grid.Row>
                                 <div onClick={this.showContactModal}>
-                                    <MdMailOutline color='#984B43' size={40} className="contactIcon" />
+                                    <MdMailOutline color='#004D9A' size={40} className="contactIcon" />
                                     Send an email to the author
                                 </div>
                             </Grid.Row>
@@ -223,12 +233,12 @@ export default class Item extends Component {
                 {this.state.openContactModal ? (
                     <ModalFormContact modalFormMessage={this.showMessage} item={this.item} modalFormHide={this.hideContactModal}/>
                 ) : null}
-                <Confirm
+                {/* <Confirm
                     open={this.state.openConfirm}
                     onCancel={this.confirmCancel}
                     onConfirm={this.confirmConfirm}
                     content="Do you really want to delete this post?"
-                />
+                /> */}
             </div>
         );
     }

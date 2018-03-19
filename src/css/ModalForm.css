@@ -1,13 +1,29 @@
 .ui.inverted > .ui.modal > .close {
     color: #333;
 }
+.label{
+    display: block;
+    line-height: 16px;
+}
+.ant-modal-title{
+    font-weight: bold !important;
+    font-size: 130% !important;
+}
+.modalForm .ant-modal-body{
+    padding-bottom: 5px !important;
+    padding-top: 15px !important;
+}
+.red{
+    color: red;
+}
 .homeFormRequired{
-    color: #b30e0e !important;
+    color: red !important;
     font-size: 85%;
     margin-top: 5px;
 }
-#form-textarea-control-description{
+.ant-form #description{
     height: 150px;
+    margin-top: 4px;
     resize: none;
 }
 #form-textarea-control-type{
@@ -15,11 +31,29 @@
 }
 .modalCheck{
     float: left;
-    margin-top: 10px;
+    margin-top: 20px !important;
 }
-.ui.modal.transition.visible.active{
-    display: block !important;
+.ant-form-item-label{
+    line-height: 0px !important;
 }
-.visible.transition{
-    display: none !important;
-}
+
+/* use css to set position of modal */
+.vertical-center-modal {
+    text-align: center;
+    white-space: nowrap;
+  }
+  
+  .vertical-center-modal:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    width: 0;
+  }
+  
+  .vertical-center-modal .ant-modal {
+    display: inline-block;
+    vertical-align: middle;
+    top: 0;
+    text-align: left;
+  }

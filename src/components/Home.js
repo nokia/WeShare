@@ -5,7 +5,8 @@
 import React, { Component } from 'react';
 import {Grid} from 'semantic-ui-react';
 import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
-import { Message, Loader } from 'semantic-ui-react';
+// import { Loader } from 'semantic-ui-react';
+import { Button, notification, Spin } from 'antd';
 
 import '../css/Home.css';
 import HeaderBanner from './Header';
@@ -43,11 +44,11 @@ export default class Home extends Component {
         this.forceUpdate();
     }
     
-    showMessage(color, text){
-        this.setState({message: [color, text]});
-        setTimeout( () => { 
-            this.setState({message: []});
-        }, 3000);
+    showMessage(type, title, text){
+        notification[type]({
+            message: title,
+            description: text,
+        });
     }
     
     onLoaded(bool){
@@ -60,7 +61,6 @@ export default class Home extends Component {
             <div className="home">
                 <HeaderBanner />
                 <div className="wrapper">
-                    {this.state.message.length > 0 ? (<Message color={this.state.message[0]}>{this.state.message[1]}</Message>) : null}
 
                     <Grid verticalAlign='middle' columns={3} stackable container divided>
                         <Grid.Row className="presentations">
@@ -79,11 +79,12 @@ export default class Home extends Component {
                                 </Grid.Column>
                             ) : (
                                 <Grid.Column>
-                                    <a className="presentationNotLoaded">
-                                        <Loader active />
-                                        <FaThList size={45} className="icon" color='#d8d8d8' />
-                                        <h2>Browse topics</h2>
-                                    </a>
+                                    <Spin tip="Loading data..." size="large">
+                                        <a className="presentationNotLoaded">
+                                            <FaThList size={45} className="icon" color='#d8d8d8' />
+                                            <h2>Browse topics</h2>
+                                        </a>
+                                    </Spin>
                                 </Grid.Column>
                             )}
                             <Grid.Column>

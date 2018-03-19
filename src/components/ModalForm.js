@@ -3,14 +3,16 @@
   Copyright Nokia 2018. All rights reserved.
 */
 import React, { Component } from 'react';
-import {Modal, Form, Button, TextArea, Checkbox } from 'semantic-ui-react';
-
+import { Checkbox, Form, Modal, Button, Select, Row, Col, Input } from 'antd';
 import '../css/ModalForm.css';
 import dataLibrary from '../dataLibrary';
 import userLibrary from '../userLibrary';
+const Option = Select.Option;
+const { TextArea } = Input;
+const FormItem = Form.Item;
 
-export default class ModalForm extends Component {
-    state = { formError: [], typeModal: this.props.type, openModal: true,
+class ModalForm extends Component {
+    state = { typeModal: this.props.type, openModal: true,
         title: '', category: '', checked:false, duration: '', description: ''};
     optionsType = [
         { key: 'request', text: 'Request', value: 'request' },
@@ -65,21 +67,17 @@ export default class ModalForm extends Component {
         if(newProps.item){
             this.init(newProps.item);
         }else{  
-            this.setState({formError: [], title: '', category: '', duration: '', description: ''});
+            this.setState({title: '', category: '', duration: '', description: ''});
         }
     }
     
     closeModal(type){
+        var self = this;
         this.setState( {openModal: false});
-        this.props.modalFormHide();
+        setTimeout(function(){ self.props.modalFormHide(); }, 200);
+        
+        
     }
-    handleFormChange = (e, {name, value}) => {
-        console.log('change', name, value);
-        this.setState({ [name]: value });
-        // e.preventDefault();
-        // e.stopPropagation();
-    }
-
     getValue = (e) => {
         const select = e.target;
         return select.options[select.selectedIndex].value;
@@ -87,114 +85,154 @@ export default class ModalForm extends Component {
     durationChange = (e) => this.setState({ duration: this.getValue(e) });    
     categoryChange = (e) => this.setState({ category: this.getValue(e) });
    
-    submitModal(){
-        const { title, category, duration, description } = this.state;
-
-        const tmp = [];
-        if(title === ""){
-            tmp.push('title');
-        }if(category === ""){
-            tmp.push('category');
-        }if(duration === ""){
-            tmp.push('duration');
-        }if(description === ""){
-            tmp.push('description');
-        }
-        this.setState({formError: tmp});
-        if(tmp.length > 0){
-            return;
-        }
-        let textMessage;
-        if(this.editItem){
-            this.editItem.Title = title;
-            this.editItem.Duration = duration;
-            this.editItem.Category = category;
-            this.editItem.Description = description;
-            dataLibrary.update(this.editItem).then((result)=>{
+    submitModal(e){
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                const { title, category, duration, description } = values;
+                console.log(title, category, duration, description);
                 
-            });
-            textMessage = "Your post has been updated with success";
-        }else{
-            const item = {
-                Category: category, 
-                Type: this.state.typeModal, 
-                Title: title, 
-                Description: description, 
-                Duration: duration, 
-                Date: new Date(), 
-                User: this.user.ID,
-                Ratings:0
+                let notifTitle, notifMessage;
+                if(this.editItem){
+                    this.editItem.Title = title;
+                    this.editItem.Duration = duration;
+                    this.editItem.Category = category;
+                    this.editItem.Description = description;
+                    dataLibrary.update(this.editItem).then((result)=>{
+                        
+                    });
+                    notifTitle = "Success";
+                    notifMessage = "Your post has been updated with success";
+                }else{
+                    const item = {
+                        Category: category, 
+                        Type: this.state.typeModal, 
+                        Title: title, 
+                        Description: description, 
+                        Duration: duration, 
+                        Date: new Date(), 
+                        User: this.user.ID,
+                        Ratings:0
+                    }
+                    notifTitle = "Success";
+                    notifMessage = "Your post has been added with success";
+                    // console.log('add',item);
+                    dataLibrary.add(item).then((result)=>{
+                        this.props.refresh();
+                        if(this.state.checked){
+                            dataLibrary.notify(result);
+                        }                
+                    });
+                }
+                this.closeModal();
+                this.props.modalFormMessage('success', notifTitle, notifMessage);      
             }
-            textMessage = "Your post has been added with success";
-            // console.log('add',item);
-            dataLibrary.add(item).then((result)=>{
-                this.props.refresh();
-                if(this.state.checked){
-                    dataLibrary.notify(result);
-                }                
-            });
-        }
-        this.closeModal();
-        this.props.modalFormMessage('green', textMessage);        
+        });
+          
     }
 
     render() {
-        const { title, description } = this.state;
+        const { getFieldDecorator } = this.props.form;
+        const { title, description, duration, category } = this.state;
+        let tit = 
+            this.editItem ? (
+                <span>Edit</span>
+            ) : this.state.typeModal === "request" ? (
+                <span>I need some help</span>
+            ) : this.state.typeModal === "share" ? (
+                <span>I have knowledge to share</span>
+            ) : null
         return (
             <div>
-                <Modal 
-                dimmer="inverted" 
-                open={this.state.openModal}
-                onClose={this.closeModal} 
-                closeIcon
-                closeOnEscape={true}
-                closeOnRootNodeClick={false}
+                
+                <Modal
+                title={tit}
+                width={900}
+                wrapClassName="vertical-center-modal"
+                visible={this.state.openModal}
+                onOk={this.submitModal}
+                onCancel={this.closeModal} 
+                okText="Submit"
+                maskClosable={false}
                 >
-                    <Modal.Header>
-                        {
-                            this.editItem ? (
-                                <span>Edit</span>
-                            ) : this.state.typeModal === "request" ? (
-                                <span>I need some help</span>
-                            ) : this.state.typeModal === "share" ? (
-                                <span>I have knowledge to share</span>
-                            ) : null
-                        }
-                    </Modal.Header>
-                    <Modal.Content>
-                        <Form size="small" key="small">
-                            <Form.Group widths='equal'>
-                                <Form.Input error={this.state.formError.includes('title') ? (true) : (false)} value={title} name='title' onChange={this.handleFormChange} id='form-input-control-title' required label='Title' placeholder='A good eye-catcher title ' />
-                                <Form.Select id='form-textarea-control-type' value={this.state.typeModal} disabled required label='Type' options={this.optionsType} placeholder='Share or need help?' />
-                            </Form.Group>
+                    <Form className="modalForm">
+                            <Row gutter={24}>
+                                <Col span={12}>
+                                    <FormItem>
+                                        <span className="label"><span className="red">*</span> Title</span>
+                                        {getFieldDecorator('title', {
+                                            rules: [{ required: true, message: 'You have to input a title' }],
+                                            initialValue:title
+                                        })(
+                                            <Input placeholder='A good eye-catcher title ' />
+                                        )}
+                                    </FormItem>
+                                </Col>
+                                <Col span={12}>
+                                    <FormItem>
+                                        <span className="label">Type</span>
+                                        {getFieldDecorator('type', {
+                                            initialValue:this.state.typeModal
+                                        })(
+                                            <Select disabled placeholder='Share or need help?' />
+                                        )}
+                                    </FormItem>
+                                </Col>
+                            </Row>
+                            <Row gutter={24}>
+                                <Col span={12}>
+                                    <FormItem>
+                                        <span className="label"><span className="red">*</span> Duration</span>
+                                        {getFieldDecorator('duration', {
+                                            rules: [{ required: true, message: 'You have to select a duration' }],
+                                            initialValue:duration
+                                        })(
+                                            <Select placeholder="The approximative duration of the session">
+                                                {this.optionsDuration.map( (item, i) => <Option key={item.key} value={item.value}>{item.text}</Option>)}
+                                            </Select>
+                                        )}
+                                    </FormItem>
+                                </Col>
+                                <Col span={12}>
+                                    <FormItem>
+                                        <span className="label"><span className="red">*</span> Category</span>
+                                        {getFieldDecorator('category', {
+                                            rules: [{ required: true, message: 'You have to select a category' }],
+                                            initialValue:category
+                                        })(
+                                            <Select placeholder="Help people to find your post">
+                                                {this.optionsCategory.map( (item, i) => <Option key={item.key} value={item.value}>{item.text}</Option> )}
+                                            </Select>
+                                        )}
+                                    </FormItem>
+                                </Col>
+                            </Row>
+                            
+                            <Row gutter={24}>
+                                <FormItem>
+                                    <span className="label"><span className="red">*</span> Description</span>
+                                    {getFieldDecorator('description', {
+                                        rules: [{ required: true, message: 'You have to input a description' }],
+                                        initialValue:description
+                                    })(
+                                        <TextArea placeholder='A rich description' />
+                                    )}
+                                </FormItem>
+                            </Row>
 
-                            <Form.Group widths='equal'>
-                                {/* <Form.Select error={this.state.formError.includes('duration') ? (true) : (false)} value={duration} name="duration" onChange={this.handleFormChange} id='form-select-control-duration' required label='Duration' options={this.optionsDuration} placeholder='The approximative duration of the session' /> */}
-                                <Form.Field error={this.state.formError.includes('duration') ? (true) : (false)} name="duration" onChange={this.durationChange} id='form-select-control-duration' required label='Duration' control='select' >
-                                    <option value="" disabled selected>The approximative duration of the session</option>
-                                    {this.optionsDuration.map( (item, i) => <option key={i} value={item.value}>{item.text}</option>)}
-                                </Form.Field>
-                                {/* <Form.Select error={this.state.formError.includes('category') ? (true) : (false)} value={category} name="category" onChange={this.handleFormChange} id='form-select-control-category' required label='Category' options={this.optionsCategory} placeholder='Help people to find your post' /> */}
-                                <Form.Field error={this.state.formError.includes('category') ? (true) : (false)} name="category" onChange={this.categoryChange} id='form-select-control-category' required label='Category' control='select' >
-                                    <option value="" disabled selected>Help people to find your post</option>
-                                    {this.optionsCategory.map( (item, i) => <option key={i} value={item.value}>{item.text}</option> )}
-                                </Form.Field>
-                            </Form.Group>
-
-                            <Form.Input error={this.state.formError.includes('description') ? (true) : (false)} value={description} name="description" onChange={this.handleFormChange} id='form-textarea-control-description' required control={TextArea} label='Description' placeholder='A rich description' />  
                         </Form>
                         <div className="homeFormRequired">*These fields are required.</div>
-                    </Modal.Content>
-                    <Modal.Actions>
+
                         {
                             !this.editItem ? (
-                                <Checkbox className="modalCheck" onChange={this.toggle} checked={this.state.checked} label='Notify the community by email' />  
+                                <Checkbox className="modalCheck" checked={this.state.checked} onChange={this.toggle}>Notify the community by email</Checkbox>
                             ) : null
                         }
-                        <Button positive icon='checkmark' labelPosition='right' content="Submit" onClick={this.submitModal} />
-                    </Modal.Actions>
                 </Modal>
+               
+                
             </div>
         );
     }
 }
+export default Form.create()(ModalForm)

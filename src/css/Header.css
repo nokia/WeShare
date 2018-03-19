@@ -1,5 +1,5 @@
 .header{
-    background-color: #984B43;
+    background-color: #004D9A;
 }
 .header .siteName{
     color: #fff;
@@ -8,6 +8,13 @@
     height: 50px;
     line-height: 50px;
     padding: 0px 10px;
+}
+.header .pitch{
+    font-size: 60%;
+    display: inline-block;
+    margin-left: 25px;
+    vertical-align: middle;
+    font-style: italic;
 }
 .header .siteName:hover{
     background-color: rgba(255, 255, 255, 0.13);

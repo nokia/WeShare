@@ -21,11 +21,18 @@
     color: #d8d8d8;
 }
 .home .presentations .presentation:hover{
-    background-color: rgba(152, 76, 67, 0.116);
+    background-color: #004D9A11;
 }
 .home .presentations .presentation h2{
     color: #333;
 }
 .home .message, .item .message{
     margin-top: 10px !important;
+}
+.ant-spin-text{
+    color: #004D9A;
+    font-style: italic;
+}
+.ant-spin-dot i{
+    background: #004D9A !important;
 }

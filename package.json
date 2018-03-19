@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://nokia.sharepoint.com/sites/learn/weshare/SitePages",
   "dependencies": {
+    "antd": "^3.3.0",
     "gd-sprest": "^3.5.5",
     "lz-string": "^1.4.4",
     "react": "^16.2.0",
@@ -14,7 +15,7 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
     "react-scrollable-anchor": "^0.6.1",
-    "semantic-ui-css": "^2.3.0",
+    "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.78.3"
   },
   "scripts": {

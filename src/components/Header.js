@@ -67,6 +67,9 @@ export default class Header extends Component {
                     <Link to={`/index.aspx`} replace>
                         <div className="siteName">
                             {siteName}
+                            <div className="pitch">
+                                Meet colleagues to share knowledge
+                            </div>
                         </div>
                     </Link>
                     {!this.state.isOpen ? (

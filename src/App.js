@@ -15,6 +15,7 @@ import NotFound from './components/NotFound';
 import SH from './sharePoint';
 import dataLibrary from './dataLibrary';
 
+import 'antd/dist/antd.css';
 export default class App extends Component {
 
   state = { loaded:false };
