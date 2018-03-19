@@ -149,7 +149,6 @@ export default class ModalForm extends Component {
                 closeIcon
                 closeOnEscape={true}
                 closeOnRootNodeClick={false}
-                style={{marginTop:0}}
                 >
                     <Modal.Header>
                         {
