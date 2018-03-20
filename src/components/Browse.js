@@ -3,19 +3,25 @@
   Copyright Nokia 2018. All rights reserved.
 */
 import React, { Component } from 'react';
-import {Input, Grid, Menu, Dropdown} from 'semantic-ui-react';
+import {Grid, Dropdown} from 'semantic-ui-react';
 
+import { notification, Radio, Input } from 'antd';
 import '../css/Browse.css';
 import Line from './Line';
 import dataLibrary from '../dataLibrary';
 import MdClear from 'react-icons/lib/md/clear';
 import userLibrary from '../userLibrary';
+import ModalItem from './ModalItem';
+const Search = Input.Search;
 
 export default class Browse extends Component {
-    state = { isLoading:true, countCategories: [], sortActive: 'All', data:[], displayedData: [], searchValue: "", filterCategory: "All topics" }
+    state = { openModal: false, itemModal: '', isLoading:true, countCategories: [], sortActive: 'All', data:[], displayedData: [], searchValue: "", filterCategory: "All topics" }
     componentWillMount(){
         this.searchClear = this.searchClear.bind(this);
         this.initDropdown = this.initDropdown.bind(this);
+        this.hideModal = this.hideModal.bind(this);
+        this.showMessage = this.showMessage.bind(this);
+        this.refresh = this.refresh.bind(this);
         let data = dataLibrary.get();
         data.then((result) =>{
             this.setState({data: result, displayedData: result});
@@ -30,6 +36,19 @@ export default class Browse extends Component {
         userLibrary.getCurrentUser().then((result) => {
             this.user = result;
         });
+    }
+
+    componentWillReceiveProps(newProps){
+        let id = window.location.href.split('/');
+        id = id[id.length - 1];
+        console.log(id);
+        if(Number.isInteger(parseInt(id))){
+            console.log('get');
+            dataLibrary.getById(id).then((item) => {
+                console.log(item);
+                this.showModal(item);
+            })
+        }
     }
 
     dropDownOptions = [];
@@ -80,6 +99,12 @@ export default class Browse extends Component {
         this.search("");
     }
 
+    showMessage(type, title, text){
+        notification[type]({
+            message: title,
+            description: text,
+        });
+    }
     handleCategoryClick(e, data){     
         this.setState({ filterCategory: data.value, searchValue: "", sortActive: "All" });
         this.initDropdown(data.value);
@@ -104,14 +129,15 @@ export default class Browse extends Component {
         }
     }
 
-    handleSortClick = (e, { name }) => {
-        this.setState({ filterCategory: "All topics", sortActive: name, searchValue: "" });
-        if(name === "All"){
+    handleSortClick = (e) => {
+        let value = e.target.value;
+        this.setState({ filterCategory: "All topics", sortActive: value, searchValue: "" });
+        if(value === "All"){
             this.setState({ displayedData: this.state.data });
         }else{
             let tmp = [];
             this.state.data.forEach( item => {
-                if(item.Type.toLowerCase() === name.toLowerCase()){
+                if(item.Type.toLowerCase() === value.toLowerCase()){
                     tmp.push(item);
                 }
             });
@@ -119,13 +145,14 @@ export default class Browse extends Component {
         }
     }
 
-    search = (event) => {
+    search = (param) => {
         let val;
-        if(event === ""){
-            val = event;
+        if(param === ""){
+            val = param;
         }else{
-            val = event.target.value;
+            val = param.target.value;
         }
+
         this.setState({ filterCategory: "All topics", searchValue: val, sortActive: "All" });
         let tmp = [];
         for (var i=0; i < this.state.data.length; i++) {
@@ -134,6 +161,16 @@ export default class Browse extends Component {
             }
         }
         this.setState({displayedData: tmp});
+    }
+
+    showModal(item){
+        this.setState( {openModal: true, itemModal: item});
+    }
+    hideModal(){
+        this.setState( {openModal: false});
+    }
+    refresh(){
+        this.forceUpdate();
     }
 
     render() {
@@ -158,17 +195,27 @@ export default class Browse extends Component {
 
             return (
                 <div className="browse">
+                
+                    {this.state.openModal ? (
+                        <ModalItem refresh={this.refresh} modalFormMessage={this.showMessage}  modalFormHide={this.hideModal} itemModal={this.state.itemModal} />
+                    ) : null}
                     <div className="banner">
                         <div className="wrapper">
                             <div className="bannerTitle">
                                 Browse topics
                             </div>
-                            <Input 
+                            {/* <Input 
                                 value={this.state.searchValue}
                                 className="bannerSearch" 
                                 icon='search' 
                                 placeholder='Search...'
                                 onChange={this.search} 
+                            /> */}
+                            <Search
+                                placeholder="Search..."
+                                onChange={value => this.search(value)}
+                                className="bannerSearch" 
+                                value={this.state.searchValue}
                             />
                             {this.state.searchValue ? ( 
                                 <span className="searchClear" onClick={this.searchClear}><MdClear /></span>
@@ -193,13 +240,18 @@ export default class Browse extends Component {
                                     </Dropdown>
                                 </Grid.Column>
                                 <Grid.Column >
-                                    <Menu secondary className="menuSort">
+                                    {/* <Menu secondary className="menuSort">
                                         <Menu.Menu position='right'>
                                             <Menu.Item name='All' active={sortActive === 'All'} onClick={this.handleSortClick} />
                                             <Menu.Item name='Request' active={sortActive === 'Request'} onClick={this.handleSortClick} />
                                             <Menu.Item name='Share' active={sortActive === 'Share'} onClick={this.handleSortClick} />
                                         </Menu.Menu>
-                                    </Menu>
+                                    </Menu> */}
+                                    <Radio.Group className="menuSort" value={sortActive} onChange={this.handleSortClick}>
+                                        <Radio.Button value="All">All</Radio.Button>
+                                        <Radio.Button value="Request">Request</Radio.Button>
+                                        <Radio.Button value="Share">Share</Radio.Button>
+                                    </Radio.Group>
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>

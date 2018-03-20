@@ -1,6 +1,7 @@
 .home .presentations{
     margin-top: 40px;
     margin-bottom: 30px;
+    height: 165px;
 }
 .home .presentations .column{
     padding-left: 5px;
@@ -13,6 +14,12 @@
     padding-bottom: 30px;
     border: 1px solid transparent;
     cursor: pointer;   
+    text-decoration: none;
+    height: 165px;
+}
+.home .presentations .divider,.home .presentations .divider div{
+    text-align: center;
+    height: 100%;
 }
 .home .presentations .presentationNotLoaded{
     cursor: default;
@@ -30,9 +37,9 @@
     margin-top: 10px !important;
 }
 .ant-spin-text{
-    color: #004D9A;
+    color: #124191;
     font-style: italic;
 }
 .ant-spin-dot i{
-    background: #004D9A !important;
+    background: #124191 !important;
 }

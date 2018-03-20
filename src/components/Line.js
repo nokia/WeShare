@@ -4,7 +4,7 @@
 */
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
-import {Grid} from 'semantic-ui-react';
+import { Row, Col } from 'antd';
 
 import '../css/Line.css';
 import FaStar from 'react-icons/lib/fa/star';
@@ -64,37 +64,45 @@ export default class Line extends Component {
                 to={'/index.aspx/item/' + this.item.ID}
             >
                 <div className={this.color + " line"} onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}>
-                    <Grid columns='equal' stackable container verticalAlign='middle'>
-                        <Grid.Row>
-                            {this.state.hover ? (
-                                <Grid.Column width={3}>
+                    <Row justify="space-around" align="middle">
+                        {this.state.hover ? (
+                            <Col span={3}>
                                 <div className="lineMessage">
                                     {this.message}
                                 </div>
-                            </Grid.Column>
-                            ) : null}
-                           
-                            <Grid.Column>
-                                <div className="lineTitle">
-                                    {this.item.Title}
-                                </div>
-                                <div className="lineInfos">
-                                    {/* {this.item.Date.toLocaleDateString()} - {this.item.Duration} minutes */}
-                                    {new Date(this.item.Date).toLocaleString()} 
-                                    {this.item.Duration ? (<span> - {this.item.Duration} minutes</span>) : null}
-                                </div>
-                                
-                            </Grid.Column>
-                            <Grid.Column width={2}>
-                                
+                            </Col>
+                        ) : null}
+                        
+                        <Col span={19}>
+                            <div className="lineTitle">
+                                {this.item.Title}
+                            </div>
+                            <div className="lineInfos">
+                                {/* {this.item.Date.toLocaleDateString()} - {this.item.Duration} minutes */}
+                                {new Date(this.item.Date).toLocaleString()} 
+                                {this.item.Duration ? (<span> - {this.item.Duration} minutes</span>) : null}
+                            </div>
+                            
+                        </Col>
+                        {this.state.hover ? (
+                            <Col span={2} offset={0}>
                                 <div className="lineRatings">       
                                     {stars}
                                     {halfStars}
                                     {emptyStars}
                                 </div>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
+                            </Col>
+                        ) : 
+                        <Col span={2} offset={3}>
+                            <div className="lineRatings">       
+                                {stars}
+                                {halfStars}
+                                {emptyStars}
+                            </div>
+                        </Col>
+                        }
+                        
+                    </Row>
                 </div>
             </Link>
 

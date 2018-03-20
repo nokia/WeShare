@@ -5,10 +5,12 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import {Config} from './../config.js';
-import {Button, Popup, Input} from 'semantic-ui-react';
 
+import { Tooltip, Popover, Input, Icon, Button } from 'antd';
 import userLibrary from '../userLibrary';
-import MdClear from 'react-icons/lib/md/clear';
+// import MdClear from 'react-icons/lib/md/clear';
+
+import logo from '../img/WeShare-neg-logo-200.png';
 import '../css/Header.css';
 
 export default class Header extends Component {
@@ -29,7 +31,8 @@ export default class Header extends Component {
             
     }
 
-    handleChange(e, {name, value}){
+    handleChange(e){
+        let value = e.target.value;
         if(value.length > 12){
             return;
         }
@@ -46,6 +49,10 @@ export default class Header extends Component {
     handleClose = () => {
         this.setState({ isOpen: false })
     }
+    emitEmpty = () => {
+        this.phoneInput.focus();
+        this.setState({ number: '' });
+    }
 
     render() {
         let profil;
@@ -60,30 +67,53 @@ export default class Header extends Component {
                 profil += " | " + number;
             }
         }
-        
+        const suffix = number ? <Icon type="close-circle" style={{ color: 'rgba(0,0,0,.25)' }} onClick={this.emitEmpty} /> : null;
         return (
             <div className="header">
                 <div className="wrapper">
                     <Link to={`/index.aspx`} replace>
                         <div className="siteName">
+                            <img src={logo} alt="Logo" className="logo" />
                             {siteName}
-                            <div className="pitch">
-                                Meet colleagues to share knowledge
-                            </div>
+                        </div>
+                        <div className="pitch">
+                            Meet colleagues to share knowledge
                         </div>
                     </Link>
                     {!this.state.isOpen ? (
                         <div className="profilHover">
-                            <Popup
-                                trigger={<div onClick={this.handleOpen}>{profil}</div>}
-                                content='Click to edit your profile'
-                                on='hover'
-                                inverted
-                            />
+                            <Tooltip
+                                placement="top"
+                                title="Click to edit your phone number"
+                            >
+                                <div onClick={this.handleOpen}>{profil}</div>
+                            </Tooltip>
                         </div>
                     ) : (
                         <div className="profilClick">
-                            <Popup
+                            <Popover 
+                                content={<div>
+                                    <Icon className="popupPhoneClear" type="close-circle" style={{ color: 'rgba(0,0,0,.25)' }} onClick={this.handleClose} />
+                                    <div className="popupPhoneTitle">Add your phone number to be contacted<br /> quickly when publishing a topic:</div>
+                                    
+                                    <Input
+                                        placeholder="+33677889911"
+                                        prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                        suffix={suffix}
+                                        value={number}
+                                        onChange={this.handleChange}
+                                        ref={node => this.phoneInput = node}
+                                    />
+                                    <Button type="primary" className="popupPhoneButton" onClick={this.handleClose}>
+                                        Save
+                                    </Button>
+                                </div>}
+                                visible={true}
+                                placement="bottom"
+                            >
+                                <div>{profil}</div>
+                            </Popover>
+                            {/* <Popup
                                 trigger={<div>{profil}</div>}
                                 content={<div>
                                     <MdClear className="popupPhoneClear" onClick={this.handleClose}/> 
@@ -101,7 +131,7 @@ export default class Header extends Component {
                                     </Button>
                                 </div>}
                                 open={true}
-                            />
+                            /> */}
                         </div>
                     )}
                 </div>

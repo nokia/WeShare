@@ -3,10 +3,10 @@
   Copyright Nokia 2018. All rights reserved.
 */
 import React, { Component } from 'react';
-import {Grid} from 'semantic-ui-react';
+// import {Grid} from 'semantic-ui-react';
 import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
 // import { Loader } from 'semantic-ui-react';
-import { Button, notification, Spin } from 'antd';
+import { Button, notification, Spin, Col, Row, Divider } from 'antd';
 
 import '../css/Home.css';
 import HeaderBanner from './Header';
@@ -24,6 +24,7 @@ export default class Home extends Component {
 
     
     componentWillMount(){
+        console.log('props', this.props);
         configureAnchors({scrollUrlHashUpdate:false});
         // this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -61,8 +62,45 @@ export default class Home extends Component {
             <div className="home">
                 <HeaderBanner />
                 <div className="wrapper">
+                    <Row className="presentations" justify="space-around" align="middle">
+                        <Col span={7}>
+                            <div className="presentation" onClick={this.showModal.bind(this,'share')}>
+                                <FaShareAlt size={45} className="icon" color='#474747'/>
+                                <h2>Share knowledge</h2>
+                            </div>
+                        </Col>
+                        <Col span={1} className="divider">
+                            <Divider type="vertical" />
+                        </Col>
+                        {this.state.loaded ? (
+                            <Col span={8}>
+                                <a href='#browse' className="presentation">
+                                    <FaThList size={45} className="icon" color='#474747' />
+                                    <h2>Browse topics</h2>
+                                </a>
+                            </Col>
+                        ) : (
+                            <Col span={8}>
+                                <Spin tip="Loading data..." size="large">
+                                    <a className="presentationNotLoaded">
+                                        <FaThList size={45} className="icon" color='#d8d8d8' />
+                                        <h2>Browse topics</h2>
+                                    </a>
+                                </Spin>
+                            </Col>
+                        )}
+                        <Col span={1} className="divider">
+                            <Divider type="vertical" />
+                        </Col>
+                        <Col span={7}>
+                            <div className="presentation" onClick={this.showModal.bind(this,'request')}>
+                                <FaExclamation size={45} className="icon" color='#474747' />
+                                <h2>Post a request</h2>
+                            </div>
+                        </Col>
+                    </Row>
 
-                    <Grid verticalAlign='middle' columns={3} stackable container divided>
+                    {/* <Grid verticalAlign='middle' columns={3} stackable container divided>
                         <Grid.Row className="presentations">
                             <Grid.Column>
                                 <div className="presentation" onClick={this.showModal.bind(this,'share')}>
@@ -94,7 +132,7 @@ export default class Home extends Component {
                                 </div>
                             </Grid.Column>
                         </Grid.Row>
-                    </Grid>
+                    </Grid> */}
                 </div>
                 <ScrollableAnchor id={'browse'}>
                     <Browse onLoaded={this.onLoaded} />

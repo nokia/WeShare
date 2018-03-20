@@ -4,14 +4,17 @@
 */
 import React, { Component } from 'react';
 import {Config} from './../config.js';
-import {Modal, Form, Button, TextArea } from 'semantic-ui-react';
+// import {Modal, Form, Button, TextArea } from 'semantic-ui-react';
 
+import { Checkbox, Form, Modal, Button, Select, Row, Col, Input } from 'antd';
 import '../css/ModalFormContact.css';
 import dataLibrary from '../dataLibrary';
 import userLibrary from '../userLibrary';
+const { TextArea } = Input;
+const FormItem = Form.Item;
 
 
-export default class ModalForm extends Component {
+class ModalForm extends Component {
     state = { formError: [], openModal: true, title: '', message: ''};
     
     componentWillMount(){
@@ -38,58 +41,98 @@ export default class ModalForm extends Component {
     }
     
     closeModal(type){
+        var self = this;
         this.setState( {openModal: false});
-        this.props.modalFormHide();
+        setTimeout(function(){ self.props.modalFormHide(); }, 200);
     }
-    handleFormChange = (e, {name, value}) => {
-        this.setState({ [name]: value });
-    }
+    // handleFormChange = (e, {name, value}) => {
+    //     this.setState({ [name]: value });
+    // }
    
-    submitModal(){
+    submitModal(e){
         
-        let { title, message } = this.state;
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                let { title, message } = values;
+                let notifTitle, notifMessage;
 
-        let tmp = [];
-        if(title === ""){
-            tmp.push('title');
-        }if(message === ""){
-            tmp.push('message');
-        }
-        this.setState({formError: tmp});
-        if(tmp.length > 0){
-            return;
-        }
-
-        let textMessage;
-
-        if(this.item.Ratings < 5){
-            this.item.Ratings = this.item.Ratings + 0.5;
-            dataLibrary.update(this.item);
-            this.forceUpdate();
-        }
-        userLibrary.contact(this.user.Email, title, message).then((result) => {
-            if(result === "sent"){
-                textMessage = "Your message has been sent with success";
-                this.props.modalFormMessage('green', textMessage);    
-            }else if(result === "local"){
-                textMessage = "Unable to send email in this local version";
-                this.props.modalFormMessage('red', textMessage); 
-            }else{
-                textMessage = "An error occured";
-                this.props.modalFormMessage('red', textMessage); 
+                if(this.item.Ratings < 5){
+                    this.item.Ratings = this.item.Ratings + 0.5;
+                    dataLibrary.update(this.item);
+                    this.forceUpdate();
+                }
+                userLibrary.contact(this.user.Email, title, message).then((result) => {
+                    if(result === "sent"){
+                        notifTitle = "Success";
+                        notifMessage = "Your message has been sent with success";
+                        this.props.modalFormMessage('success', notifTitle, notifMessage);    
+                    }else if(result === "local"){
+                        notifTitle = "Error";
+                        notifMessage = "Unable to send email in local version";
+                        this.props.modalFormMessage('error', notifTitle, notifMessage); 
+                    }else{
+                        notifTitle = "Error";
+                        notifMessage = "An error occured";
+                        this.props.modalFormMessage('error', notifTitle, notifMessage); 
+                    }
+                });
+                
+                
+                
+                this.closeModal();   
             }
         });
-        
-        
-        
-        this.closeModal();    
+
+
+         
     }
 
     render() {
+        const { getFieldDecorator } = this.props.form;
         const { title, message } = this.state;
+        let tit = "Send a mail to " + this.user.Email;
         return (
             <div>
-                <Modal 
+                 <Modal
+                title={tit}
+                width={900}
+                wrapClassName="vertical-center-modal"
+                visible={this.state.openModal}
+                onOk={this.submitModal}
+                onCancel={this.closeModal} 
+                okText="Send message"
+                maskClosable={false}
+                className="modalForm"
+                >
+                    <Form>
+                        <Row gutter={24}>
+                            <FormItem>
+                                <span className="label"><span className="red">*</span> Title</span>
+                                {getFieldDecorator('title', {
+                                    rules: [{ required: true, message: 'You have to input a title' }],
+                                })(
+                                    <Input placeholder='The object of your message' />
+                                )}
+                            </FormItem> 
+                        </Row>
+                        <Row gutter={24}>  
+                            <FormItem>
+                                <span className="label"><span className="red">*</span> Message</span>
+                                {getFieldDecorator('message', {
+                                    rules: [{ required: true, message: 'You have to input a message' }],
+                                })(
+                                    <TextArea placeholder='Your message' />
+                                )}
+                            </FormItem>
+                        </Row>
+                            
+
+                        </Form>
+                    <div className="homeFormRequired">*These fields are required.</div>
+                </Modal>
+
+                {/* <Modal 
                 open={this.state.openModal}
                 onClose={this.closeModal} 
                 closeIcon
@@ -109,8 +152,10 @@ export default class ModalForm extends Component {
                     <Modal.Actions>
                         <Button positive icon='checkmark' labelPosition='right' content="Send message" onClick={this.submitModal} />
                     </Modal.Actions>
-                </Modal>
+                </Modal> */}
             </div>
         );
     }
 }
+
+export default Form.create()(ModalForm)

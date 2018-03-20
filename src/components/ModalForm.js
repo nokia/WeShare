@@ -78,19 +78,19 @@ class ModalForm extends Component {
         
         
     }
-    getValue = (e) => {
-        const select = e.target;
-        return select.options[select.selectedIndex].value;
-    }
-    durationChange = (e) => this.setState({ duration: this.getValue(e) });    
-    categoryChange = (e) => this.setState({ category: this.getValue(e) });
+    // getValue = (e) => {
+    //     const select = e.target;
+    //     return select.options[select.selectedIndex].value;
+    // }
+    // durationChange = (e) => this.setState({ duration: this.getValue(e) });    
+    // categoryChange = (e) => this.setState({ category: this.getValue(e) });
    
     submitModal(e){
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const { title, category, duration, description } = values;
-                console.log(title, category, duration, description);
+                // console.log(title, category, duration, description);
                 
                 let notifTitle, notifMessage;
                 if(this.editItem){
@@ -154,80 +154,81 @@ class ModalForm extends Component {
                 onCancel={this.closeModal} 
                 okText="Submit"
                 maskClosable={false}
+                className="modalForm"
                 >
-                    <Form className="modalForm">
-                            <Row gutter={24}>
-                                <Col span={12}>
-                                    <FormItem>
-                                        <span className="label"><span className="red">*</span> Title</span>
-                                        {getFieldDecorator('title', {
-                                            rules: [{ required: true, message: 'You have to input a title' }],
-                                            initialValue:title
-                                        })(
-                                            <Input placeholder='A good eye-catcher title ' />
-                                        )}
-                                    </FormItem>
-                                </Col>
-                                <Col span={12}>
-                                    <FormItem>
-                                        <span className="label">Type</span>
-                                        {getFieldDecorator('type', {
-                                            initialValue:this.state.typeModal
-                                        })(
-                                            <Select disabled placeholder='Share or need help?' />
-                                        )}
-                                    </FormItem>
-                                </Col>
-                            </Row>
-                            <Row gutter={24}>
-                                <Col span={12}>
-                                    <FormItem>
-                                        <span className="label"><span className="red">*</span> Duration</span>
-                                        {getFieldDecorator('duration', {
-                                            rules: [{ required: true, message: 'You have to select a duration' }],
-                                            initialValue:duration
-                                        })(
-                                            <Select placeholder="The approximative duration of the session">
-                                                {this.optionsDuration.map( (item, i) => <Option key={item.key} value={item.value}>{item.text}</Option>)}
-                                            </Select>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                                <Col span={12}>
-                                    <FormItem>
-                                        <span className="label"><span className="red">*</span> Category</span>
-                                        {getFieldDecorator('category', {
-                                            rules: [{ required: true, message: 'You have to select a category' }],
-                                            initialValue:category
-                                        })(
-                                            <Select placeholder="Help people to find your post">
-                                                {this.optionsCategory.map( (item, i) => <Option key={item.key} value={item.value}>{item.text}</Option> )}
-                                            </Select>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                            </Row>
-                            
-                            <Row gutter={24}>
+                    <Form>
+                        <Row gutter={24}>
+                            <Col span={12}>
                                 <FormItem>
-                                    <span className="label"><span className="red">*</span> Description</span>
-                                    {getFieldDecorator('description', {
-                                        rules: [{ required: true, message: 'You have to input a description' }],
-                                        initialValue:description
+                                    <span className="label"><span className="red">*</span> Title</span>
+                                    {getFieldDecorator('title', {
+                                        rules: [{ required: true, message: 'You have to input a title' }],
+                                        initialValue:title
                                     })(
-                                        <TextArea placeholder='A rich description' />
+                                        <Input placeholder='A good eye-catcher title ' />
                                     )}
                                 </FormItem>
-                            </Row>
+                            </Col>
+                            <Col span={12}>
+                                <FormItem>
+                                    <span className="label">Type</span>
+                                    {getFieldDecorator('type', {
+                                        initialValue:this.state.typeModal
+                                    })(
+                                        <Select disabled placeholder='Share or need help?' />
+                                    )}
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row gutter={24}>
+                            <Col span={12}>
+                                <FormItem>
+                                    <span className="label"><span className="red">*</span> Duration</span>
+                                    {getFieldDecorator('duration', {
+                                        rules: [{ required: true, message: 'You have to select a duration' }],
+                                        initialValue:duration
+                                    })(
+                                        <Select placeholder="The approximative duration of the session">
+                                            {this.optionsDuration.map( (item, i) => <Option key={item.key} value={item.value}>{item.text}</Option>)}
+                                        </Select>
+                                    )}
+                                </FormItem>
+                            </Col>
+                            <Col span={12}>
+                                <FormItem>
+                                    <span className="label"><span className="red">*</span> Category</span>
+                                    {getFieldDecorator('category', {
+                                        rules: [{ required: true, message: 'You have to select a category' }],
+                                        initialValue:category
+                                    })(
+                                        <Select placeholder="Help people to find your post">
+                                            {this.optionsCategory.map( (item, i) => <Option key={item.key} value={item.value}>{item.text}</Option> )}
+                                        </Select>
+                                    )}
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        
+                        <Row gutter={24}>
+                            <FormItem>
+                                <span className="label"><span className="red">*</span> Description</span>
+                                {getFieldDecorator('description', {
+                                    rules: [{ required: true, message: 'You have to input a description' }],
+                                    initialValue:description
+                                })(
+                                    <TextArea placeholder='A rich description' />
+                                )}
+                            </FormItem>
+                        </Row>
 
-                        </Form>
-                        <div className="homeFormRequired">*These fields are required.</div>
+                    </Form>
+                    <div className="homeFormRequired">*These fields are required.</div>
 
-                        {
-                            !this.editItem ? (
-                                <Checkbox className="modalCheck" checked={this.state.checked} onChange={this.toggle}>Notify the community by email</Checkbox>
-                            ) : null
-                        }
+                    {
+                        !this.editItem ? (
+                            <Checkbox className="modalCheck" checked={this.state.checked} onChange={this.toggle}>Notify the community by email</Checkbox>
+                        ) : null
+                    }
                 </Modal>
                
                 

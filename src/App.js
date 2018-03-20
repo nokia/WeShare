@@ -28,14 +28,14 @@ export default class App extends Component {
   render() {
 
     if (!this.state.loaded) return null;
-    
     const basename = Config.Source.slice(1);
     return (
       <Router basename={basename}>
         <Switch>
           <Route exact path='/' render={() => (<Home />)} />
           <Route exact path='/index.aspx' render={() => (<Home />)} />
-          <Route exact path='/index.aspx/item/:id' component={Item} />
+          <Route exact path='/index.aspx/item/:id' render={() => (<Home />)} />
+          {/* <Route exact path='/index.aspx/item/:id' component={Item} /> */}
           <Route exact path='*' render={() => (<NotFound />)} />
         </Switch>
       </Router>  

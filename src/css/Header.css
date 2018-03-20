@@ -1,5 +1,5 @@
 .header{
-    background-color: #004D9A;
+    background-color: #124191;
 }
 .header .siteName{
     color: #fff;
@@ -9,12 +9,19 @@
     line-height: 50px;
     padding: 0px 10px;
 }
+.header .logo{
+    width: 38px;
+    margin-top: -3px;
+    margin-right: 8px;
+}
 .header .pitch{
-    font-size: 60%;
+    font-size: 90%;
     display: inline-block;
-    margin-left: 25px;
+    margin-left: 10px;
     vertical-align: middle;
     font-style: italic;
+    color: #f1f1f1;
+    margin-top: 10px;
 }
 .header .siteName:hover{
     background-color: rgba(255, 255, 255, 0.13);
@@ -32,6 +39,7 @@
 }
 .popupPhoneTitle{
     font-size: 90%;
+
     margin-bottom: 8px;
     padding-right: 20px;
     text-align: justify;
@@ -42,4 +50,9 @@
 }
 .popupPhoneButton{
     margin-top: 10px !important;
+    height: 28px !important;
+    background-color: #124191 !important;
+    margin-top: 15px !important;
+    border-color: #124191 !important;
+    outline: none !important;
 }

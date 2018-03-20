@@ -74,3 +74,9 @@
     /* padding: 0px 5px; */
     color: #fff;
 }
+.line .ant-row .lineTitle{
+    margin-top: 5px;
+}
+.line .ant-row .lineRatings{
+    margin-top: 15px;
+}

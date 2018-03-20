@@ -37,6 +37,7 @@ export default class Item extends Component {
                 return;
             }
             this.showModal = this.showModal.bind(this);
+            this.confirmShow = this.confirmShow.bind(this);
             this.edit = this.edit.bind(this);
             this.hideModal = this.hideModal.bind(this);
             this.hideContactModal = this.hideContactModal.bind(this);
@@ -79,7 +80,7 @@ export default class Item extends Component {
     }
       
   
-    confirmCancel = () => this.setState({ openConfirm: false });
+    // confirmCancel(){this.setState({ openConfirm: false });}
 
     showModal(){
         this.setState( {openModal: true} );
@@ -89,6 +90,7 @@ export default class Item extends Component {
     }
     
     showMessage(type, title, text){
+        console.log('show', type, title, text, notification);
         notification[type]({
             message: title,
             description: text,
@@ -174,6 +176,7 @@ export default class Item extends Component {
 
         return (
             <div className="item">
+                 
                 <Header />
                 <div className="wrapper">
 
