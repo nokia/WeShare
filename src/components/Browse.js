@@ -3,9 +3,7 @@
   Copyright Nokia 2018. All rights reserved.
 */
 import React, { Component } from 'react';
-import {Grid, Dropdown} from 'semantic-ui-react';
-
-import { notification, Radio, Input } from 'antd';
+import { Menu, Dropdown, Icon, notification, Button, Radio, Input, Row, Col } from 'antd';
 import '../css/Browse.css';
 import Line from './Line';
 import dataLibrary from '../dataLibrary';
@@ -13,14 +11,17 @@ import MdClear from 'react-icons/lib/md/clear';
 import userLibrary from '../userLibrary';
 import ModalItem from './ModalItem';
 const Search = Input.Search;
+const SubMenu = Menu.SubMenu;
 
 export default class Browse extends Component {
     state = { openModal: false, itemModal: '', isLoading:true, countCategories: [], sortActive: 'All', data:[], displayedData: [], searchValue: "", filterCategory: "All topics" }
     componentWillMount(){
+        console.log('prpps browse', this.props);
         this.searchClear = this.searchClear.bind(this);
         this.initDropdown = this.initDropdown.bind(this);
         this.hideModal = this.hideModal.bind(this);
         this.showMessage = this.showMessage.bind(this);
+        this.handleCategoryClick = this.handleCategoryClick.bind(this);
         this.refresh = this.refresh.bind(this);
         let data = dataLibrary.get();
         data.then((result) =>{
@@ -42,6 +43,7 @@ export default class Browse extends Component {
         let id = window.location.href.split('/');
         id = id[id.length - 1];
         console.log(id);
+        id = id.replace('#browse','');
         if(Number.isInteger(parseInt(id))){
             console.log('get');
             dataLibrary.getById(id).then((item) => {
@@ -53,47 +55,39 @@ export default class Browse extends Component {
 
     dropDownOptions = [];
     initDropdown(act){
-        this.dropDownOptions = [
-            <Dropdown.Item key="All" value='All topics' active={act === "All topics" ? true : false} onClick={this.handleCategoryClick.bind(this)}>All topics ({this.state.countCategories['all']})</Dropdown.Item>,
-            <Dropdown.Item key="My" value='My topics' active={act === "My topics" ? true : false} onClick={this.handleCategoryClick.bind(this)}>My topics ({this.state.countCategories['my']})</Dropdown.Item>,
-            <Dropdown.Item key="Unclassified" value='Unclassified' active={act === "Unclassified" ? true : false} onClick={this.handleCategoryClick.bind(this)}>Unclassified ({this.state.countCategories['unclassified']})</Dropdown.Item>
+        this.dropDownOptions =  [
+            <Menu.Item key="All topics">All topics ({this.state.countCategories['all']})</Menu.Item>,
+            <Menu.Item key="My topics">My topics ({this.state.countCategories['my']})</Menu.Item>,
+            <Menu.Item key="Unclassified">Unclassified ({this.state.countCategories['unclassified']})</Menu.Item>
         ];
         dataLibrary.Categories.forEach( category => {
             let count = 0;
             let countSubTotal = 0;
             if(Array.isArray(category)){
-
                 let subCategories = [];
                 category[1].forEach( subCategory => {
                     count = this.state.countCategories[subCategory];
                     countSubTotal += count;
                     subCategories.push(
-                        <Dropdown.Item key={subCategory} value={subCategory} active={act === subCategory ? true : false} onClick={this.handleCategoryClick.bind(this)}>{subCategory} ({count})</Dropdown.Item>
+                        <Menu.Item key={subCategory}>{subCategory} ({count})</Menu.Item>
                     );
                 });
                 let subText = category[0] + " (" + countSubTotal.toString() + ")";
                 this.dropDownOptions.push(
-                    <Dropdown.Item className="subcategories">
-                        <Dropdown pointing='left' text={subText}>
-                            <Dropdown.Menu>
-                                {subCategories}
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </Dropdown.Item>
+                    <SubMenu title="sub menu">
+                        {subCategories}
+                    </SubMenu>
                 );
             }else{
                 
                 count = this.state.countCategories[category];
                 this.dropDownOptions.push(
-                    <Dropdown.Item 
-                        value={category} 
-                        key={category}
-                        active={act === category ? true : false} 
-                        onClick={this.handleCategoryClick.bind(this)}
-                    >{category} ({count}) </Dropdown.Item>
+                    <Menu.Item key={category}>{category} ({count})</Menu.Item>
                 );
             }
         });
+        this.dropDownOptions = <Menu onClick={this.handleCategoryClick}>{this.dropDownOptions}</Menu>
+  
     }
     searchClear(){
         this.search("");
@@ -105,12 +99,14 @@ export default class Browse extends Component {
             description: text,
         });
     }
-    handleCategoryClick(e, data){     
-        this.setState({ filterCategory: data.value, searchValue: "", sortActive: "All" });
-        this.initDropdown(data.value);
-        if(data.value === "All topics"){
+    handleCategoryClick(value){   
+        console.log('cat', value);
+        let key = value.key;
+        this.setState({ filterCategory: key, searchValue: "", sortActive: "All" });
+        this.initDropdown(key);
+        if(key === "All topics"){
             this.setState({ displayedData: this.state.data });
-        }else if(data.value === "My topics"){
+        }else if(key === "My topics"){
             let tmp = [];
             for (var i=0; i < this.state.data.length; i++) {
                 if (this.state.data[i].User === this.user.ID) {
@@ -121,7 +117,7 @@ export default class Browse extends Component {
         }else{
             let tmp = [];
             for (var y=0; y < this.state.data.length; y++) {
-                if (this.state.data[y].Category.toLowerCase().indexOf(data.value.toLowerCase()) !== -1) {
+                if (this.state.data[y].Category.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
                     tmp.push(this.state.data[y]);
                 }
             }
@@ -197,20 +193,13 @@ export default class Browse extends Component {
                 <div className="browse">
                 
                     {this.state.openModal ? (
-                        <ModalItem refresh={this.refresh} modalFormMessage={this.showMessage}  modalFormHide={this.hideModal} itemModal={this.state.itemModal} />
+                        <ModalItem history={this.props.history} refresh={this.refresh} modalFormMessage={this.showMessage}  modalFormHide={this.hideModal} itemModal={this.state.itemModal} />
                     ) : null}
                     <div className="banner">
                         <div className="wrapper">
                             <div className="bannerTitle">
                                 Browse topics
                             </div>
-                            {/* <Input 
-                                value={this.state.searchValue}
-                                className="bannerSearch" 
-                                icon='search' 
-                                placeholder='Search...'
-                                onChange={this.search} 
-                            /> */}
                             <Search
                                 placeholder="Search..."
                                 onChange={value => this.search(value)}
@@ -223,38 +212,22 @@ export default class Browse extends Component {
                         </div>
                     </div>
                     <div className="wrapper">
-                        <Grid columns='equal' container className="menuSortFilter">
-                            <Grid.Row>
-                                <Grid.Column>
-                                    <Dropdown
-                                        button
-                                        className='icon filter'
-                                        floating
-                                        labeled
-                                        icon='tags'
-                                        text={this.state.filterCategory}
-                                    >
-                                        <Dropdown.Menu>
-                                            {this.dropDownOptions}
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </Grid.Column>
-                                <Grid.Column >
-                                    {/* <Menu secondary className="menuSort">
-                                        <Menu.Menu position='right'>
-                                            <Menu.Item name='All' active={sortActive === 'All'} onClick={this.handleSortClick} />
-                                            <Menu.Item name='Request' active={sortActive === 'Request'} onClick={this.handleSortClick} />
-                                            <Menu.Item name='Share' active={sortActive === 'Share'} onClick={this.handleSortClick} />
-                                        </Menu.Menu>
-                                    </Menu> */}
-                                    <Radio.Group className="menuSort" value={sortActive} onChange={this.handleSortClick}>
-                                        <Radio.Button value="All">All</Radio.Button>
-                                        <Radio.Button value="Request">Request</Radio.Button>
-                                        <Radio.Button value="Share">Share</Radio.Button>
-                                    </Radio.Group>
-                                </Grid.Column>
-                            </Grid.Row>
-                        </Grid>
+                        <Row className="menuSortFilter">
+                            <Col span={8}>
+                                <Dropdown overlay={this.dropDownOptions}>
+                                    <Button className="categoryButton">
+                                        {this.state.filterCategory} <Icon type="down" />
+                                    </Button>
+                                </Dropdown>
+                            </Col>
+                            <Col span={8} offset={8}>
+                                <Radio.Group className="menuSort" value={sortActive} onChange={this.handleSortClick}>
+                                    <Radio.Button value="All">All</Radio.Button>
+                                    <Radio.Button value="Request">Request</Radio.Button>
+                                    <Radio.Button value="Share">Share</Radio.Button>
+                                </Radio.Group>
+                            </Col>
+                        </Row>
                         {lines}
                     </div>
                 </div>                        

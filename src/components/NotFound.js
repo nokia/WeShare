@@ -14,7 +14,7 @@ export default class NotFound extends Component {
             <div className="notFound">
                 <Header />
                 <div className="wrapper center">
-                    <img src={img} alt="Page not found" />
+                    <img className="notImg" src={img} alt="Page not found" />
                     <div className="not">Page not Found</div>
                     
                 </div>

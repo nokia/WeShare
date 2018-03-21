@@ -10,7 +10,7 @@ import 'core-js/fn/array/includes';
 import 'core-js/fn/number/is-nan';
 import './css/App.css';
 import Home from './components/Home';
-import Item from './components/Item';
+// import Item from './components/Item';
 import NotFound from './components/NotFound';
 import SH from './sharePoint';
 import dataLibrary from './dataLibrary';
@@ -23,6 +23,7 @@ export default class App extends Component {
   componentWillMount(){
     SH.init('https://nokia.sharepoint.com/sites/learn/weshare');
     dataLibrary.init().then( () => this.setState({ loaded:true} ));
+    console.log('app props', this.props);
   }
 
   render() {
@@ -33,8 +34,8 @@ export default class App extends Component {
       <Router basename={basename}>
         <Switch>
           <Route exact path='/' render={() => (<Home />)} />
-          <Route exact path='/index.aspx' render={() => (<Home />)} />
-          <Route exact path='/index.aspx/item/:id' render={() => (<Home />)} />
+          <Route exact path='/index.aspx' render={({history}) => (<Home history={history} />)} />
+          <Route exact  path='/index.aspx/item/:id' render={({history}) => (<Home history={history}/>)} />
           {/* <Route exact path='/index.aspx/item/:id' component={Item} /> */}
           <Route exact path='*' render={() => (<NotFound />)} />
         </Switch>

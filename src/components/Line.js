@@ -59,6 +59,11 @@ export default class Line extends Component {
             )
         };
 
+        let title = this.item.Title;
+        let n = 90;
+        if(title.length > n){
+            title = title.substr(0, n-1) + '...';
+        }
         return (
             <Link
                 to={'/index.aspx/item/' + this.item.ID}
@@ -75,7 +80,7 @@ export default class Line extends Component {
                         
                         <Col span={19}>
                             <div className="lineTitle">
-                                {this.item.Title}
+                                {title}
                             </div>
                             <div className="lineInfos">
                                 {/* {this.item.Date.toLocaleDateString()} - {this.item.Duration} minutes */}

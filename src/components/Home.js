@@ -135,7 +135,7 @@ export default class Home extends Component {
                     </Grid> */}
                 </div>
                 <ScrollableAnchor id={'browse'}>
-                    <Browse onLoaded={this.onLoaded} />
+                    <Browse history={this.props.history} onLoaded={this.onLoaded} />
                 </ScrollableAnchor>
                 
                 {this.state.openModal && this.state.typeModal === "share" ? (

@@ -11,8 +11,9 @@ class Data{
     data = [];
 
     init(){
+        
         return new Promise( (resolve, reject) => {
-            window.fetch(window.location.href.replace(/index\.(aspx|html)/, "") + "json.categories", { credentials:'include' }).then( (file) => file.json() )
+            window.fetch(window.location.href.split('index.aspx')[0].split('index.html')[0] + "/json.categories", { credentials:'include' }).then( (file) => file.json() )
             .then( (json) => {
                 this.Categories = json;
                 resolve('OK');

@@ -27,7 +27,11 @@
     margin-right: 10px;
     height: 30px;
     width: 250px;
-    margin-top: 4px;
+    margin-top: 6px;
+}
+.browse .banner .bannerSearch input{
+    height: 28px !important;
+    min-height: auto;
 }
 .browse .banner .bannerSearch input{
     border: none;
@@ -50,11 +54,25 @@
 .browse .ui.dropdown  .menu>.item.subcategories {
     padding: 0px !important;
 }
+.ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title:hover{
+    background-color: #12419111 !important;
+}
+.browse .categoryButton{
+    width: 200px !important;
+}
+.browse .categoryButton:hover, .browse .categoryButton:focus, .browse .categoryButton:active{
+    color: #124191 !important;
+    border-color: #124191 !important;
+}
 .browse .ui.dropdown  .menu>.item.subcategories .icon {
     padding: 12px 0px !important;
 }
 .browse .subcategories .text{
     padding: 12px 15px;
+}
+.browse .menuSortFilter{
+    margin-top: 10px !important;
+    margin-bottom: 20px !important;
 }
 .browse .menuSortFilter .row{
     padding-top: 10px !important;

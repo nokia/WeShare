@@ -1,0 +1,42 @@
+.modalItem .ant-modal-title{
+    font-size: 102% !important;
+}
+.modalItem .btnEdit, .modalItem .btnRemove{
+    float: left;
+    background-color: #124191;
+    border-color: #124191;
+}
+.modalItem .btnCall, .modalItem .btnMail{
+    background-color: #124191;
+    border-color: #124191;
+}
+.modalItem .btnCall:hover, .modalItem .btnMail:hover, .modalItem .btnEdit:hover, .modalItem .btnRemove:hover{
+    background-color: #00bfff;
+    border-color: #00bfff;
+}
+.modalItem .ant-modal-body{
+    padding: 10px 20px;
+}
+.modalItem .date{
+    text-align: right;
+}
+.modalItem .descriptionH{
+    margin-top: 20px;
+    font-size: 120%;
+    font-weight: bold;
+}
+.modalItem .description{
+    margin-top: 5px;
+    margin-bottom: 20px;
+    text-align: justify;
+    
+}
+.ant-btn-primary{
+    background-color: #124191 !important;
+    border-color: #124191 !important;
+}
+.ant-btn:hover{
+    background-color: #00bfff !important;
+    border-color: #00bfff !important;
+    color: #fff !important;
+}
