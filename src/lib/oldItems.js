@@ -8,6 +8,7 @@ var oldItems = [
       "Ratings": 0,
       "ID": 205,
       "User": 17,
+      "Duration": 30
     },
     {
       "Title": "Customized queries on CEM 17",
@@ -28,7 +29,8 @@ var oldItems = [
       "Date": "2018-01-18T15:03:01.577Z",
       "Ratings": 0,
       "ID": 203,
-      "User": 18
+      "User": 18,
+      "Duration": 30
     },
     {
       "Title": "Agility",
@@ -38,7 +40,8 @@ var oldItems = [
       "Date": "2018-01-03T14:29:36.198Z",
       "Ratings": 0,
       "ID": 202,
-      "User": 19
+      "User": 19,
+      "Duration": 30
     },
     {
       "Title": "WONDERBOARD Creation & Customization",
@@ -48,7 +51,8 @@ var oldItems = [
       "Date": "2017-11-29T11:07:27.797Z",
       "Ratings": 0,
       "ID": 201,
-      "User": 22
+      "User": 22,
+      "Duration": 30
     },
     {
       "Title": "hiding small teams in PBI visuals",
@@ -58,7 +62,8 @@ var oldItems = [
       "Date": "2017-11-23T13:23:42.885Z",
       "Ratings": 0,
       "ID": 200,
-      "User": 20
+      "User": 20,
+      "Duration": 30
     },
     {
       "Title": "Connecting OneDrive data files to PBI for auto-refresh",
@@ -90,7 +95,8 @@ var oldItems = [
       "Date": "2017-11-01T07:47:00.209Z",
       "Ratings": 0,
       "ID": 195,
-      "User": 21
+      "User": 21,
+      "Duration": 30
     },
     {
       "Title": "LTE",
@@ -100,7 +106,8 @@ var oldItems = [
       "Date": "2017-10-27T04:55:42.807Z",
       "Ratings": 0,
       "ID": 194,
-      "User": 23
+      "User": 23,
+      "Duration": 30
     },
     {
       "Title": "VoLTE",
@@ -110,7 +117,8 @@ var oldItems = [
       "Date": "2017-10-27T04:55:25.080Z",
       "Ratings": 0,
       "ID": 193,
-      "User": 23
+      "User": 23,
+      "Duration": 30
     },
     {
       "Title": "SRAN",
@@ -120,7 +128,8 @@ var oldItems = [
       "Date": "2017-10-27T04:55:08.240Z",
       "Ratings": 0,
       "ID": 192,
-      "User": 23
+      "User": 23,
+      "Duration": 30
     },
     {
       "Title": "New PC - reinstall OneDrive (OneDrive-Nokia is ok)",
@@ -130,7 +139,8 @@ var oldItems = [
       "Date": "2017-10-16T08:39:07.609Z",
       "Ratings": 0,
       "ID": 191,
-      "User": 24
+      "User": 24,
+      "Duration": 30
     },
     {
       "Title": "Macros in Emacs",
@@ -162,7 +172,8 @@ var oldItems = [
       "Date": "2017-10-02T08:40:27.284Z",
       "Ratings": 0,
       "ID": 188,
-      "User": 27
+      "User": 27,
+      "Duration": 30
     },
     {
       "Title": "Improve Sharepoint OnlineTeam site",
@@ -172,7 +183,8 @@ var oldItems = [
       "Date": "2017-09-22T15:13:36.662Z",
       "Ratings": 0,
       "ID": 187,
-      "User": 28
+      "User": 28,
+      "Duration": 30
     },
     {
       "Title": "Feedback giving and receiving",
@@ -193,7 +205,8 @@ var oldItems = [
       "Date": "2017-08-15T09:58:38.657Z",
       "Ratings": 0,
       "ID": 185,
-      "User": 29
+      "User": 29,
+      "Duration": 30
     },
     {
       "Title": "Improving PowerPoint presentations",
@@ -214,7 +227,8 @@ var oldItems = [
       "Date": "2017-07-21T10:27:17.649Z",
       "Ratings": 0,
       "ID": 183,
-      "User": 31
+      "User": 31,
+      "Duration": 30
     },
     {
       "Title": "Cloud RAN training",
@@ -224,7 +238,8 @@ var oldItems = [
       "Date": "2017-07-19T10:27:42.989Z",
       "Ratings": 0,
       "ID": 182,
-      "User": 32
+      "User": 32,
+      "Duration": 30
     },
     {
       "Title": "GIM tool reporting and exporting",
@@ -234,7 +249,8 @@ var oldItems = [
       "Date": "2017-07-11T16:19:51.357Z",
       "Ratings": 0,
       "ID": 181,
-      "User": 33
+      "User": 33,
+      "Duration": 30
     },
     {
       "Title": "satellite communication and its coordination with terrestrial Network ",
@@ -244,7 +260,8 @@ var oldItems = [
       "Date": "2017-06-29T13:00:24.239Z",
       "Ratings": 0,
       "ID": 180,
-      "User": 34
+      "User": 34,
+      "Duration": 30
     },
     {
       "Title": "From ShareNet to SharePoint",
@@ -254,7 +271,8 @@ var oldItems = [
       "Date": "2017-06-27T13:54:10.823Z",
       "Ratings": 0,
       "ID": 179,
-      "User": 35
+      "User": 35,
+      "Duration": 30
     },
     {
       "Title": "Azure Data Warehouse",
@@ -264,7 +282,8 @@ var oldItems = [
       "Date": "2017-06-16T14:08:47.644Z",
       "Ratings": 0,
       "ID": 178,
-      "User": 36
+      "User": 36,
+      "Duration": 30
     },
     {
       "Title": "Multivariate Statistics",
@@ -307,7 +326,8 @@ var oldItems = [
       "Date": "2017-06-02T20:35:32.350Z",
       "Ratings": 0,
       "ID": 174,
-      "User": 39
+      "User": 39,
+      "Duration": 30
     },
     {
       "Title": "Outlook Mailbox Management",
@@ -317,7 +337,8 @@ var oldItems = [
       "Date": "2017-06-02T09:55:56.844Z",
       "Ratings": 0,
       "ID": 173,
-      "User": 40
+      "User": 40,
+      "Duration": 30
     },
     {
       "Title": "SharePoint Online - what to do after the very first steps",
@@ -327,7 +348,8 @@ var oldItems = [
       "Date": "2017-05-11T12:52:41.124Z",
       "Ratings": 0,
       "ID": 172,
-      "User": 24
+      "User": 24,
+      "Duration": 30
     },
     {
       "Title": "Time management in Espoo campus",
@@ -348,7 +370,8 @@ var oldItems = [
       "Date": "2017-04-06T08:56:36.620Z",
       "Ratings": 0,
       "ID": 142,
-      "User": 41
+      "User": 41,
+      "Duration": 30
     },
     {
       "Title": "mobile apps",
@@ -369,7 +392,8 @@ var oldItems = [
       "Date": "2017-03-28T16:50:33.944Z",
       "Ratings": 0,
       "ID": 145,
-      "User": 44
+      "User": 44,
+      "Duration": 30
     },
     {
       "Title": "Setting up Microsoft Authenticator on mobile devices.",
@@ -379,7 +403,8 @@ var oldItems = [
       "Date": "2017-03-24T15:12:32.069Z",
       "Ratings": 0,
       "ID": 146,
-      "User": 24
+      "User": 24,
+      "Duration": 30
     },
     {
       "Title": "OneNote Collaboration",
@@ -389,7 +414,8 @@ var oldItems = [
       "Date": "2017-03-23T20:24:28.890Z",
       "Ratings": 0,
       "ID": 147,
-      "User": 43
+      "User": 43,
+      "Duration": 30
     },
     {
       "Title": "O365 password for mobile devices",
@@ -410,7 +436,8 @@ var oldItems = [
       "Date": "2017-03-21T17:01:02.120Z",
       "Ratings": 0,
       "ID": 148,
-      "User": 27
+      "User": 27,
+      "Duration": 30
     },
     {
       "Title": "SPOL tips",
@@ -431,7 +458,8 @@ var oldItems = [
       "Date": "2017-03-16T09:20:48.339Z",
       "Ratings": 0,
       "ID": 150,
-      "User": 46
+      "User": 46,
+      "Duration": 30
     },
     {
       "Title": "Big Data as a Service Intro",

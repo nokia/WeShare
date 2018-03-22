@@ -14,26 +14,24 @@ const Search = Input.Search;
 const SubMenu = Menu.SubMenu;
 
 export default class Browse extends Component {
-    state = { openModal: false, itemModal: '', isLoading:true, countCategories: [], sortActive: 'All', data:[], displayedData: [], searchValue: "", filterCategory: "All topics" }
+    state = { openModal: false, itemModal: '', dropDownDisabled: true, isLoading:true, countCategories: [], sortActive: 'All', data:[], displayedData: [], searchValue: "", filterCategory: "All topics" }
     componentWillMount(){
-        console.log('prpps browse', this.props);
         this.searchClear = this.searchClear.bind(this);
         this.initDropdown = this.initDropdown.bind(this);
         this.hideModal = this.hideModal.bind(this);
         this.showMessage = this.showMessage.bind(this);
         this.handleCategoryClick = this.handleCategoryClick.bind(this);
-        this.refresh = this.refresh.bind(this);
         let data = dataLibrary.get();
         data.then((result) =>{
-            this.setState({data: result, displayedData: result});
+            this.setState({data: result, displayedData: result, isLoading:false});
             this.props.onLoaded(true);
             let countQuery = dataLibrary.countCategories();
             countQuery.then((result) =>{
                 this.setState({countCategories: result});
                 this.initDropdown(this.state.filterCategory);
-                this.setState({isLoading:false});
             });
         });
+        dataLibrary.getFull();
         userLibrary.getCurrentUser().then((result) => {
             this.user = result;
         });
@@ -42,18 +40,14 @@ export default class Browse extends Component {
     componentWillReceiveProps(newProps){
         let id = window.location.href.split('/');
         id = id[id.length - 1];
-        console.log(id);
         id = id.replace('#browse','');
         if(Number.isInteger(parseInt(id))){
-            console.log('get');
-            dataLibrary.getById(id).then((item) => {
-                console.log(item);
-                this.showModal(item);
-            })
+            dataLibrary.getFull();
+            this.showModal(id);
         }
     }
 
-    dropDownOptions = [];
+    dropDownOptions = <Menu><Menu.Item key="loading">Loading...</Menu.Item></Menu>;
     initDropdown(act){
         this.dropDownOptions =  [
             <Menu.Item key="All topics">All topics ({this.state.countCategories['all']})</Menu.Item>,
@@ -87,7 +81,7 @@ export default class Browse extends Component {
             }
         });
         this.dropDownOptions = <Menu onClick={this.handleCategoryClick}>{this.dropDownOptions}</Menu>
-  
+        this.setState({dropDownDisabled: false});
     }
     searchClear(){
         this.search("");
@@ -100,7 +94,6 @@ export default class Browse extends Component {
         });
     }
     handleCategoryClick(value){   
-        console.log('cat', value);
         let key = value.key;
         this.setState({ filterCategory: key, searchValue: "", sortActive: "All" });
         this.initDropdown(key);
@@ -165,9 +158,25 @@ export default class Browse extends Component {
     hideModal(){
         this.setState( {openModal: false});
     }
-    refresh(){
-        this.forceUpdate();
+    componentWillReceiveProps(){
+        let data = dataLibrary.get();
+        data.then((result) =>{
+            if(this.state.data !== result){
+                this.setState({data: dataLibrary.data, displayedData: dataLibrary.data});
+                let countQuery = dataLibrary.countCategories();
+                console.log('refresh browse data', result);
+                countQuery.then((result) =>{
+                    this.setState({countCategories: result});
+                    this.initDropdown(this.state.filterCategory);
+                    this.setState({isLoading:false});
+                });
+            }
+            
+        });
+        dataLibrary.getFull();
     }
+
+  
 
     render() {
        if (this.state.isLoading) {
@@ -214,7 +223,7 @@ export default class Browse extends Component {
                     <div className="wrapper">
                         <Row className="menuSortFilter">
                             <Col span={8}>
-                                <Dropdown overlay={this.dropDownOptions}>
+                                <Dropdown disabled={this.state.dropDownDisabled} overlay={this.dropDownOptions}>
                                     <Button className="categoryButton">
                                         {this.state.filterCategory} <Icon type="down" />
                                     </Button>

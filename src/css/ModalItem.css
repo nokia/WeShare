@@ -2,7 +2,6 @@
     font-size: 102% !important;
 }
 .modalItem .btnEdit, .modalItem .btnRemove{
-    float: left;
     background-color: #124191;
     border-color: #124191;
 }
@@ -20,22 +19,25 @@
 .modalItem .date{
     text-align: right;
 }
-.modalItem .descriptionH{
+.modalItem .modalH{
     margin-top: 20px;
     font-size: 120%;
     font-weight: bold;
 }
 .modalItem .description{
     margin-top: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     text-align: justify;
-    
+    white-space: pre-line;
 }
-.ant-btn-primary{
+.modalItem .duration{
+    margin-bottom: 10px;
+}
+.modalItem .ant-btn-primary{
     background-color: #124191 !important;
     border-color: #124191 !important;
 }
-.ant-btn:hover{
+.modalItem .ant-btn:hover{
     background-color: #00bfff !important;
     border-color: #00bfff !important;
     color: #fff !important;

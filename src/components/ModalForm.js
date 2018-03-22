@@ -78,19 +78,11 @@ class ModalForm extends Component {
         
         
     }
-    // getValue = (e) => {
-    //     const select = e.target;
-    //     return select.options[select.selectedIndex].value;
-    // }
-    // durationChange = (e) => this.setState({ duration: this.getValue(e) });    
-    // categoryChange = (e) => this.setState({ category: this.getValue(e) });
-   
     submitModal(e){
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const { title, category, duration, description } = values;
-                // console.log(title, category, duration, description);
                 
                 let notifTitle, notifMessage;
                 if(this.editItem){
@@ -116,7 +108,6 @@ class ModalForm extends Component {
                     }
                     notifTitle = "Success";
                     notifMessage = "Your post has been added with success";
-                    // console.log('add',item);
                     dataLibrary.add(item).then((result)=>{
                         this.props.refresh();
                         if(this.state.checked){
@@ -125,6 +116,7 @@ class ModalForm extends Component {
                     });
                 }
                 this.closeModal();
+                this.props.refresh();
                 this.props.modalFormMessage('success', notifTitle, notifMessage);      
             }
         });

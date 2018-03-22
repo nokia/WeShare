@@ -24,14 +24,14 @@ class ModalForm extends Component {
         if(Config.local){
             this.user = userLibrary.localCurrentUser();
             return;
-        }
-        for(var i = 0; i < userLibrary.users.length; i++) {
-            if(userLibrary.users[i].ID === this.item.User){
-                this.user = userLibrary.users[i];
+        }else{
+            for(var i = 0; i < userLibrary.users.length; i++) {
+                if(userLibrary.users[i].ID === this.item.User.ID){
+                    this.user = userLibrary.users[i];
+                }
             }
         }
     }
-
    
     componentWillReceiveProps(newProps){
         this.setState({openModal: true});
@@ -45,9 +45,6 @@ class ModalForm extends Component {
         this.setState( {openModal: false});
         setTimeout(function(){ self.props.modalFormHide(); }, 200);
     }
-    // handleFormChange = (e, {name, value}) => {
-    //     this.setState({ [name]: value });
-    // }
    
     submitModal(e){
         
@@ -77,9 +74,6 @@ class ModalForm extends Component {
                         this.props.modalFormMessage('error', notifTitle, notifMessage); 
                     }
                 });
-                
-                
-                
                 this.closeModal();   
             }
         });
@@ -131,28 +125,6 @@ class ModalForm extends Component {
                         </Form>
                     <div className="homeFormRequired">*These fields are required.</div>
                 </Modal>
-
-                {/* <Modal 
-                open={this.state.openModal}
-                onClose={this.closeModal} 
-                closeIcon
-                closeOnEscape={false}
-                closeOnRootNodeClick={false}
-                >
-                    <Modal.Header>
-                        Send a mail to {this.user.Email}
-                    </Modal.Header>
-                    <Modal.Content>
-                        <Form size="small" key="small">
-                            <Form.Input error={this.state.formError.includes('title') ? (true) : (false)} value={title} name='title' onChange={this.handleFormChange} id='form-input-control-title' required label='Title' placeholder='Object of your email' />
-                            <Form.Input error={this.state.formError.includes('message') ? (true) : (false)} value={message} name="message" onChange={this.handleFormChange} id='form-textarea-control-message' required control={TextArea} label='Message' placeholder='Body of your email' />  
-                        </Form>
-                        <div className="homeFormRequired">*These fields are required.</div>
-                    </Modal.Content>
-                    <Modal.Actions>
-                        <Button positive icon='checkmark' labelPosition='right' content="Send message" onClick={this.submitModal} />
-                    </Modal.Actions>
-                </Modal> */}
             </div>
         );
     }

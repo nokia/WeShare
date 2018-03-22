@@ -31,6 +31,7 @@ export default class Header extends Component {
             
     }
 
+   
     handleChange(e){
         let value = e.target.value;
         if(value.length > 12){
@@ -113,25 +114,6 @@ export default class Header extends Component {
                             >
                                 <div>{profil}</div>
                             </Popover>
-                            {/* <Popup
-                                trigger={<div>{profil}</div>}
-                                content={<div>
-                                    <MdClear className="popupPhoneClear" onClick={this.handleClose}/> 
-                                    <div className="popupPhoneTitle">Add your phone number to be contacted quickly when publishing a topic:</div>
-                                    <Input 
-                                        size="small" 
-                                        icon='phone' 
-                                        iconPosition='left' 
-                                        placeholder='No phone number yet..'
-                                        onChange={this.handleChange}
-                                        value={number}
-                                    />
-                                    <Button size='mini' className="popupPhoneButton" onClick={this.handleClose}>
-                                        Save
-                                    </Button>
-                                </div>}
-                                open={true}
-                            /> */}
                         </div>
                     )}
                 </div>

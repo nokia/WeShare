@@ -89,7 +89,10 @@ class User{
 
     get(){
         return new Promise( (resolve, reject) => {
-            
+            if(Config.local){
+                resolve(this.localCurrentUser());
+                return;
+            }
             if(!this.users){
                 var s = SH.getListItems('Users');
                 s.then( result => {

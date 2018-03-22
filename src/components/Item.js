@@ -46,7 +46,6 @@ export default class Item extends Component {
             this.showMessage = this.showMessage.bind(this);
             userQuery.then((user) => {
                 this.setState({typeModal: this.item.Type, loaded: true});
-                // console.log(this.item, this.item.Description);
                 if(this.item.User === user.ID){
                     this.setState({owner: true});
                 }
@@ -78,9 +77,6 @@ export default class Item extends Component {
             }
         });
     }
-      
-  
-    // confirmCancel(){this.setState({ openConfirm: false });}
 
     showModal(){
         this.setState( {openModal: true} );
@@ -90,7 +86,6 @@ export default class Item extends Component {
     }
     
     showMessage(type, title, text){
-        console.log('show', type, title, text, notification);
         notification[type]({
             message: title,
             description: text,
@@ -236,12 +231,6 @@ export default class Item extends Component {
                 {this.state.openContactModal ? (
                     <ModalFormContact modalFormMessage={this.showMessage} item={this.item} modalFormHide={this.hideContactModal}/>
                 ) : null}
-                {/* <Confirm
-                    open={this.state.openConfirm}
-                    onCancel={this.confirmCancel}
-                    onConfirm={this.confirmConfirm}
-                    content="Do you really want to delete this post?"
-                /> */}
             </div>
         );
     }

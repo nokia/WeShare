@@ -9,11 +9,12 @@ import oldItems from './lib/oldItems.js';
 
 class Data{
     data = [];
+    dataFull = [];
 
     init(){
         
         return new Promise( (resolve, reject) => {
-            window.fetch(window.location.href.split('index.aspx')[0].split('index.html')[0] + "/json.categories", { credentials:'include' }).then( (file) => file.json() )
+            window.fetch(window.location.href.split('not-found')[0].split('index.aspx')[0].split('index.html')[0] + "/json.categories", { credentials:'include' }).then( (file) => file.json() )
             .then( (json) => {
                 this.Categories = json;
                 resolve('OK');
@@ -67,13 +68,16 @@ class Data{
         return new Promise((resolve, reject)=>{
             if(Config.local){
                 item.ID = new Date().getTime();
+                item.User = userLibrary.localCurrentUser();
                 this.data.unshift(item);
+                this.dataFull.unshift(item);
                 resolve(item);
                 return;
             }
             SH.createListItem('Items', item).then((results) => {
                 item.ID = results.ID;
                 this.data.unshift(item);
+                this.dataFull.unshift(item);
                 resolve(item);
             });
         });
@@ -175,7 +179,34 @@ class Data{
                 resolve(this.data);
             }
         });
-        
+    }
+    getFull(){
+        return new Promise((resolve, reject) => {
+            var self = this;
+            if(this.dataFull.length === 0){
+                userLibrary.get().then(() =>{
+                    self.get().then((d)=>{
+                        self.dataFull = d;
+                        if(Config.local){
+                            for(var i = 0; i < self.data.length; i++) {
+                                self.dataFull[i].User = userLibrary.localCurrentUser();
+                            }
+                        }else{
+                            for(var i = 0; i < self.data.length; i++) {
+                                for(var j = 0; j < userLibrary.users.length; j++) {
+                                    if(self.data[i].User === userLibrary.users[j].ID){
+                                        self.dataFull[i].User = userLibrary.users[j];
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+            else{
+                resolve(this.dataFull);
+            }
+        });
     }
     sortByDate(){
         this.data.sort((a, b) =>{
@@ -209,31 +240,13 @@ class Data{
     }
     getById(id){
         return new Promise((resolve, reject)=>{
-            if(Config.local){
-                if(this.data.length === 0){
-
-                    this.data = oldItems;
-                }
+            this.getFull().then((result) =>{
                 var item;
                 var i = 0;
                 var found = false;
-                while(!found && i < this.data.length){
-                    if(this.data[i].ID === Number(id)){
-                        item = this.data[i];
-                        found = true;
-                    }
-                    i++;
-                }
-                resolve(item);
-                return;
-            }
-            this.get().then((result) =>{
-                var item;
-                var i = 0;
-                var found = false;
-                while(!found && i < this.data.length){
-                    if(this.data[i].ID === Number(id)){
-                        item = this.data[i];
+                while(!found && i < this.dataFull.length){
+                    if(this.dataFull[i].ID === Number(id)){
+                        item = this.dataFull[i];
                         found = true;
                     }
                     i++;

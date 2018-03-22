@@ -83,7 +83,6 @@ export default class Line extends Component {
                                 {title}
                             </div>
                             <div className="lineInfos">
-                                {/* {this.item.Date.toLocaleDateString()} - {this.item.Duration} minutes */}
                                 {new Date(this.item.Date).toLocaleString()} 
                                 {this.item.Duration ? (<span> - {this.item.Duration} minutes</span>) : null}
                             </div>
@@ -98,20 +97,17 @@ export default class Line extends Component {
                                 </div>
                             </Col>
                         ) : 
-                        <Col span={2} offset={3}>
-                            <div className="lineRatings">       
-                                {stars}
-                                {halfStars}
-                                {emptyStars}
-                            </div>
-                        </Col>
+                            <Col span={2} offset={3}>
+                                <div className="lineRatings">       
+                                    {stars}
+                                    {halfStars}
+                                    {emptyStars}
+                                </div>
+                            </Col>
                         }
-                        
                     </Row>
                 </div>
             </Link>
-
-           
         );
     }
 }
