@@ -74,11 +74,22 @@ class Data{
                 resolve(item);
                 return;
             }
+            console.log('add', this.data, this.data[0]);
             SH.createListItem('Items', item).then((results) => {
                 item.ID = results.ID;
-                this.data.unshift(item);
-                this.dataFull.unshift(item);
-                resolve(item);
+                // this.data.unshift(item);
+                console.log('add2', item, this.data, this.data[0]);
+                // userLibrary.getCurrentUser().then((r) => {
+                //     item.User = r;
+                //     this.dataFull.unshift(item);
+                //     console.log('addfull', item, this.dataFull);
+                // });
+                
+                this.get(true).then(() => {
+                    resolve(item);
+                });
+                this.getFull(true);
+                
             });
         });
 
@@ -156,9 +167,9 @@ class Data{
         });
         
     }
-    get(){
+    get(force){
         return new Promise((resolve, reject)=>{
-            if(this.data.length === 0){
+            if(this.data.length === 0 || force){
                 if(Config.local){
                     var d = oldItems;
                     this.data = d;
@@ -167,6 +178,7 @@ class Data{
                     resolve(this.data);
                 }else{
                     var s = SH.getListItems('Items');
+                    console.log('loooading data!!!!!!!!!!!');
                     s.then((result) => {
                         this.data = result;
                         this.sortByCategories();
@@ -180,10 +192,10 @@ class Data{
             }
         });
     }
-    getFull(){
+    getFull(force){
         return new Promise((resolve, reject) => {
             var self = this;
-            if(this.dataFull.length === 0){
+            if(this.dataFull.length === 0 || force){
                 userLibrary.get().then(() =>{
                     self.get().then((d)=>{
                         self.dataFull = d;

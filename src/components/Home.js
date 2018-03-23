@@ -28,7 +28,6 @@ export default class Home extends Component {
         this.hideModal = this.hideModal.bind(this);
         this.showMessage = this.showMessage.bind(this);
         this.onLoaded = this.onLoaded.bind(this);
-        this.refresh = this.refresh.bind(this);
     }
 
 
@@ -39,10 +38,10 @@ export default class Home extends Component {
         this.setState( {openModal: false});
     }
 
-    refresh(){
-        this.forceUpdate();
-        console.log('refresh home');
-    }
+    // refresh(){
+    //     this.forceUpdate();
+    //     console.log('refresh home');
+    // }
     
     showMessage(type, title, text){
         notification[type]({
@@ -104,10 +103,10 @@ export default class Home extends Component {
                 </ScrollableAnchor>
                 
                 {this.state.openModal && this.state.typeModal === "share" ? (
-                    <ModalForm refresh={this.refresh} modalFormMessage={this.showMessage} modalFormHide={this.hideModal} type="share" />
+                    <ModalForm modalFormMessage={this.showMessage} modalFormHide={this.hideModal} type="share" />
                 ) : null}
                 {this.state.openModal && this.state.typeModal === "request" ? (
-                    <ModalForm refresh={this.refresh} modalFormMessage={this.showMessage}  modalFormHide={this.hideModal} type="request" />
+                    <ModalForm modalFormMessage={this.showMessage}  modalFormHide={this.hideModal} type="request" />
                 ) : null}
             </div>
         );

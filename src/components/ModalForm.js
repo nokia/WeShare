@@ -13,7 +13,7 @@ const FormItem = Form.Item;
 
 class ModalForm extends Component {
     state = { typeModal: this.props.type, openModal: true,
-        title: '', category: '', checked:false, duration: '', description: ''};
+        title: '', category: '', checked:false, duration: '', description: '', submitLoading: false};
     optionsType = [
         { key: 'request', text: 'Request', value: 'request' },
         { key: 'share', text: 'Share', value: 'share' }
@@ -80,8 +80,10 @@ class ModalForm extends Component {
     }
     submitModal(e){
         e.preventDefault();
+        var self = this;
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                this.setState({submitLoading: true});
                 const { title, category, duration, description } = values;
                 
                 let notifTitle, notifMessage;
@@ -91,10 +93,13 @@ class ModalForm extends Component {
                     this.editItem.Category = category;
                     this.editItem.Description = description;
                     dataLibrary.update(this.editItem).then((result)=>{
+                        notifTitle = "Success";
+                        notifMessage = "Your post has been updated with success";
+                        this.props.refresh();
+                        self.closeModal();
+                        self.props.modalFormMessage('success', notifTitle, notifMessage);  
                         
                     });
-                    notifTitle = "Success";
-                    notifMessage = "Your post has been updated with success";
                 }else{
                     const item = {
                         Category: category, 
@@ -106,18 +111,18 @@ class ModalForm extends Component {
                         User: this.user.ID,
                         Ratings:0
                     }
-                    notifTitle = "Success";
-                    notifMessage = "Your post has been added with success";
                     dataLibrary.add(item).then((result)=>{
-                        this.props.refresh();
+                        notifTitle = "Success";
+                        notifMessage = "Your post has been added with success";
+                        // this.props.refresh();
+                        self.closeModal();
+                        self.props.modalFormMessage('success', notifTitle, notifMessage);  
                         if(this.state.checked){
                             dataLibrary.notify(result);
                         }                
                     });
                 }
-                this.closeModal();
-                this.props.refresh();
-                this.props.modalFormMessage('success', notifTitle, notifMessage);      
+                // this.props.refresh();    
             }
         });
           
@@ -142,11 +147,20 @@ class ModalForm extends Component {
                 width={900}
                 wrapClassName="vertical-center-modal"
                 visible={this.state.openModal}
-                onOk={this.submitModal}
-                onCancel={this.closeModal} 
-                okText="Submit"
+                // onOk={this.submitModal}
+                // onCancel={this.closeModal} 
+                // okText="Submit"
                 maskClosable={false}
                 className="modalForm"
+                
+                footer={[
+                    <Button icon="rollback" key="cancel" onClick={this.closeModal}>
+                        Cancel
+                    </Button>,
+                    <Button loading={this.state.submitLoading} icon="check" key="submit" type="primary" onClick={this.submitModal}>
+                        Submit
+                    </Button>
+                ]}
                 >
                     <Form>
                         <Row gutter={24}>

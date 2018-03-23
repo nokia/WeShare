@@ -19,6 +19,7 @@ export default class Browse extends Component {
         this.searchClear = this.searchClear.bind(this);
         this.initDropdown = this.initDropdown.bind(this);
         this.hideModal = this.hideModal.bind(this);
+        this.refresh = this.refresh.bind(this);
         this.showMessage = this.showMessage.bind(this);
         this.handleCategoryClick = this.handleCategoryClick.bind(this);
         let data = dataLibrary.get();
@@ -43,8 +44,29 @@ export default class Browse extends Component {
         id = id.replace('#browse','');
         if(Number.isInteger(parseInt(id))){
             dataLibrary.getFull();
+            console.log('affiche item');
             this.showModal(id);
         }
+
+        let data = dataLibrary.get();
+        data.then((result) =>{
+            console.log('compare', this.state.data, result)
+            if(this.state.data !== result){
+                this.setState({data: dataLibrary.data, displayedData: dataLibrary.data});
+                let countQuery = dataLibrary.countCategories();
+                console.log('refresh browse data', result);
+                countQuery.then((result) =>{
+                    this.setState({countCategories: result});
+                    this.initDropdown(this.state.filterCategory);
+                    this.setState({isLoading:false});
+                });
+            }
+            
+        });
+        dataLibrary.getFull();
+    }
+    refresh(){
+        this.forceUpdate();
     }
 
     dropDownOptions = <Menu><Menu.Item key="loading">Loading...</Menu.Item></Menu>;
@@ -154,29 +176,12 @@ export default class Browse extends Component {
 
     showModal(item){
         this.setState( {openModal: true, itemModal: item});
+        console.log('show modal', item)
     }
     hideModal(){
         this.setState( {openModal: false});
     }
-    componentWillReceiveProps(){
-        let data = dataLibrary.get();
-        data.then((result) =>{
-            if(this.state.data !== result){
-                this.setState({data: dataLibrary.data, displayedData: dataLibrary.data});
-                let countQuery = dataLibrary.countCategories();
-                console.log('refresh browse data', result);
-                countQuery.then((result) =>{
-                    this.setState({countCategories: result});
-                    this.initDropdown(this.state.filterCategory);
-                    this.setState({isLoading:false});
-                });
-            }
-            
-        });
-        dataLibrary.getFull();
-    }
 
-  
 
     render() {
        if (this.state.isLoading) {

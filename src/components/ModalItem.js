@@ -36,9 +36,10 @@ class ModalItem extends Component {
                 this.item = item;
                 this.setState({loaded: true});
                 var userQuery = userLibrary.getCurrentUser();
+                var self = this;
                 userQuery.then((user) => {
-                    if(this.item.User.ID === user.ID){
-                        this.setState({owner: true});
+                    if(self.item.User.ID === user.ID){
+                        self.setState({owner: true});
                     }
                 });
             });
