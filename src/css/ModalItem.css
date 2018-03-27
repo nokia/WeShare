@@ -1,5 +1,6 @@
 .modalItem .ant-modal-title{
     font-size: 102% !important;
+    white-space: pre-line;
 }
 .modalItem .btnEdit, .modalItem .btnRemove{
     background-color: #124191;

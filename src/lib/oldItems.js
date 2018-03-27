@@ -1,5 +1,49 @@
 var oldItems = [
     {
+      "Title":"How to order Business Owned Content courses?",
+      "Type": "share",
+      "Duration":15,
+      "Category":"Collaboration",
+      "Description":"In less than 15 min I'll explain how to request Business Own Content courses from NokiaEDU ",
+      "Date":"2018-02-09T11:24:56.338Z",
+      "Ratings":0,
+      "ID":209,
+      "User":91
+    },
+    {
+      "Title":"Sending attachment as one drive link with Outlook as default",
+      "Type": "request",
+      "Category":"Office 365",
+      "Description":"All my files are now moved from local drive and saved onto one drive. \nI am using outlook application for e-mails, sending attachments etc, I am not using the web browser.\nWhen sending e-mails, I would like to attach a file from my one drive and grant share access/edit access to the persons on the e-mail chain. By default, it is always adding as an attachment.\nIf I select the upload to one drive option from the email, it creates another file in my one drive in folder called attachments. This is a new file to the one which is already saved in my one drive.\nIs it possible to attach the file from my one drive location and grant edit-access to that file without creating new file in \"attachments' folder using outlook?",
+      "Date":"2018-02-15T03:29:39.175Z",
+      "Ratings":0,
+      "ID":208,
+      "Duration": 30,
+      "User":92
+    },
+    {
+      "Title":"Agile Principles",
+      "Type": "share",
+      "Duration":30,
+      "Category":"Agility",
+      "Description":"When you are starting to be interested in Agility and Agile as a mean to get it, unstanding its principles is a must. ",
+      "Date":"2018-03-19T09:53:47.202Z",
+      "Ratings":0,
+      "ID": 207,
+      "User": 90
+    },
+    {
+      "Title":"Scrum Master responsabilities",
+      "Type": "share",
+      "Duration":30,
+      "Category":"Agility",
+      "Description":"To perform properly a role you need to undestand it first. \nMy proposal is to go together through the SM responsabilities and support you in this journey.",
+      "Date":"2018-03-19T09:58:10.647Z",
+      "Ratings": 0,
+      "ID": 206,
+      "User": 92
+    },
+    {
       "Title": "Linux image: Request on IT shop and installation on own laptop ",
       "Type": "request",
       "Category": "Unclassified",
@@ -7,7 +51,7 @@ var oldItems = [
       "Date": "2018-02-02T20:16:45.138Z",
       "Ratings": 0,
       "ID": 205,
-      "User": 17,
+      "User": 56,
       "Duration": 30
     },
     {
@@ -18,7 +62,7 @@ var oldItems = [
       "Date": "2018-02-02T20:13:04.471Z",
       "Ratings": 0,
       "ID": 204,
-      "User": 17,
+      "User":56,
       "Duration": 45
     },
     {
@@ -29,7 +73,7 @@ var oldItems = [
       "Date": "2018-01-18T15:03:01.577Z",
       "Ratings": 0,
       "ID": 203,
-      "User": 18,
+      "User": 57,
       "Duration": 30
     },
     {
@@ -40,7 +84,7 @@ var oldItems = [
       "Date": "2018-01-03T14:29:36.198Z",
       "Ratings": 0,
       "ID": 202,
-      "User": 19,
+      "User": 58,
       "Duration": 30
     },
     {
@@ -51,7 +95,7 @@ var oldItems = [
       "Date": "2017-11-29T11:07:27.797Z",
       "Ratings": 0,
       "ID": 201,
-      "User": 22,
+      "User": 61,
       "Duration": 30
     },
     {
@@ -62,7 +106,7 @@ var oldItems = [
       "Date": "2017-11-23T13:23:42.885Z",
       "Ratings": 0,
       "ID": 200,
-      "User": 20,
+      "User": 59,
       "Duration": 30
     },
     {
@@ -73,7 +117,7 @@ var oldItems = [
       "Date": "2017-11-23T13:19:27.808Z",
       "Ratings": 0,
       "ID": 199,
-      "User": 20,
+      "User": 59,
       "Duration": 30
     },
     {
@@ -84,7 +128,7 @@ var oldItems = [
       "Date": "2017-11-23T13:14:52.764Z",
       "Ratings": 0,
       "ID": 198,
-      "User": 20,
+      "User": 59,
       "Duration": 15
     },
     {
@@ -95,7 +139,7 @@ var oldItems = [
       "Date": "2017-11-01T07:47:00.209Z",
       "Ratings": 0,
       "ID": 195,
-      "User": 21,
+      "User": 60,
       "Duration": 30
     },
     {
@@ -106,7 +150,7 @@ var oldItems = [
       "Date": "2017-10-27T04:55:42.807Z",
       "Ratings": 0,
       "ID": 194,
-      "User": 23,
+      "User": 62,
       "Duration": 30
     },
     {
@@ -117,7 +161,7 @@ var oldItems = [
       "Date": "2017-10-27T04:55:25.080Z",
       "Ratings": 0,
       "ID": 193,
-      "User": 23,
+      "User": 62,
       "Duration": 30
     },
     {
@@ -128,7 +172,7 @@ var oldItems = [
       "Date": "2017-10-27T04:55:08.240Z",
       "Ratings": 0,
       "ID": 192,
-      "User": 23,
+      "User": 62,
       "Duration": 30
     },
     {
@@ -139,7 +183,7 @@ var oldItems = [
       "Date": "2017-10-16T08:39:07.609Z",
       "Ratings": 0,
       "ID": 191,
-      "User": 24,
+      "User": 63,
       "Duration": 30
     },
     {
@@ -150,7 +194,7 @@ var oldItems = [
       "Date": "2017-10-12T15:02:47.077Z",
       "Ratings": 0,
       "ID": 190,
-      "User": 25,
+      "User": 64,
       "Duration": 15
     },
     {
@@ -161,7 +205,7 @@ var oldItems = [
       "Date": "2017-10-03T20:29:05.879Z",
       "Ratings": 0,
       "ID": 189,
-      "User": 26,
+      "User": 65,
       "Duration": 15
     },
     {
@@ -172,7 +216,7 @@ var oldItems = [
       "Date": "2017-10-02T08:40:27.284Z",
       "Ratings": 0,
       "ID": 188,
-      "User": 27,
+      "User": 66,
       "Duration": 30
     },
     {
@@ -183,7 +227,7 @@ var oldItems = [
       "Date": "2017-09-22T15:13:36.662Z",
       "Ratings": 0,
       "ID": 187,
-      "User": 28,
+      "User": 67,
       "Duration": 30
     },
     {
@@ -194,7 +238,7 @@ var oldItems = [
       "Date": "2017-08-30T14:57:37.116Z",
       "Ratings": 0,
       "ID": 186,
-      "User": 26,
+      "User": 65,
       "Duration": 45
     },
     {
@@ -205,7 +249,7 @@ var oldItems = [
       "Date": "2017-08-15T09:58:38.657Z",
       "Ratings": 0,
       "ID": 185,
-      "User": 29,
+      "User": 68,
       "Duration": 30
     },
     {
@@ -216,7 +260,7 @@ var oldItems = [
       "Date": "2017-07-31T15:44:50.836Z",
       "Ratings": 0,
       "ID": 184,
-      "User": 30,
+      "User": 70,
       "Duration": 45
     },
     {
@@ -227,7 +271,7 @@ var oldItems = [
       "Date": "2017-07-21T10:27:17.649Z",
       "Ratings": 0,
       "ID": 183,
-      "User": 31,
+      "User": 70,
       "Duration": 30
     },
     {
@@ -238,7 +282,7 @@ var oldItems = [
       "Date": "2017-07-19T10:27:42.989Z",
       "Ratings": 0,
       "ID": 182,
-      "User": 32,
+      "User": 71,
       "Duration": 30
     },
     {
@@ -249,7 +293,7 @@ var oldItems = [
       "Date": "2017-07-11T16:19:51.357Z",
       "Ratings": 0,
       "ID": 181,
-      "User": 33,
+      "User": 72,
       "Duration": 30
     },
     {
@@ -260,7 +304,7 @@ var oldItems = [
       "Date": "2017-06-29T13:00:24.239Z",
       "Ratings": 0,
       "ID": 180,
-      "User": 34,
+      "User": 73,
       "Duration": 30
     },
     {
@@ -271,7 +315,7 @@ var oldItems = [
       "Date": "2017-06-27T13:54:10.823Z",
       "Ratings": 0,
       "ID": 179,
-      "User": 35,
+      "User": 74,
       "Duration": 30
     },
     {
@@ -282,7 +326,7 @@ var oldItems = [
       "Date": "2017-06-16T14:08:47.644Z",
       "Ratings": 0,
       "ID": 178,
-      "User": 36,
+      "User": 75,
       "Duration": 30
     },
     {
@@ -293,7 +337,7 @@ var oldItems = [
       "Date": "2017-06-13T12:43:14.545Z",
       "Ratings": 0,
       "ID": 177,
-      "User": 38,
+      "User": 77,
       "Duration": 45
     },
     {
@@ -304,7 +348,7 @@ var oldItems = [
       "Date": "2017-06-13T12:26:41.140Z",
       "Ratings": 0,
       "ID": 176,
-      "User": 24,
+      "User": 63,
       "Duration": 15
     },
     {
@@ -315,7 +359,7 @@ var oldItems = [
       "Date": "2017-06-12T06:46:41.406Z",
       "Ratings": 0,
       "ID": 175,
-      "User": 37,
+      "User": 76,
       "Duration": 15
     },
     {
@@ -326,7 +370,7 @@ var oldItems = [
       "Date": "2017-06-02T20:35:32.350Z",
       "Ratings": 0,
       "ID": 174,
-      "User": 39,
+      "User": 78,
       "Duration": 30
     },
     {
@@ -337,7 +381,7 @@ var oldItems = [
       "Date": "2017-06-02T09:55:56.844Z",
       "Ratings": 0,
       "ID": 173,
-      "User": 40,
+      "User": 79,
       "Duration": 30
     },
     {
@@ -348,7 +392,7 @@ var oldItems = [
       "Date": "2017-05-11T12:52:41.124Z",
       "Ratings": 0,
       "ID": 172,
-      "User": 24,
+      "User": 63,
       "Duration": 30
     },
     {
@@ -359,7 +403,7 @@ var oldItems = [
       "Date": "2017-04-28T06:24:18.088Z",
       "Ratings": 0,
       "ID": 171,
-      "User": 42,
+      "User": 81,
       "Duration": 15
     },
     {
@@ -370,7 +414,7 @@ var oldItems = [
       "Date": "2017-04-06T08:56:36.620Z",
       "Ratings": 0,
       "ID": 142,
-      "User": 41,
+      "User": 80,
       "Duration": 30
     },
     {
@@ -381,7 +425,7 @@ var oldItems = [
       "Date": "2017-03-31T12:56:49.411Z",
       "Ratings": 0,
       "ID": 143,
-      "User": 45,
+      "User": 84,
       "Duration": 15
     },
     {
@@ -392,7 +436,7 @@ var oldItems = [
       "Date": "2017-03-28T16:50:33.944Z",
       "Ratings": 0,
       "ID": 145,
-      "User": 44,
+      "User": 83,
       "Duration": 30
     },
     {
@@ -403,7 +447,7 @@ var oldItems = [
       "Date": "2017-03-24T15:12:32.069Z",
       "Ratings": 0,
       "ID": 146,
-      "User": 24,
+      "User": 63,
       "Duration": 30
     },
     {
@@ -414,7 +458,7 @@ var oldItems = [
       "Date": "2017-03-23T20:24:28.890Z",
       "Ratings": 0,
       "ID": 147,
-      "User": 43,
+      "User": 82,
       "Duration": 30
     },
     {
@@ -425,7 +469,7 @@ var oldItems = [
       "Date": "2017-03-22T08:18:29.381Z",
       "Ratings": 0,
       "ID": 149,
-      "User": 45,
+      "User": 84,
       "Duration": 45
     },
     {
@@ -436,7 +480,7 @@ var oldItems = [
       "Date": "2017-03-21T17:01:02.120Z",
       "Ratings": 0,
       "ID": 148,
-      "User": 27,
+      "User": 66,
       "Duration": 30
     },
     {
@@ -447,7 +491,7 @@ var oldItems = [
       "Date": "2017-03-21T16:59:02.950Z",
       "Ratings": 0,
       "ID": 152,
-      "User": 27,
+      "User": 66,
       "Duration": 15
     },
     {
@@ -458,7 +502,7 @@ var oldItems = [
       "Date": "2017-03-16T09:20:48.339Z",
       "Ratings": 0,
       "ID": 150,
-      "User": 46,
+      "User": 85,
       "Duration": 30
     },
     {
@@ -469,7 +513,7 @@ var oldItems = [
       "Date": "2017-03-16T09:18:54.404Z",
       "Ratings": 0,
       "ID": 151,
-      "User": 46,
+      "User": 85,
       "Duration": 15
     },
     {
@@ -480,7 +524,7 @@ var oldItems = [
       "Date": "2017-03-16T08:37:29.864Z",
       "Ratings": 0,
       "ID": 154,
-      "User": 47,
+      "User": 86,
       "Duration": 15
     },
     {
@@ -491,7 +535,7 @@ var oldItems = [
       "Date": "2017-03-16T08:35:55.778Z",
       "Ratings": 0,
       "ID": 153,
-      "User": 47,
+      "User": 86,
       "Duration": 15
     },
     {
@@ -502,7 +546,7 @@ var oldItems = [
       "Date": "2017-03-16T08:34:33.297Z",
       "Ratings": 0,
       "ID": 157,
-      "User": 47,
+      "User": 86,
       "Duration": 15
     },
     {
@@ -513,7 +557,7 @@ var oldItems = [
       "Date": "2017-03-15T15:10:52.988Z",
       "Ratings": 0,
       "ID": 155,
-      "User": 48,
+      "User": 87,
       "Duration": 45
     },
     {
@@ -524,7 +568,7 @@ var oldItems = [
       "Date": "2017-03-15T08:36:54.719Z",
       "Ratings": 0,
       "ID": 156,
-      "User": 49,
+      "User": 88,
       "Duration": 15
     },
     {
@@ -535,7 +579,7 @@ var oldItems = [
       "Date": "2017-03-15T08:31:57.387Z",
       "Ratings": 0,
       "ID": 160,
-      "User": 49,
+      "User": 88,
       "Duration": 30
     },
     {
@@ -546,7 +590,7 @@ var oldItems = [
       "Date": "2017-03-14T11:46:03.612Z",
       "Ratings": 0,
       "ID": 158,
-      "User": 24,
+      "User": 63,
       "Duration": 30
     },
     {
@@ -557,7 +601,7 @@ var oldItems = [
       "Date": "2017-02-18T15:27:03.021Z",
       "Ratings": 0,
       "ID": 159,
-      "User": 50,
+      "User": 89,
       "Duration": 15
     }
   ];

@@ -12,7 +12,6 @@ class Data{
     dataFull = [];
 
     init(){
-        
         return new Promise( (resolve, reject) => {
             window.fetch(window.location.href.split('not-found')[0].split('index.aspx')[0].split('index.html')[0] + "/json.categories", { credentials:'include' }).then( (file) => file.json() )
             .then( (json) => {
@@ -71,25 +70,14 @@ class Data{
                 item.User = userLibrary.localCurrentUser();
                 this.data.unshift(item);
                 this.dataFull.unshift(item);
-                resolve(item);
+                resolve('ok');
                 return;
             }
-            console.log('add', this.data, this.data[0]);
             SH.createListItem('Items', item).then((results) => {
                 item.ID = results.ID;
-                // this.data.unshift(item);
-                console.log('add2', item, this.data, this.data[0]);
-                // userLibrary.getCurrentUser().then((r) => {
-                //     item.User = r;
-                //     this.dataFull.unshift(item);
-                //     console.log('addfull', item, this.dataFull);
-                // });
-                
-                this.get(true).then(() => {
-                    resolve(item);
-                });
-                this.getFull(true);
-                
+                this.data.unshift(item);
+                this.dataFull.unshift(item);
+                resolve('ok');
             });
         });
 
@@ -178,7 +166,6 @@ class Data{
                     resolve(this.data);
                 }else{
                     var s = SH.getListItems('Items');
-                    console.log('loooading data!!!!!!!!!!!');
                     s.then((result) => {
                         this.data = result;
                         this.sortByCategories();
@@ -198,13 +185,15 @@ class Data{
             if(this.dataFull.length === 0 || force){
                 userLibrary.get().then(() =>{
                     self.get().then((d)=>{
-                        self.dataFull = d;
+                        self.dataFull = d.slice();
+                        let i;
                         if(Config.local){
-                            for(var i = 0; i < self.data.length; i++) {
+                            for(i = 0; i < self.data.length; i++) {
                                 self.dataFull[i].User = userLibrary.localCurrentUser();
+                                self.dataFull[i].User.ID = Math.random();
                             }
                         }else{
-                            for(var i = 0; i < self.data.length; i++) {
+                            for(i = 0; i < self.data.length; i++) {
                                 for(var j = 0; j < userLibrary.users.length; j++) {
                                     if(self.data[i].User === userLibrary.users[j].ID){
                                         self.dataFull[i].User = userLibrary.users[j];
@@ -212,6 +201,7 @@ class Data{
                                 }
                             }
                         }
+                        resolve(this.dataFull);
                     });
                 });
             }

@@ -47,44 +47,46 @@ class User{
 
 
     getCurrentUser(){
-        return new Promise( (resolve, reject) => {
+        const prom = new Promise( (resolve, reject) => {
             if(Config.local){
                 resolve(this.localCurrentUser());
                 return;
             }
             if(this.currentUser){
                 resolve(this.currentUser);
-            } else{
-                const cur = SH.getCurrentUser();
-                this.get().then( tabUsers => {
-                    let found = false;
-                    for(var i = 0; i < tabUsers.length; i++) {
-                        if (tabUsers[i].Email === cur.Email) {
-                            found = true;
-                            this.currentUser = tabUsers[i];
-                            break;
-                        }
-                    }
-                    if(!found){
-                        SH.createListItem('Users', cur).then( result => {
-                            cur.ID = result.ID;
-                            this.currentUser = cur;
-                            resolve(this.currentUser);
-                        });
-                    }else{
-                        if(this.currentUser.Number){
-                            cur.Number = this.currentUser.Number;
-                        }
-                        if(this.currentUser.ID){
-                            cur.ID = this.currentUser.ID;
-                        }
-                        this.currentUser = cur;
-                        this.update(cur);
-                        resolve(cur);
-                    }
-                });
+                return;
             }
+ 
+            const cur = SH.getCurrentUser();
+            this.get().then( tabUsers => {
+                let found = false;
+                for(var i = 0; i < tabUsers.length; i++) {
+                    if (tabUsers[i].Email === cur.Email) {
+                        found = true;
+                        this.currentUser = tabUsers[i];
+                        break;
+                    }
+                }
+                if(!found){
+                    SH.createListItem('Users', cur).then( result => {
+                        cur.ID = result.ID;
+                        this.currentUser = cur;
+                        resolve(this.currentUser);
+                    });
+                }else{
+                    if(this.currentUser.Number){
+                        cur.Number = this.currentUser.Number;
+                    }
+                    if(this.currentUser.ID){
+                        cur.ID = this.currentUser.ID;
+                    }
+                    this.currentUser = cur;
+                    this.update(cur);
+                    resolve(cur);
+                }
+            });
         });
+        return prom;
     }
 
     get(){
@@ -97,6 +99,12 @@ class User{
                 var s = SH.getListItems('Users');
                 s.then( result => {
                     this.users = result;
+                    this.users.forEach(element => {
+                        if(!element.Lastname){
+                            element.Lastname = element.Email.split('.')[0];
+                            element.Lastname = element.Lastname.charAt(0).toUpperCase() + element.Lastname.slice(1);
+                        }
+                    });
                     resolve(this.users);
                 });
             }

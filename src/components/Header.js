@@ -8,7 +8,6 @@ import {Config} from './../config.js';
 
 import { Tooltip, Popover, Input, Icon, Button } from 'antd';
 import userLibrary from '../userLibrary';
-// import MdClear from 'react-icons/lib/md/clear';
 
 import logo from '../img/WeShare-neg-logo-200.png';
 import '../css/Header.css';
@@ -23,6 +22,9 @@ export default class Header extends Component {
         this.handleChange = this.handleChange.bind(this);
         userLibrary.getCurrentUser().then((result) => {
             this.user = result;
+            if(this.props.onUserLoaded){
+                this.props.onUserLoaded(true);
+            }
             if(this.user.Number){
                 this.setState({ number: this.user.Number });
             }
@@ -34,7 +36,7 @@ export default class Header extends Component {
    
     handleChange(e){
         let value = e.target.value;
-        if(value.length > 12){
+        if(value.length > 14){
             return;
         }
         this.setState({number: value})
@@ -78,7 +80,7 @@ export default class Header extends Component {
                             {siteName}
                         </div>
                         <div className="pitch">
-                            Meet colleagues to share knowledge
+                            Meet colleagues
                         </div>
                     </Link>
                     {!this.state.isOpen ? (

@@ -14,6 +14,8 @@ import Home from './components/Home';
 import NotFound from './components/NotFound';
 import SH from './sharePoint';
 import dataLibrary from './dataLibrary';
+// import old from './lib/oldItems.js';
+// import oldUsers from './lib/oldUsers.js';
 
 import 'antd/dist/antd.css';
 export default class App extends Component {
@@ -23,7 +25,17 @@ export default class App extends Component {
   componentWillMount(){
     SH.init('https://nokia.sharepoint.com/sites/learn/weshare');
     dataLibrary.init().then( () => this.setState({ loaded:true} ));
-    console.log('app props', this.props);
+
+    // oldUsers.forEach(old => {
+    //  SH.createListItem('Users', old).then((results) => {
+    //      console.log('create', results);
+    //    });
+    //  });
+  //  old.forEach(o => {
+  //    SH.createListItem('Items', o).then((results) => {
+  //        console.log('create', results);
+  //      });
+  //    });
   }
 
   render() {

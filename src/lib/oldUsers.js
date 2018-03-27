@@ -148,6 +148,18 @@ var oldUsers = [
     {
       "Email": "gilles.gerlinger@nokia.com",
       "Number": "0680994265"
+    },
+    {
+      "Email": "carmen.munteanu@nokia.com",
+      "Number": "+40742107724"
+    },
+    {
+      "Email": "salla.etelaaho@nokia.com",
+      "Number": "+358405339422"
+    },
+    {
+      "Email": "deke.pedrick@nokia.com",
+      "Number": "+6591903054"
     }
   ];
   export default oldUsers;

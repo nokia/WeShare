@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import {Config} from './../config.js';
 // import {Modal, Form, Button, TextArea } from 'semantic-ui-react';
 
-import { Checkbox, Form, Modal, Button, Select, Row, Col, Input } from 'antd';
+import { Form, Modal, Row, Input } from 'antd';
 import '../css/ModalFormContact.css';
 import dataLibrary from '../dataLibrary';
 import userLibrary from '../userLibrary';
@@ -84,7 +84,7 @@ class ModalForm extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        const { title, message } = this.state;
+        // const { title, message } = this.state;
         let tit = "Send a mail to " + this.user.Email;
         return (
             <div>

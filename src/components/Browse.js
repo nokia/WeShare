@@ -32,38 +32,39 @@ export default class Browse extends Component {
                 this.initDropdown(this.state.filterCategory);
             });
         });
-        dataLibrary.getFull();
-        userLibrary.getCurrentUser().then((result) => {
-            this.user = result;
+        dataLibrary.getFull().then((result) => {
+            this.setState({data: result, displayedData: result});
+            this.forceUpdate();
         });
+        
     }
 
     componentWillReceiveProps(newProps){
         let id = window.location.href.split('/');
         id = id[id.length - 1];
         id = id.replace('#browse','');
-        if(Number.isInteger(parseInt(id))){
-            dataLibrary.getFull();
-            console.log('affiche item');
-            this.showModal(id);
-        }
-
         let data = dataLibrary.get();
-        data.then((result) =>{
-            console.log('compare', this.state.data, result)
-            if(this.state.data !== result){
-                this.setState({data: dataLibrary.data, displayedData: dataLibrary.data});
-                let countQuery = dataLibrary.countCategories();
-                console.log('refresh browse data', result);
-                countQuery.then((result) =>{
-                    this.setState({countCategories: result});
-                    this.initDropdown(this.state.filterCategory);
-                    this.setState({isLoading:false});
-                });
-            }
+        let dataFull = dataLibrary.getFull();
+        if(Number.isInteger(parseInt(id, 10))){
+            dataFull.then((dataF) =>{
+                this.setState({data: dataF, displayedData: dataF});
+                this.setState({isLoading:false});
+                this.showModal(id);                
+            });
             
-        });
-        dataLibrary.getFull();
+        }else{
+            data.then((result) =>{
+                if(this.state.data !== result){
+                    this.setState({data: dataLibrary.data, displayedData: dataLibrary.data});
+                    let countQuery = dataLibrary.countCategories();
+                    countQuery.then((result) =>{
+                        this.setState({countCategories: result});
+                        this.initDropdown(this.state.filterCategory);
+                        this.setState({isLoading:false});
+                    });
+                }
+            });
+        }
     }
     refresh(){
         this.forceUpdate();
@@ -78,17 +79,17 @@ export default class Browse extends Component {
         ];
         dataLibrary.Categories.forEach( category => {
             let count = 0;
-            let countSubTotal = 0;
+            // let countSubTotal = 0;
             if(Array.isArray(category)){
                 let subCategories = [];
                 category[1].forEach( subCategory => {
                     count = this.state.countCategories[subCategory];
-                    countSubTotal += count;
+                    // countSubTotal += count;
                     subCategories.push(
                         <Menu.Item key={subCategory}>{subCategory} ({count})</Menu.Item>
                     );
                 });
-                let subText = category[0] + " (" + countSubTotal.toString() + ")";
+                // let subText = category[0] + " (" + countSubTotal.toString() + ")";
                 this.dropDownOptions.push(
                     <SubMenu title="sub menu">
                         {subCategories}
@@ -124,7 +125,7 @@ export default class Browse extends Component {
         }else if(key === "My topics"){
             let tmp = [];
             for (var i=0; i < this.state.data.length; i++) {
-                if (this.state.data[i].User === this.user.ID) {
+                if (this.state.data[i].User === userLibrary.currentUser.ID) {
                     tmp.push(this.state.data[i]);
                 }
             }
@@ -176,7 +177,6 @@ export default class Browse extends Component {
 
     showModal(item){
         this.setState( {openModal: true, itemModal: item});
-        console.log('show modal', item)
     }
     hideModal(){
         this.setState( {openModal: false});
@@ -184,7 +184,7 @@ export default class Browse extends Component {
 
 
     render() {
-       if (this.state.isLoading) {
+        if(this.state.isLoading) {
             return (
                 <div className="browse"></div>
             );

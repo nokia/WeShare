@@ -3,11 +3,9 @@
   Copyright Nokia 2018. All rights reserved.
 */
 import React, { Component } from 'react';
-import { notification, Checkbox, Form,  Popconfirm, Modal, Button, Select, Row, Col, Input } from 'antd';
-
+import { notification, Form,  Popconfirm, Modal, Button, Row, Col } from 'antd';
 import {Redirect} from 'react-router-dom';
 import '../css/ModalItem.css';
-import { Config } from '../config.js';
 import dataLibrary from '../dataLibrary';
 import userLibrary from '../userLibrary';
 import FaStar from 'react-icons/lib/fa/star';
@@ -18,7 +16,7 @@ import ModalFormContact from './ModalFormContact';
 
 class ModalItem extends Component {
     state = { typeModal: this.props.type, openModalEdit: false, openModalContact: false, openModal: true, owner: false, loaded: false};
-    
+    item;
 
     componentWillMount(){
         this.handleCall = this.handleCall.bind(this);
@@ -29,15 +27,17 @@ class ModalItem extends Component {
         this.hideModalEdit = this.hideModalEdit.bind(this);
         this.hideModalContact = this.hideModalContact.bind(this);
         this.refresh = this.refresh.bind(this);
-        this.item;
+        
         if(this.props.itemModal){
-            
             dataLibrary.getById(this.props.itemModal).then((item) =>{
                 this.item = item;
                 this.setState({loaded: true});
                 var userQuery = userLibrary.getCurrentUser();
                 var self = this;
                 userQuery.then((user) => {
+                    if(!self.item){
+                        return;
+                    }
                     if(self.item.User.ID === user.ID){
                         self.setState({owner: true});
                     }
@@ -150,6 +150,12 @@ class ModalItem extends Component {
                 </Button>
             );
         }
+        let duration;
+        if(this.item.Duration && Number.isInteger(parseInt(this.item.Duration, 10))){
+            duration = <span>{this.item.Duration} minutes</span>
+        }else if(this.item.Duration && !Number.isInteger(parseInt(this.item.Duration, 10))){
+            duration = <span>Indeterminate duration</span>
+        }          
         return (
             <div>
                 {this.state.openModalEdit && this.item.Type === "request" ? (
@@ -167,7 +173,6 @@ class ModalItem extends Component {
                 wrapClassName="vertical-center-modal"
                 visible={this.state.openModal}
                 onCancel={this.closeModal} 
-                // okText="Submit"
                 maskClosable={false}
                 className="modalItem"
                 
@@ -187,7 +192,8 @@ class ModalItem extends Component {
                     <div className="description">{this.item.Description}</div>
                     {this.item.Duration ? (
                         <span><div className="modalH">Duration</div>
-                        <div className="duration">{this.item.Duration} minutes</div></span>
+                        <div className="duration">{duration}</div></span>
+                        
                     ) : null}
                     
                     

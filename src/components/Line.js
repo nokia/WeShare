@@ -20,8 +20,8 @@ export default class Line extends Component {
         this.mouseEnter = this.mouseEnter.bind(this);
         this.mouseLeave = this.mouseLeave.bind(this);
     }
-    componentWillReceiveProps(nextProps){
-        this.item = nextProps.data;
+    componentWillReceiveProps(newProps){
+        this.item = newProps.data;
     }
 
     mouseEnter(){
@@ -33,10 +33,19 @@ export default class Line extends Component {
     render() {
         if(this.item.Type === "request"){
             this.color = "lineBlue";
-            this.message = "I need your help";
+            if(this.item.User.Lastname){
+                this.message = this.item.User.Lastname + " need your help";
+            }else{
+                this.message = "... need your help";
+            }
+            
         }else if(this.item.Type === "share"){
             this.color = "lineYellow";
-            this.message = "I can help you";
+            if(this.item.User.Lastname){
+                this.message = this.item.User.Lastname + " can help you";
+            }else{
+                this.message = "... can help you";
+            }
         }
 
         let starsNb = Math.trunc(this.item.Ratings);
@@ -60,7 +69,7 @@ export default class Line extends Component {
         };
 
         let title = this.item.Title;
-        let n = 90;
+        let n = 85;
         if(title.length > n){
             title = title.substr(0, n-1) + '...';
         }
@@ -71,33 +80,32 @@ export default class Line extends Component {
                 <div className={this.color + " line"} onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}>
                     <Row justify="space-around" align="middle">
                         {this.state.hover ? (
-                            <Col span={3}>
+                            <Col span={6}>
                                 <div className="lineMessage">
                                     {this.message}
                                 </div>
                             </Col>
                         ) : null}
                         
-                        <Col span={19}>
+                        <Col span={16}>
                             <div className="lineTitle">
-                                {title}
+                                <span title={this.item.Title}>{title}</span>
                             </div>
                             <div className="lineInfos">
                                 {new Date(this.item.Date).toLocaleString()} 
-                                {this.item.Duration ? (<span> - {this.item.Duration} minutes</span>) : null}
+                                
+                                {this.item.Duration && Number.isInteger(parseInt(this.item.Duration, 10)) ?(
+                                    <span> {this.item.Duration} minutes</span>
+                                ) : null}
+                                {this.item.Duration && !Number.isInteger(parseInt(this.item.Duration, 10)) ?(
+                                    <span> {this.item.Duration}</span>
+                                ) : null}
                             </div>
                             
                         </Col>
-                        {this.state.hover ? (
-                            <Col span={2} offset={0}>
-                                <div className="lineRatings">       
-                                    {stars}
-                                    {halfStars}
-                                    {emptyStars}
-                                </div>
-                            </Col>
+                        {this.state.hover ? ( null
                         ) : 
-                            <Col span={2} offset={3}>
+                            <Col span={2} offset={6}>
                                 <div className="lineRatings">       
                                     {stars}
                                     {halfStars}

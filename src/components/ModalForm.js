@@ -19,9 +19,10 @@ class ModalForm extends Component {
         { key: 'share', text: 'Share', value: 'share' }
     ]
     optionsDuration = [
-        { key: '15', text: '15 minutes', value: '15' },
-        { key: '30', text: '30 minutes', value: '30' },
-        { key: '45', text: '45 minutes', value: '45' }
+        { key: '15', text: '15 minutes', value: 15 },
+        { key: '30', text: '30 minutes', value: 30 },
+        { key: '45', text: '45 minutes', value: 45 },
+        { key: 'not-applicable', text: 'Not Applicable', value: 'Not Applicable' }
     ]
     optionsCategory = [
         { key: 'Unclassified', text: 'Unclassified', value: 'Unclassified' }
@@ -108,13 +109,12 @@ class ModalForm extends Component {
                         Description: description, 
                         Duration: duration, 
                         Date: new Date(), 
-                        User: this.user.ID,
+                        User: this.user,
                         Ratings:0
                     }
                     dataLibrary.add(item).then((result)=>{
                         notifTitle = "Success";
                         notifMessage = "Your post has been added with success";
-                        // this.props.refresh();
                         self.closeModal();
                         self.props.modalFormMessage('success', notifTitle, notifMessage);  
                         if(this.state.checked){
@@ -122,7 +122,6 @@ class ModalForm extends Component {
                         }                
                     });
                 }
-                // this.props.refresh();    
             }
         });
           
@@ -135,9 +134,9 @@ class ModalForm extends Component {
             this.editItem ? (
                 <span>Edit</span>
             ) : this.state.typeModal === "request" ? (
-                <span>I need some help</span>
+                <span>I need your help</span>
             ) : this.state.typeModal === "share" ? (
-                <span>I have knowledge to share</span>
+                <span>I can help you</span>
             ) : null
         return (
             <div>
@@ -147,9 +146,7 @@ class ModalForm extends Component {
                 width={900}
                 wrapClassName="vertical-center-modal"
                 visible={this.state.openModal}
-                // onOk={this.submitModal}
-                // onCancel={this.closeModal} 
-                // okText="Submit"
+                onCancel={this.closeModal} 
                 maskClosable={false}
                 className="modalForm"
                 
