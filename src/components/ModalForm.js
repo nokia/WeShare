@@ -54,13 +54,17 @@ class ModalForm extends Component {
         });
     }
     init(item){
-        this.editItem = item;
-        this.setState({
-            title : item.Title, 
-            category : item.Category, 
-            duration : item.Duration.toString(),
-            description : item.Description
-        });
+        if(!this.editItem){
+            this.editItem = Object.assign({}, item);
+            console.log('init', this.editItem, item);
+            this.setState({
+                title : item.Title, 
+                category : item.Category, 
+                duration : item.Duration.toString(),
+                description : item.Description
+            });
+        }
+        
     }
 
     componentWillReceiveProps(newProps){
@@ -89,16 +93,20 @@ class ModalForm extends Component {
                 
                 let notifTitle, notifMessage;
                 if(this.editItem){
+                    console.log('edit', this.editItem, this.user);
                     this.editItem.Title = title;
                     this.editItem.Duration = duration;
                     this.editItem.Category = category;
                     this.editItem.Description = description;
-                    dataLibrary.update(this.editItem).then((result)=>{
+                    this.editItem.User = this.editItem.User.ID;
+                    console.log('launch update', this.editItem, this.user);
+                    dataLibrary.update(this.editItem, this.user).then((result)=>{
                         notifTitle = "Success";
                         notifMessage = "Your post has been updated with success";
                         this.props.refresh();
                         self.closeModal();
                         self.props.modalFormMessage('success', notifTitle, notifMessage);  
+                        self.editItem = null;
                         
                     });
                 }else{
@@ -109,10 +117,10 @@ class ModalForm extends Component {
                         Description: description, 
                         Duration: duration, 
                         Date: new Date(), 
-                        User: this.user,
+                        User: this.user.ID,
                         Ratings:0
                     }
-                    dataLibrary.add(item).then((result)=>{
+                    dataLibrary.add(item, this.user).then((result)=>{
                         notifTitle = "Success";
                         notifMessage = "Your post has been added with success";
                         self.closeModal();

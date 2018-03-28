@@ -63,45 +63,49 @@ class Data{
             
         });
     }
-    add(item){
-        return new Promise((resolve, reject)=>{
-            if(Config.local){
-                item.ID = new Date().getTime();
-                item.User = userLibrary.localCurrentUser();
-                this.data.unshift(item);
-                this.dataFull.unshift(item);
-                resolve('ok');
-                return;
-            }
-            SH.createListItem('Items', item).then((results) => {
-                item.ID = results.ID;
-                this.data.unshift(item);
-                this.dataFull.unshift(item);
-                resolve('ok');
-            });
-        });
-
-        
-    }
     notify(item){
         if(Config.local){
             return;
         }
         let list = [];
         userLibrary.users.forEach(u => {
-            list.push(u.Email);
+            if(u.Notification){
+                list.push(u.Email);
+            }
+            
         });
-        SH.notify(item.Title, item.Type, Config.itemUrl + item.ID, list);
+        let itemUrl = window.location.href.split('not-found')[0].split('index.aspx')[0].split('index.html')[0] + "/index.aspx/item/";
+        SH.notify(item.Title, item.Type, itemUrl + item.ID, list);
     }
-    update(item){
+    add(item, user){
+        return new Promise((resolve, reject)=>{
+            if(Config.local){
+                item.ID = new Date().getTime();
+                item.User = userLibrary.localCurrentUser();
+                this.data.unshift(item);
+                this.dataFull.unshift(item);
+                resolve(item);
+                return;
+            }
+            SH.createListItem('Items', item).then((results) => {
+                item.ID = results.ID;
+                item.User = user;
+                this.data.unshift(item);
+                this.dataFull.unshift(item);
+                resolve(item);
+            });
+        });
+    }
+    update(item, user){
         return new Promise((resolve, reject)=>{
             var tmp, found;
             if(Config.local){
                 tmp = 0;
                 found = false;
-                while(tmp < this.data.length && !found){
-                    if(this.data[tmp].ID === item.ID){
-                        this.data[tmp] = item;
+                while(tmp < this.dataFull.length && !found){
+                    if(this.dataFull[tmp].ID === item.ID){
+                        this.dataFull[tmp] = item;
+                        this.data[tmp]= item;
                         found = true;
                     }
                     tmp++;
@@ -111,11 +115,16 @@ class Data{
             }
             tmp = 0;
             found = false;
-            while(tmp < this.data.length && !found){
-                if(this.data[tmp].ID === item.ID){
-                    this.data[tmp] = item;
+            console.log('updating', item, item.ID);
+            while(tmp < this.dataFull.length && !found){
+                if(this.dataFull[tmp].ID === item.ID){
                     found = true;
+                    console.log('found', item, tmp, this.data, this.dataFull)
                     SH.updateListItem('Items', item, item.ID).then((results) => {
+                        item.User = user;
+                        console.log('result', item);
+                        this.dataFull[tmp] = item;
+                        this.data[tmp] = item;
                         resolve(item);
                     });
                 }

@@ -23,6 +23,9 @@
 .lineYellow{
     border-left: 6px solid #EAC67A;
 }
+.lineGray{
+    border-left: 6px solid rgb(112, 112, 112);
+}
 .line .lineTitle{
     font-size: 120%;
     color: #333;
@@ -42,6 +45,9 @@
 
 .lineBlue .lineMessage{
     background-color: #984B43;
+}
+.lineGray .lineMessage{
+    background-color: rgb(112, 112, 112);
 }
 .lineYellow .lineMessage{
     background-color: #EAC67A;

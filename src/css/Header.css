@@ -60,3 +60,19 @@
     background-color: #00bfff !important;
     border-color: #00bfff !important;
 }
+.ant-popover-placement-bottom{
+    width: 400px !important;
+}
+.width90{
+    width: 90%;
+    display: inline-block;
+    vertical-align: top;
+}
+.width10{
+    width: 10%;
+    display: inline-block;
+    vertical-align: top;
+}
+.right{
+    text-align: right;
+}

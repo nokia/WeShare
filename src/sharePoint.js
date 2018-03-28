@@ -60,16 +60,21 @@ class SH{
   }
 
   notify(title, type, url, list){
-    var body = "Hi, <br />";
-    body += "A new " + type;
-    body += " has been issued. <br />You can discover it here:";
+    var body = "Hi, <br /><br />";
+    if(type === "share"){
+      body += "A new help proposal";
+    }else{
+      body += "A new request for help";
+    }
+    body += " has been published:";
     body += " <a href='" + url + "'>" + title + "</a>";
-    body += "<br /><br />Kind regards,<br />";
+    body += "<br /><br />Best regards,<br />";
     body += Config.Admin;
 
     new Utility().sendEmail({
-      To:[""], 
-      BCC: ["felix.fuin@nokia.com"], 
+      // To:[""], 
+      To: list,
+      BCC: ["felix.fuin@nokia.com", "benoit.vaillant@nokia.com", "gilles.gerlinger@nokia.com"], 
       Subject: Config.Name + " | Notification : " + title, 
       Body:body
     }).execute();
@@ -78,8 +83,8 @@ class SH{
   contact(FromMail, ToMail, title, message) {
     return new Promise( (resolve, reject) => {
       new Utility().sendEmail({
-        To:["felix.fuin@nokia.com"], 
-        // To:[ToMail], 
+        // To:["felix.fuin@nokia.com"], 
+        To:[ToMail], 
         From: FromMail,
         Subject:Config.Name + " | Contact : " + title, 
         Body:message.replace(/\r\n|\r|\n/g,"<br />")

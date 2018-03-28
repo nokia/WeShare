@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import {Config} from './../config.js';
 
-import { Tooltip, Popover, Input, Icon, Button } from 'antd';
+import { Tooltip, Popover, Input, Icon, Button, Switch } from 'antd';
 import userLibrary from '../userLibrary';
 
 import logo from '../img/WeShare-neg-logo-200.png';
@@ -14,12 +14,13 @@ import '../css/Header.css';
 
 export default class Header extends Component {
  
-    state = { isOpen: false, number: '', userLoaded: false }
+    state = { isOpen: false, number: '', notification: false, userLoaded: false }
 
     componentWillMount(){
         this.handleClose = this.handleClose.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleSwitch = this.handleSwitch.bind(this);
         userLibrary.getCurrentUser().then((result) => {
             this.user = result;
             if(this.props.onUserLoaded){
@@ -28,12 +29,20 @@ export default class Header extends Component {
             if(this.user.Number){
                 this.setState({ number: this.user.Number });
             }
+            if(this.user.Notification){
+                this.setState({notification: this.user.Notification});
+            }
+            
             this.setState({ userLoaded: true });
         });
             
     }
 
-   
+    handleSwitch(checked){
+        this.setState({notification: checked})
+        this.user.Notification = checked;
+        userLibrary.update(this.user);
+    }
     handleChange(e){
         let value = e.target.value;
         if(value.length > 14){
@@ -60,7 +69,7 @@ export default class Header extends Component {
     render() {
         let profil;
         let siteName = Config.Name;
-        const {number} = this.state;
+        const {number, notification} = this.state;
         if(this.state.userLoaded){
             profil = this.user.Lastname + " " + this.user.Name;
             if(this.user.Location){
@@ -80,14 +89,14 @@ export default class Header extends Component {
                             {siteName}
                         </div>
                         <div className="pitch">
-                            Meet colleagues
+                            Match & Share
                         </div>
                     </Link>
                     {!this.state.isOpen ? (
                         <div className="profilHover">
                             <Tooltip
                                 placement="top"
-                                title="Click to edit your phone number"
+                                title="Click to edit your profile"
                             >
                                 <div onClick={this.handleOpen}>{profil}</div>
                             </Tooltip>
@@ -96,20 +105,29 @@ export default class Header extends Component {
                         <div className="profilClick">
                             <Popover 
                                 content={<div>
-                                    <Icon className="popupPhoneClear" type="close-circle" style={{ color: 'rgba(0,0,0,.25)' }} onClick={this.handleClose} />
-                                    <div className="popupPhoneTitle">Add your phone number to be contacted<br /> quickly when publishing a topic:</div>
+                                    <div className="width90">
+                                        <div className="popupPhoneTitle">Add your phone number to be contacted quickly when publishing a topic:</div>
                                     
-                                    <Input
-                                        placeholder="+33677889911"
-                                        prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                        suffix={suffix}
-                                        value={number}
-                                        onChange={this.handleChange}
-                                        ref={node => this.phoneInput = node}
-                                    />
-                                    <Button type="primary" className="popupPhoneButton" onClick={this.handleClose}>
-                                        Save
-                                    </Button>
+                                        <Input
+                                            placeholder="+33677889911"
+                                            prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                            suffix={suffix}
+                                            value={number}
+                                            onChange={this.handleChange}
+                                            ref={node => this.phoneInput = node}
+                                        />
+
+                                        <br /><br/>
+                                        <div className="popupPhoneTitle">Do you want to be contacted by email when a post is submitted ?</div>
+                                        <Switch checked={notification} checkedChildren="Yes" unCheckedChildren="No" onChange={this.handleSwitch} />
+                                        <br /><br/>
+                                        <Button type="primary" className="popupPhoneButton" onClick={this.handleClose}>
+                                            Save
+                                        </Button>
+                                    </div>
+                                    <div className="width10 right">
+                                        <Icon className="popupPhoneClear" type="close-circle" style={{ color: 'rgba(0,0,0,.25)' }} onClick={this.handleClose} />
+                                    </div>
                                 </div>}
                                 visible={true}
                                 placement="bottom"

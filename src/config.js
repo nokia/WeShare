@@ -14,7 +14,7 @@ if(window.location.hostname === "localhost"){
 export const Config = { 
   Name: 'WeShare', 
   local: lcl,
-  Admin: 'Nokia Admin',
+  Admin: 'The WeShare Team',
   // Source: '/WeShare',
   Source: src,
   Email: 'learningstore@nokia.com',

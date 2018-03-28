@@ -31,22 +31,28 @@ export default class Line extends Component {
         this.setState({hover: false});
     }
     render() {
-        if(this.item.Type === "request"){
-            this.color = "lineBlue";
-            if(this.item.User.Lastname){
-                this.message = this.item.User.Lastname + " need your help";
-            }else{
-                this.message = "... need your help";
-            }
-            
-        }else if(this.item.Type === "share"){
-            this.color = "lineYellow";
-            if(this.item.User.Lastname){
-                this.message = this.item.User.Lastname + " can help you";
-            }else{
-                this.message = "... can help you";
+        if(this.item.Closed){
+            this.color = "lineGray";
+            this.message = "This item is closed";
+        }else{
+            if(this.item.Type === "request"){
+                this.color = "lineBlue";
+                if(this.item.User.Lastname){
+                    this.message = this.item.User.Lastname + " need your help";
+                }else{
+                    this.message = "... need your help";
+                }
+                
+            }else if(this.item.Type === "share"){
+                this.color = "lineYellow";
+                if(this.item.User.Lastname){
+                    this.message = this.item.User.Lastname + " can help you";
+                }else{
+                    this.message = "... can help you";
+                }
             }
         }
+        
 
         let starsNb = Math.trunc(this.item.Ratings);
         let halfStarsNb = (this.item.Ratings % 1 === 0) ? 0: 1;
@@ -72,6 +78,9 @@ export default class Line extends Component {
         let n = 85;
         if(title.length > n){
             title = title.substr(0, n-1) + '...';
+        }
+        if(this.item.Closed){
+            title = "[Closed] " + title;
         }
         return (
             <Link

@@ -23,6 +23,8 @@ class ModalItem extends Component {
         this.upRatings = this.upRatings.bind(this);
         this.handleMail = this.handleMail.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.handleOpen = this.handleOpen.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
         this.hideModalEdit = this.hideModalEdit.bind(this);
         this.hideModalContact = this.hideModalContact.bind(this);
@@ -34,6 +36,7 @@ class ModalItem extends Component {
                 this.setState({loaded: true});
                 var userQuery = userLibrary.getCurrentUser();
                 var self = this;
+                console.log('this item', this.item);
                 userQuery.then((user) => {
                     if(!self.item){
                         return;
@@ -82,6 +85,16 @@ class ModalItem extends Component {
         setTimeout(function(){ self.props.modalFormHide(); }, 200);
         this.props.history.push('/index.aspx');
     }
+    handleClose(){
+        this.item.Closed = true;
+        dataLibrary.update(this.item);
+        this.forceUpdate();
+    }
+    handleOpen(){
+        this.item.Closed = false;
+        dataLibrary.update(this.item);
+        this.forceUpdate();
+    }
     upRatings(){
         if(this.item.Ratings < 5){
             this.item.Ratings = this.item.Ratings + 0.5;
@@ -107,6 +120,9 @@ class ModalItem extends Component {
         }
     
         let title = this.item.Category + " - " + this.item.Title
+        if(this.item.Closed){
+            title = "[Closed] " + title;
+        }
         let starsNb = Math.trunc(this.item.Ratings);
         let halfStarsNb = (this.item.Ratings % 1 === 0) ? 0: 1;
         let emptyStarsNb = 5 - (starsNb + halfStarsNb);
@@ -127,7 +143,21 @@ class ModalItem extends Component {
             )
         };
         let footer = [];
+        
         if(this.state.owner){
+            if(!this.item.Closed){
+                footer.push(
+                    <Button icon="lock" className="btnClose" key="close" type="primary" onClick={this.handleClose}>
+                        Close item
+                    </Button>
+                );
+            }else{
+                footer.push(
+                    <Button icon="unlock" className="btnOpen" key="open" type="primary" onClick={this.handleOpen}>
+                        Open item
+                    </Button>
+                );
+            }
             footer.push(
                 <Button icon="edit" className="btnEdit" key="edit" type="primary" onClick={this.handleEdit}>
                     Edit item
@@ -139,16 +169,19 @@ class ModalItem extends Component {
                 </Popconfirm>
             );
         }else{
-            if(this.item.User.Number){
+            
+            if(!this.item.Closed){
+                if(this.item.User.Number){
+                    footer.push(
+                    <Button key="call" icon="phone" className="btnCall" type="primary" onClick={this.handleCall}>Call</Button>
+                    );
+                }
                 footer.push(
-                <Button key="call" icon="phone" className="btnCall" type="primary" onClick={this.handleCall}>Call</Button>
+                    <Button key="mail" icon="mail" className="btnMail" type="primary" onClick={this.handleMail}>
+                        Send Email
+                    </Button>
                 );
             }
-            footer.push(
-                <Button key="mail" icon="mail" className="btnMail" type="primary" onClick={this.handleMail}>
-                    Send Email
-                </Button>
-            );
         }
         let duration;
         if(this.item.Duration && Number.isInteger(parseInt(this.item.Duration, 10))){
@@ -156,6 +189,15 @@ class ModalItem extends Component {
         }else if(this.item.Duration && !Number.isInteger(parseInt(this.item.Duration, 10))){
             duration = <span>Indeterminate duration</span>
         }          
+
+        let author;
+        console.log('this item bellow', this.item);
+        if(this.item.User.Lastname && this.item.User.Name){
+            author = this.item.User.Lastname + " " + this.item.User.Name;
+        }else{
+            author = "Unknown";
+        }
+        
         return (
             <div>
                 {this.state.openModalEdit && this.item.Type === "request" ? (
@@ -195,6 +237,8 @@ class ModalItem extends Component {
                         <div className="duration">{duration}</div></span>
                         
                     ) : null}
+                    <div className="modalH">Author</div>
+                    <div className="description">{author}</div>
                     
                     
                 </Modal>

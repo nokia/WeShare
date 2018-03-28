@@ -43,3 +43,19 @@
     border-color: #00bfff !important;
     color: #fff !important;
 }
+.modalItem .btnClose{
+    float: left;
+    background-color: #F1F1F1 !important;
+    color: #124191;
+}
+.modalItem .btnOpen{
+    float: left;
+    background-color: #00bfff !important;
+    border-color: #00bfff !important;
+    color: #fff !important;
+}
+.modalItem .btnOpen:hover{
+    float: left;
+    background-color: #124191 !important;
+    border-color: #124191 !important;
+}

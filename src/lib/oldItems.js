@@ -58,6 +58,7 @@ var oldItems = [
       "Title": "Customized queries on CEM 17",
       "Type": "share",
       "Category": "Big Data",
+      "Closed": true,
       "Description": "Customized queries for CEM 17: Queries over big data",
       "Date": "2018-02-02T20:13:04.471Z",
       "Ratings": 0,

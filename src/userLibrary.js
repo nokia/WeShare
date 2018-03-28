@@ -18,6 +18,7 @@ class User{
             Location: "Paris-Saclay",
             Lastname: "John",
             Name: "Doe",
+            Notification: true,
             ID: 999999999
         };
     }
@@ -68,6 +69,7 @@ class User{
                     }
                 }
                 if(!found){
+                    cur.Notification = true;
                     SH.createListItem('Users', cur).then( result => {
                         cur.ID = result.ID;
                         this.currentUser = cur;
@@ -79,6 +81,9 @@ class User{
                     }
                     if(this.currentUser.ID){
                         cur.ID = this.currentUser.ID;
+                    }
+                    if(this.currentUser.Notification){
+                        cur.Notification = true;
                     }
                     this.currentUser = cur;
                     this.update(cur);
@@ -100,9 +105,17 @@ class User{
                 s.then( result => {
                     this.users = result;
                     this.users.forEach(element => {
+                        if(!element.hasOwnProperty('Notification')){
+                            element.Notification = true;
+                        }
                         if(!element.Lastname){
                             element.Lastname = element.Email.split('.')[0];
                             element.Lastname = element.Lastname.charAt(0).toUpperCase() + element.Lastname.slice(1);
+                        }
+                        if(!element.Name){
+                            element.Name = element.Email.split('.')[1];
+                            element.Name = element.Name.split('@')[0];
+                            element.Name = element.Name.charAt(0).toUpperCase() + element.Name.slice(1);
                         }
                     });
                     resolve(this.users);
