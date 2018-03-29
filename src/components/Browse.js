@@ -32,10 +32,6 @@ export default class Browse extends Component {
                 this.initDropdown(this.state.filterCategory);
             });
         });
-        dataLibrary.getFull().then((result) => {
-            this.setState({data: result, displayedData: result});
-            this.forceUpdate();
-        });
         
     }
 
@@ -44,9 +40,9 @@ export default class Browse extends Component {
         id = id[id.length - 1];
         id = id.replace('#browse','');
         let data = dataLibrary.get();
-        let dataFull = dataLibrary.getFull();
+        // let dataFull = dataLibrary.getFull();
         if(Number.isInteger(parseInt(id, 10))){
-            dataFull.then((dataF) =>{
+            data.then((dataF) =>{
                 this.setState({data: dataF, displayedData: dataF});
                 this.setState({isLoading:false});
                 this.showModal(id);                
@@ -125,7 +121,7 @@ export default class Browse extends Component {
         }else if(key === "My topics"){
             let tmp = [];
             for (var i=0; i < this.state.data.length; i++) {
-                if (this.state.data[i].User === userLibrary.currentUser.ID) {
+                if (this.state.data[i].User.ID === userLibrary.currentUser.ID) {
                     tmp.push(this.state.data[i]);
                 }
             }

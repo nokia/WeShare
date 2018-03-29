@@ -31,13 +31,13 @@ class ModalForm extends Component {
 
     toggle = () => this.setState({ checked: !this.state.checked })
     componentWillMount(){
-        if(this.props.item){
-            this.init(this.props.item);
-        }
         this.closeModal = this.closeModal.bind(this);
         this.toggle = this.toggle.bind(this);
         this.submitModal = this.submitModal.bind(this);
         this.init = this.init.bind(this);
+        if(this.props.item){
+            this.init(this.props.item);
+        }
         userLibrary.getCurrentUser().then((result) =>{
             this.user = result;
         });
@@ -54,16 +54,14 @@ class ModalForm extends Component {
         });
     }
     init(item){
-        if(!this.editItem){
-            this.editItem = Object.assign({}, item);
-            console.log('init', this.editItem, item);
+            this.editItem = item
             this.setState({
                 title : item.Title, 
                 category : item.Category, 
                 duration : item.Duration.toString(),
                 description : item.Description
             });
-        }
+        
         
     }
 
@@ -93,22 +91,19 @@ class ModalForm extends Component {
                 
                 let notifTitle, notifMessage;
                 if(this.editItem){
-                    console.log('edit', this.editItem, this.user);
                     this.editItem.Title = title;
                     this.editItem.Duration = duration;
                     this.editItem.Category = category;
                     this.editItem.Description = description;
-                    this.editItem.User = this.editItem.User.ID;
-                    console.log('launch update', this.editItem, this.user);
                     dataLibrary.update(this.editItem, this.user).then((result)=>{
                         notifTitle = "Success";
                         notifMessage = "Your post has been updated with success";
-                        this.props.refresh();
+                        self.props.refresh(result);
                         self.closeModal();
                         self.props.modalFormMessage('success', notifTitle, notifMessage);  
-                        self.editItem = null;
                         
                     });
+                    return;
                 }else{
                     const item = {
                         Category: category, 

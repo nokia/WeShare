@@ -9,7 +9,7 @@ import oldItems from './lib/oldItems.js';
 
 class Data{
     data = [];
-    dataFull = [];
+    // dataFull = [];
 
     init(){
         return new Promise( (resolve, reject) => {
@@ -49,7 +49,7 @@ class Data{
                 countTab["unclassified"] = 0;
                 this.data.forEach(item => {
                     countTab["all"] = countTab["all"] + 1;
-                    if(item.User === cur.ID){
+                    if(item.User.ID === cur.ID){
                         countTab["my"] = countTab["my"] + 1
                     }
                     if(item.Category === "Unclassified"){
@@ -83,7 +83,6 @@ class Data{
                 item.ID = new Date().getTime();
                 item.User = userLibrary.localCurrentUser();
                 this.data.unshift(item);
-                this.dataFull.unshift(item);
                 resolve(item);
                 return;
             }
@@ -91,45 +90,49 @@ class Data{
                 item.ID = results.ID;
                 item.User = user;
                 this.data.unshift(item);
-                this.dataFull.unshift(item);
                 resolve(item);
             });
         });
     }
     update(item, user){
         return new Promise((resolve, reject)=>{
-            var tmp, found;
             if(Config.local){
-                tmp = 0;
-                found = false;
-                while(tmp < this.dataFull.length && !found){
-                    if(this.dataFull[tmp].ID === item.ID){
-                        this.dataFull[tmp] = item;
-                        this.data[tmp]= item;
-                        found = true;
-                    }
-                    tmp++;
-                }
-                resolve(item);
+                this.data.forEach((el) =>{
+                    if(el.ID === item.ID){
+                        el = item;
+                        return;                    }
+                    resolve(item);
+                    return;
+                });
                 return;
             }
-            tmp = 0;
-            found = false;
-            console.log('updating', item, item.ID);
-            while(tmp < this.dataFull.length && !found){
-                if(this.dataFull[tmp].ID === item.ID){
-                    found = true;
-                    console.log('found', item, tmp, this.data, this.dataFull)
+            this.data.forEach((el) =>{
+            	if(el.ID === item.ID){
+                    item.User = item.User.ID;
                     SH.updateListItem('Items', item, item.ID).then((results) => {
                         item.User = user;
-                        console.log('result', item);
-                        this.dataFull[tmp] = item;
-                        this.data[tmp] = item;
+                       	el = item;
                         resolve(item);
+                        return;
                     });
                 }
-                tmp++;
-            }
+            });
+            // while(tmp < this.data.length && !found){
+            //     if(this.data[tmp].ID === item.ID){
+            //         found = true;
+            //         console.log('found', item, tmp, this.data, this.data)
+            //         SH.updateListItem('Items', item, item.ID).then((results) => {
+            //             item.User = user;
+            //             console.log('result', item);
+            //             // this.data = this.dataFull.slice();
+            //             this.data[tmp] = item;
+            //             // this.data[tmp] = item;
+            //             console.log('result2', this.data);
+            //             resolve(item);
+            //         });
+            //     }
+            //     tmp++;
+            // }
         });
         
     }
@@ -167,19 +170,35 @@ class Data{
     get(force){
         return new Promise((resolve, reject)=>{
             if(this.data.length === 0 || force){
+                let i;
                 if(Config.local){
                     var d = oldItems;
                     this.data = d;
                     this.sortByCategories();
                     this.sortByDate();
+                    for(i = 0; i < this.data.length; i++) {
+                        this.data[i].User = userLibrary.localCurrentUser();
+                        this.data[i].User.ID = Math.random();
+                    }
                     resolve(this.data);
                 }else{
                     var s = SH.getListItems('Items');
+                    var u = userLibrary.get();
                     s.then((result) => {
-                        this.data = result;
-                        this.sortByCategories();
-                        this.sortByDate();
-                        resolve(this.data);
+                        u.then(() => {
+                            this.data = result;
+                            this.sortByCategories();
+                            this.sortByDate();
+                            for(i = 0; i < this.data.length; i++) {
+                                for(var j = 0; j < userLibrary.users.length; j++) {
+                                    if(this.data[i].User === userLibrary.users[j].ID){
+                                        this.data[i].User = userLibrary.users[j];
+                                    }
+                                }
+                            }
+                            resolve(this.data);
+                        });
+                        
                     });
                 }
             }
@@ -188,37 +207,37 @@ class Data{
             }
         });
     }
-    getFull(force){
-        return new Promise((resolve, reject) => {
-            var self = this;
-            if(this.dataFull.length === 0 || force){
-                userLibrary.get().then(() =>{
-                    self.get().then((d)=>{
-                        self.dataFull = d.slice();
-                        let i;
-                        if(Config.local){
-                            for(i = 0; i < self.data.length; i++) {
-                                self.dataFull[i].User = userLibrary.localCurrentUser();
-                                self.dataFull[i].User.ID = Math.random();
-                            }
-                        }else{
-                            for(i = 0; i < self.data.length; i++) {
-                                for(var j = 0; j < userLibrary.users.length; j++) {
-                                    if(self.data[i].User === userLibrary.users[j].ID){
-                                        self.dataFull[i].User = userLibrary.users[j];
-                                    }
-                                }
-                            }
-                        }
-                        resolve(this.dataFull);
-                    });
-                });
-            }
-            else{
-                resolve(this.dataFull);
-            }
-        });
-    }
+    // getFull(force){
+    //     return new Promise((resolve, reject) => {
+    //         var self = this;
+    //         if(this.dataFull.length === 0 || force){
+    //             userLibrary.get().then(() =>{
+    //                 self.get().then((d)=>{
+    //                     self.dataFull = d.slice();
+    //                     let i;
+    //                     if(Config.local){
+    //                         for(i = 0; i < self.data.length; i++) {
+    //                             self.dataFull[i].User = userLibrary.localCurrentUser();
+    //                             self.dataFull[i].User.ID = Math.random();
+    //                         }
+    //                     }else{
+    //                         for(i = 0; i < self.data.length; i++) {
+    //                             for(var j = 0; j < userLibrary.users.length; j++) {
+    //                                 if(self.data[i].User === userLibrary.users[j].ID){
+    //                                     self.dataFull[i].User = userLibrary.users[j];
+    //                                 }
+    //                             }
+    //                         }
+    //                     }
+    //                     resolve(this.dataFull);
+    //                 });
+    //             });
+    //         }
+    //         else{
+    //             resolve(this.dataFull);
+    //         }
+    //     });
+    // }
     sortByDate(){
         this.data.sort((a, b) =>{
             var dateA = new Date(a.Date), dateB = new Date(b.Date);
@@ -251,13 +270,13 @@ class Data{
     }
     getById(id){
         return new Promise((resolve, reject)=>{
-            this.getFull().then((result) =>{
+            this.get().then((result) =>{
                 var item;
                 var i = 0;
                 var found = false;
-                while(!found && i < this.dataFull.length){
-                    if(this.dataFull[i].ID === Number(id)){
-                        item = this.dataFull[i];
+                while(!found && i < this.data.length){
+                    if(this.data[i].ID === Number(id)){
+                        item = this.data[i];
                         found = true;
                     }
                     i++;

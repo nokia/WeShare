@@ -15,7 +15,7 @@ import ModalForm from './ModalForm';
 import ModalFormContact from './ModalFormContact';
 
 class ModalItem extends Component {
-    state = { typeModal: this.props.type, openModalEdit: false, openModalContact: false, openModal: true, owner: false, loaded: false};
+    state = { typeModal: this.props.type, openModalEdit: false, closeLoading: false, openModalContact: false, openModal: true, owner: false, loaded: false};
     item;
 
     componentWillMount(){
@@ -29,14 +29,21 @@ class ModalItem extends Component {
         this.hideModalEdit = this.hideModalEdit.bind(this);
         this.hideModalContact = this.hideModalContact.bind(this);
         this.refresh = this.refresh.bind(this);
+        this.reload = this.reload.bind(this);
         
         if(this.props.itemModal){
             dataLibrary.getById(this.props.itemModal).then((item) =>{
                 this.item = item;
+                this.author;
+                if(this.item.User.Lastname && this.item.User.Name){
+                    this.author = this.item.User.Lastname + " " + this.item.User.Name;
+                }else{
+                    this.author = "Unknown";
+                }
+                this.number = this.item.User.Number;
                 this.setState({loaded: true});
                 var userQuery = userLibrary.getCurrentUser();
                 var self = this;
-                console.log('this item', this.item);
                 userQuery.then((user) => {
                     if(!self.item){
                         return;
@@ -54,7 +61,7 @@ class ModalItem extends Component {
 
     handleCall(){
         this.upRatings();
-        document.location.href = "tel:" + this.item.User.Number;
+        document.location.href = "tel:" + this.number;
     }
     handleMail(){
         this.setState( {openModalContact: true} );
@@ -79,6 +86,10 @@ class ModalItem extends Component {
         this.forceUpdate();
         this.props.refresh();
     }
+    reload(it){
+        this.item = it;
+        this.refresh()
+    }
     closeModal(type){
         var self = this;
         this.setState( {openModal: false});
@@ -87,19 +98,26 @@ class ModalItem extends Component {
     }
     handleClose(){
         this.item.Closed = true;
-        dataLibrary.update(this.item);
-        this.forceUpdate();
+        this.setState({closeLoading: true});
+        dataLibrary.update(this.item, this.item.User).then(() =>{
+            this.forceUpdate();
+            this.setState({closeLoading: false});
+        });
     }
     handleOpen(){
         this.item.Closed = false;
-        dataLibrary.update(this.item);
-        this.forceUpdate();
+        this.setState({closeLoading: true});
+        dataLibrary.update(this.item, this.item.User).then(() =>{
+            this.forceUpdate();
+            this.setState({closeLoading: false});
+        });
     }
     upRatings(){
         if(this.item.Ratings < 5){
             this.item.Ratings = this.item.Ratings + 0.5;
-            dataLibrary.update(this.item);
-            this.forceUpdate();
+            dataLibrary.update(this.item, this.item.User).then(() =>{
+                this.forceUpdate();
+            });
         }
     }
     showMessage(type, title, text){
@@ -147,13 +165,13 @@ class ModalItem extends Component {
         if(this.state.owner){
             if(!this.item.Closed){
                 footer.push(
-                    <Button icon="lock" className="btnClose" key="close" type="primary" onClick={this.handleClose}>
+                    <Button icon="lock" loading={this.state.closeLoading} className="btnClose" key="close" type="primary" onClick={this.handleClose}>
                         Close item
                     </Button>
                 );
             }else{
                 footer.push(
-                    <Button icon="unlock" className="btnOpen" key="open" type="primary" onClick={this.handleOpen}>
+                    <Button icon="unlock" loading={this.state.closeLoading} className="btnOpen" key="open" type="primary" onClick={this.handleOpen}>
                         Open item
                     </Button>
                 );
@@ -171,7 +189,7 @@ class ModalItem extends Component {
         }else{
             
             if(!this.item.Closed){
-                if(this.item.User.Number){
+                if(this.number){
                     footer.push(
                     <Button key="call" icon="phone" className="btnCall" type="primary" onClick={this.handleCall}>Call</Button>
                     );
@@ -190,21 +208,15 @@ class ModalItem extends Component {
             duration = <span>Indeterminate duration</span>
         }          
 
-        let author;
-        console.log('this item bellow', this.item);
-        if(this.item.User.Lastname && this.item.User.Name){
-            author = this.item.User.Lastname + " " + this.item.User.Name;
-        }else{
-            author = "Unknown";
-        }
+      
         
         return (
             <div>
                 {this.state.openModalEdit && this.item.Type === "request" ? (
-                    <ModalForm refresh={this.refresh} modalFormMessage={this.showMessage} item={this.item} modalFormHide={this.hideModalEdit} type="request" />
+                    <ModalForm refresh={this.reload} modalFormMessage={this.showMessage} item={this.item} modalFormHide={this.hideModalEdit} type="request" />
                 ) : null}
                 {this.state.openModalEdit && this.item.Type === "share" ? (
-                    <ModalForm refresh={this.refresh} modalFormMessage={this.showMessage} item={this.item} modalFormHide={this.hideModalEdit} type="share" />
+                    <ModalForm refresh={this.reload} modalFormMessage={this.showMessage} item={this.item} modalFormHide={this.hideModalEdit} type="share" />
                 ) : null}
                 {this.state.openModalContact ? (
                     <ModalFormContact modalFormMessage={this.showMessage} item={this.item} modalFormHide={this.hideModalContact}/>
@@ -238,7 +250,7 @@ class ModalItem extends Component {
                         
                     ) : null}
                     <div className="modalH">Author</div>
-                    <div className="description">{author}</div>
+                    <div className="description">{this.author}</div>
                     
                     
                 </Modal>
