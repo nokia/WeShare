@@ -1,0 +1,13 @@
+.footer .divider{
+    width: 100%;
+    height: 1px;
+    margin-top: 20px;
+}
+.footer .bgBlue{
+    background-color: #124191;
+}
+.footer .nokiaLogo{
+    width: 80px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}

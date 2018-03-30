@@ -83,6 +83,8 @@ class Data{
                 item.ID = new Date().getTime();
                 item.User = userLibrary.localCurrentUser();
                 this.data.unshift(item);
+                
+                this.sortByCategories();
                 resolve(item);
                 return;
             }

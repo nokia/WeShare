@@ -7,24 +7,35 @@
     cursor: pointer;
     height: 50px;
 }
-.lineBlue:hover{
-    border-top: 1px solid #984B4357;
-    border-right: 1px solid #984B4357;
-    border-bottom: 1px solid #984B4357;
+.lineRed:hover{
+    border-top: 1px solid #ff315457;
+    border-right: 1px solid #ff315457;
+    border-bottom: 1px solid #ff315457;
+    border-left: none;
 }
-.lineYellow:hover{
-    border-top: 1px solid rgba(234, 199, 122, 0.37);
-    border-right: 1px solid rgba(234, 199, 122, 0.37);
-    border-bottom: 1px solid rgba(234, 199, 122, 0.37);
+.lineGray:hover{
+    border-top: 1px solid #70707057;
+    border-right: 1px solid #70707057;
+    border-bottom: 1px solid #70707057;
+    border-left: none;
 }
-.lineBlue{
-    border-left: 6px solid #984B43;
+.lineGreen:hover{
+    border-top: 1px solid #4bdd3357;
+    border-right: 1px solid #4bdd3357;
+    border-bottom: 1px solid #4bdd3357;
+    border-left: none;
 }
-.lineYellow{
-    border-left: 6px solid #EAC67A;
+.lineRed{
+    border-left: 6px solid #ff3154;
+}
+.lineGreen{
+    border-left: 6px solid #4bdd33;
 }
 .lineGray{
-    border-left: 6px solid rgb(112, 112, 112);
+    border-left: 6px solid #707070;
+}
+.lineGray .lineMessage{
+    background-color: #707070;
 }
 .line .lineTitle{
     font-size: 120%;
@@ -43,14 +54,11 @@
     margin-right: 5px;
 }
 
-.lineBlue .lineMessage{
-    background-color: #984B43;
+.lineRed .lineMessage{
+    background-color: #ff3154;
 }
-.lineGray .lineMessage{
-    background-color: rgb(112, 112, 112);
-}
-.lineYellow .lineMessage{
-    background-color: #EAC67A;
+.lineGreen .lineMessage{
+    background-color: #4bdd33;
 }
 .line .grid{
     margin: 0px !important;
@@ -72,13 +80,14 @@
 
 .line .lineMessage{
     display: block;
-    height: 48px;
+    height: 49px;
     margin-bottom: 2px;
     width: 100%;
     text-align: center;
     line-height: 45px;
     /* padding: 0px 5px; */
     color: #fff;
+    border-radius: 5px 0px 0px 5px;
 }
 .line .ant-row .lineTitle{
     margin-top: 5px;

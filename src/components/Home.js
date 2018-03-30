@@ -10,6 +10,7 @@ import { notification, Spin, Col, Row, Divider, message } from 'antd';
 
 import '../css/Home.css';
 import HeaderBanner from './Header';
+import Footer from './Footer';
 import Browse from './Browse';
 import ModalForm from './ModalForm';
 import FaShareAlt from 'react-icons/lib/fa/share-alt';
@@ -64,15 +65,15 @@ export default class Home extends Component {
                         {this.state.loaded && this.state.userLoaded ? (
                             <Col span={7}>
                                 <div className="presentation" onClick={this.showModal.bind(this,'share')}>
-                                    <FaShareAlt size={45} className="icon" color='#474747'/>
-                                    <h2>I can help you</h2>
+                                    <FaShareAlt size={45} className="icon" color='#4bdd33'/>
+                                    <h2 style={{color: '#4bdd33'}}>I can help you</h2>
                                 </div>
                             </Col>
                         ) : (
                             <Col span={7}>
                                 <div className="presentationNotLoaded">
-                                    <FaShareAlt size={45} className="icon" color='#d8d8d8'/>
-                                    <h2>I can help you</h2>
+                                    <FaShareAlt size={45} className="icon" color='#4bdd33'/>
+                                    <h2 style={{color: '#4bdd33'}}>I can help you</h2>
                                 </div>
                             </Col>
                         )}
@@ -103,15 +104,15 @@ export default class Home extends Component {
                         {this.state.loaded && this.state.userLoaded ? (
                             <Col span={7}>
                                 <div className="presentation" onClick={this.showModal.bind(this,'request')}>
-                                    <FaExclamation size={45} className="icon" color='#474747' />
-                                    <h2>I need your help</h2>
+                                    <FaExclamation size={45} className="icon" color='#ff3154' />
+                                    <h2 style={{color: '#ff3154'}}>I need your help</h2>
                                 </div>
                             </Col>
                         ) : (
                             <Col span={7}>
                                 <div className="presentationNotLoaded">
-                                    <FaExclamation size={45} className="icon" color='#d8d8d8' />
-                                    <h2>I need your help</h2>
+                                    <FaExclamation size={45} className="icon" color='#ff3154' />
+                                    <h2 style={{color: '#ff3154'}}>I need your help</h2>
                                 </div>
                             </Col>
                         )}
@@ -129,6 +130,10 @@ export default class Home extends Component {
                 {this.state.openModal && this.state.typeModal === "request" ? (
                     <ModalForm modalFormMessage={this.showMessage}  modalFormHide={this.hideModal} type="request" />
                 ) : null}
+
+                <div className="wrapper">
+                    <Footer />
+                </div>
             </div>
         );
     }

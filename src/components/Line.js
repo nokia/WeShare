@@ -36,15 +36,15 @@ export default class Line extends Component {
             this.message = "This item is closed";
         }else{
             if(this.item.Type === "request"){
-                this.color = "lineBlue";
+                this.color = "lineRed";
                 if(this.item.User.Lastname){
-                    this.message = this.item.User.Lastname + " need your help";
+                    this.message = this.item.User.Lastname + " needs your help";
                 }else{
-                    this.message = "... need your help";
+                    this.message = "... needs your help";
                 }
                 
             }else if(this.item.Type === "share"){
-                this.color = "lineYellow";
+                this.color = "lineGreen";
                 if(this.item.User.Lastname){
                     this.message = this.item.User.Lastname + " can help you";
                 }else{
@@ -104,7 +104,7 @@ export default class Line extends Component {
                                 {new Date(this.item.Date).toLocaleString()} 
                                 
                                 {this.item.Duration && Number.isInteger(parseInt(this.item.Duration, 10)) ?(
-                                    <span> {this.item.Duration} minutes</span>
+                                    <span> - {this.item.Duration} minutes</span>
                                 ) : null}
                                 {this.item.Duration && !Number.isInteger(parseInt(this.item.Duration, 10)) ?(
                                     <span> {this.item.Duration}</span>

@@ -34,11 +34,9 @@ class ModalItem extends Component {
         if(this.props.itemModal){
             dataLibrary.getById(this.props.itemModal).then((item) =>{
                 this.item = item;
-                this.author;
+                this.author = "Unknown";
                 if(this.item.User.Lastname && this.item.User.Name){
                     this.author = this.item.User.Lastname + " " + this.item.User.Name;
-                }else{
-                    this.author = "Unknown";
                 }
                 this.number = this.item.User.Number;
                 this.setState({loaded: true});

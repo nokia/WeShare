@@ -22,9 +22,11 @@
     color: #124191 !important;
 
 }
+.ant-dropdown-menu-item.act{
+    font-weight: bold;
+}
 .browse .banner .bannerSearch{
     float: right;
-    margin-right: 10px;
     height: 30px;
     width: 250px;
     margin-top: 6px;
@@ -87,6 +89,7 @@
 }
 .nothing{
     text-align: center;
-    margin-top: 30px;
+    margin-top: 50px;
+    margin-bottom: 100px;
     font-size: 110%;
 }

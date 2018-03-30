@@ -51,6 +51,7 @@ class User{
         const prom = new Promise( (resolve, reject) => {
             if(Config.local){
                 resolve(this.localCurrentUser());
+                this.currentUser = this.localCurrentUser();
                 return;
             }
             if(this.currentUser){

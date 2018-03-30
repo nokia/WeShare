@@ -48,16 +48,28 @@ export default class Browse extends Component {
                 this.showModal(id);                
             });
             
-        }else{
+        }
+        // else{
+        //     let data = dataLibrary.get();
+        //     data.then((res) =>{
+        //         let countQuery = dataLibrary.countCategories();
+        //         countQuery.then((result) =>{
+        //             this.setState({countCategories: result});
+        //             this.initDropdown(this.state.filterCategory);
+        //         });
+        //     });
+            
+        // }
+        else{
             data.then((result) =>{
+                let countQuery = dataLibrary.countCategories();
+                countQuery.then((result) =>{
+                    this.setState({countCategories: result});
+                    this.initDropdown(this.state.filterCategory);
+                    this.setState({isLoading:false});
+                });
                 if(this.state.data !== result){
                     this.setState({data: dataLibrary.data, displayedData: dataLibrary.data});
-                    let countQuery = dataLibrary.countCategories();
-                    countQuery.then((result) =>{
-                        this.setState({countCategories: result});
-                        this.initDropdown(this.state.filterCategory);
-                        this.setState({isLoading:false});
-                    });
                 }
             });
         }
@@ -69,9 +81,9 @@ export default class Browse extends Component {
     dropDownOptions = <Menu><Menu.Item key="loading">Loading...</Menu.Item></Menu>;
     initDropdown(act){
         this.dropDownOptions =  [
-            <Menu.Item key="All topics">All topics ({this.state.countCategories['all']})</Menu.Item>,
-            <Menu.Item key="My topics">My topics ({this.state.countCategories['my']})</Menu.Item>,
-            <Menu.Item key="Unclassified">Unclassified ({this.state.countCategories['unclassified']})</Menu.Item>
+            <Menu.Item className={act === "All topics" ? "act" : null} key="All topics">All topics ({this.state.countCategories['all']})</Menu.Item>,
+            <Menu.Item className={act === "My topics" ? "act" : null} key="My topics">My topics ({this.state.countCategories['my']})</Menu.Item>,
+            <Menu.Item className={act === "Unclassified" ? "act" : null} key="Unclassified">Unclassified ({this.state.countCategories['unclassified']})</Menu.Item>
         ];
         dataLibrary.Categories.forEach( category => {
             let count = 0;
@@ -82,7 +94,7 @@ export default class Browse extends Component {
                     count = this.state.countCategories[subCategory];
                     // countSubTotal += count;
                     subCategories.push(
-                        <Menu.Item key={subCategory}>{subCategory} ({count})</Menu.Item>
+                        <Menu.Item className={act === subCategory ? "act" : null} key={subCategory}>{subCategory} ({count})</Menu.Item>
                     );
                 });
                 // let subText = category[0] + " (" + countSubTotal.toString() + ")";
@@ -95,7 +107,7 @@ export default class Browse extends Component {
                 
                 count = this.state.countCategories[category];
                 this.dropDownOptions.push(
-                    <Menu.Item key={category}>{category} ({count})</Menu.Item>
+                    <Menu.Item className={act === category ? "act" : null} key={category}>{category} ({count})</Menu.Item>
                 );
             }
         });
@@ -139,6 +151,8 @@ export default class Browse extends Component {
 
     handleSortClick = (e) => {
         let value = e.target.value;
+        
+        this.initDropdown("All topics");
         this.setState({ filterCategory: "All topics", sortActive: value, searchValue: "" });
         if(value === "All"){
             this.setState({ displayedData: this.state.data });
