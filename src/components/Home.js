@@ -4,7 +4,7 @@
 */
 import React, { Component } from 'react';
 // import {Grid} from 'semantic-ui-react';
-import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
+import { configureAnchors } from 'react-scrollable-anchor';
 // import { Loader } from 'semantic-ui-react';
 import { notification, Spin, Col, Row, Divider, message } from 'antd';
 
@@ -120,9 +120,7 @@ export default class Home extends Component {
                     </Row>
                 </div>
                 
-                <ScrollableAnchor id={'browse'}>
-                    <Browse history={this.props.history} onLoaded={this.onLoaded} />
-                </ScrollableAnchor>
+                <Browse history={this.props.history} onLoaded={this.onLoaded} />
             
                 {this.state.openModal && this.state.typeModal === "share" ? (
                     <ModalForm modalFormMessage={this.showMessage} modalFormHide={this.hideModal} type="share" />

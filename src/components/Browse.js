@@ -3,24 +3,28 @@
   Copyright Nokia 2018. All rights reserved.
 */
 import React, { Component } from 'react';
-import { Menu, Dropdown, Icon, notification, Button, Radio, Input, Row, Col } from 'antd';
+import { Menu, Dropdown, Icon, notification, Button, Radio, Input, Row, Col, Pagination } from 'antd';
 import '../css/Browse.css';
 import Line from './Line';
 import dataLibrary from '../dataLibrary';
 import MdClear from 'react-icons/lib/md/clear';
 import userLibrary from '../userLibrary';
 import ModalItem from './ModalItem';
+
+import ScrollableAnchor, { goToAnchor } from 'react-scrollable-anchor';
 const Search = Input.Search;
 const SubMenu = Menu.SubMenu;
 
 export default class Browse extends Component {
-    state = { openModal: false, itemModal: '', dropDownDisabled: true, isLoading:true, countCategories: [], sortActive: 'All', data:[], displayedData: [], searchValue: "", filterCategory: "All topics" }
+    state = { openModal: false, page: 1, pageSize: 20, itemModal: '', dropDownDisabled: true, isLoading:true, countCategories: [], sortActive: 'All', data:[], dataPagined: [], searchValue: "", filterCategory: "All topics" }
     componentWillMount(){
         this.searchClear = this.searchClear.bind(this);
         this.initDropdown = this.initDropdown.bind(this);
         this.hideModal = this.hideModal.bind(this);
         this.refresh = this.refresh.bind(this);
         this.showMessage = this.showMessage.bind(this);
+        this.handlePagination = this.handlePagination.bind(this);
+        this.showTotal = this.showTotal.bind(this);
         this.handleCategoryClick = this.handleCategoryClick.bind(this);
         let data = dataLibrary.get();
         data.then((result) =>{
@@ -36,17 +40,27 @@ export default class Browse extends Component {
     }
 
     componentWillReceiveProps(newProps){
-        let id = window.location.href.split('/');
-        id = id[id.length - 1];
-        id = id.replace('#browse','');
         let data = dataLibrary.get();
         // let dataFull = dataLibrary.getFull();
-        if(Number.isInteger(parseInt(id, 10))){
-            data.then((dataF) =>{
-                this.setState({data: dataF, displayedData: dataF});
-                this.setState({isLoading:false});
-                this.showModal(id);                
-            });
+        let page;
+        if(window.location.href.indexOf("item") > -1) {
+            page = "item";
+        }else if(window.location.href.indexOf("category") > -1) {
+            page = "category";
+        }
+
+        if(page === "item"){
+            
+            let id = window.location.href.split('/');
+            id = id[id.length - 1];
+            id = id.replace('#browse','');
+            if(Number.isInteger(parseInt(id, 10))){
+                data.then((dataF) =>{
+                    this.setState({data: dataF, displayedData: dataF});
+                    this.setState({isLoading:false});
+                    this.showModal(id);                
+                });
+            }
             
         }
         // else{
@@ -70,6 +84,13 @@ export default class Browse extends Component {
                 });
                 if(this.state.data !== result){
                     this.setState({data: dataLibrary.data, displayedData: dataLibrary.data});
+                }
+                if(page === "category"){
+                    let id = window.location.href.split('/');
+                    id = id[id.length - 1];
+                    id = id.replace('#browse','');
+                    console.log('category id', id);
+                    this.handleCategoryClick({key: id});
                 }
             });
         }
@@ -116,6 +137,8 @@ export default class Browse extends Component {
     }
     searchClear(){
         this.search("");
+        let self = this;
+        setTimeout(function(){ self.setState({page: 1}); }, 100);
     }
 
     showMessage(type, title, text){
@@ -123,6 +146,22 @@ export default class Browse extends Component {
             message: title,
             description: text,
         });
+    }
+    handlePagination(page, pageSize){
+        goToAnchor('browse');
+        let self = this;
+        setTimeout(function(){ self.setState({page: page}); }, 100);
+        
+    }
+    showTotal(total, range){
+        if(total === 0){
+            return 'No items';
+        }
+        // if(range[1] > total-1){
+        //     return `${range[0]}-${range[1]-1} of ${total-1} items`;
+        // }
+        // console.log(range[0], range[1], total)
+        return `${range[0]}-${range[1]} of ${total} items`;
     }
     handleCategoryClick(value){   
         let key = value.key;
@@ -147,6 +186,9 @@ export default class Browse extends Component {
             }
             this.setState({displayedData: tmp});
         }
+        
+        let self = this;
+        setTimeout(function(){ self.setState({page: 1}); }, 100);
     }
 
     handleSortClick = (e) => {
@@ -165,6 +207,9 @@ export default class Browse extends Component {
             });
             this.setState({displayedData: tmp});
         }
+        
+        let self = this;
+        setTimeout(function(){ self.setState({page: 1}); }, 100);
     }
 
     search = (param) => {
@@ -183,6 +228,9 @@ export default class Browse extends Component {
             }
         }
         this.setState({displayedData: tmp});
+        
+        let self = this;
+        setTimeout(function(){ self.setState({page: 1}); }, 100);
     }
 
     showModal(item){
@@ -196,13 +244,15 @@ export default class Browse extends Component {
     render() {
         if(this.state.isLoading) {
             return (
-                <div className="browse"></div>
+                <div className="items"></div>
             );
         }else{
             const { sortActive } = this.state;
             let lines;
             if(this.state.displayedData.length > 0){
                 lines = this.state.displayedData.map( (line, index) => {
+                    if(index > this.state.page * (this.state.pageSize)) return;
+                    if(index < this.state.page * (this.state.pageSize) - (this.state.pageSize)) return;
                     return(
                         <div key={index}><Line data={line}/></div>
                     )
@@ -219,21 +269,24 @@ export default class Browse extends Component {
                     {this.state.openModal ? (
                         <ModalItem history={this.props.history} refresh={this.refresh} modalFormMessage={this.showMessage}  modalFormHide={this.hideModal} itemModal={this.state.itemModal} />
                     ) : null}
+                    
                     <div className="banner">
-                        <div className="wrapper">
-                            <div className="bannerTitle">
-                                Browse topics
+                        <ScrollableAnchor id={'browse'}>
+                            <div className="wrapper">
+                                <div className="bannerTitle">
+                                    Browse topics
+                                </div>
+                                <Search
+                                    placeholder="Search..."
+                                    onChange={value => this.search(value)}
+                                    className="bannerSearch" 
+                                    value={this.state.searchValue}
+                                />
+                                {this.state.searchValue ? ( 
+                                    <span className="searchClear" onClick={this.searchClear}><MdClear /></span>
+                                ) : null}
                             </div>
-                            <Search
-                                placeholder="Search..."
-                                onChange={value => this.search(value)}
-                                className="bannerSearch" 
-                                value={this.state.searchValue}
-                            />
-                            {this.state.searchValue ? ( 
-                                <span className="searchClear" onClick={this.searchClear}><MdClear /></span>
-                            ) : null}
-                        </div>
+                        </ScrollableAnchor>
                     </div>
                     <div className="wrapper">
                         <Row className="menuSortFilter">
@@ -254,6 +307,15 @@ export default class Browse extends Component {
                         </Row>
                         {lines}
                     </div>
+
+                    <Pagination
+                    total={this.state.displayedData.length}
+                    showTotal={this.showTotal}
+                    pageSize={this.state.pageSize}
+                    defaultCurrent={1}
+                    current={this.state.page}
+                    onChange={this.handlePagination}
+                    />
                 </div>                        
             );
         }

@@ -48,6 +48,7 @@ export default class App extends Component {
           <Route exact path='/' render={() => (<Home />)} />
           <Route exact path='/index.aspx' render={({history}) => (<Home history={history} />)} />
           <Route exact  path='/index.aspx/item/:id' render={({history}) => (<Home history={history}/>)} />
+          <Route exact  path='/index.aspx/category/:id' render={({history}) => (<Home history={history}/>)} />
           {/* <Route exact path='/index.aspx/item/:id' component={Item} /> */}
           <Route exact path='*' render={() => (<NotFound />)} />
         </Switch>

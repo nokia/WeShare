@@ -13,7 +13,7 @@ class Data{
 
     init(){
         return new Promise( (resolve, reject) => {
-            window.fetch(window.location.href.split('not-found')[0].split('index.aspx')[0].split('index.html')[0] + "/json.categories", { credentials:'include' }).then( (file) => file.json() )
+            window.fetch(window.location.href.split('not-found')[0].split('#browse')[0].split('index.aspx')[0].split('index.html')[0] + "/json.categories", { credentials:'include' }).then( (file) => file.json() )
             .then( (json) => {
                 this.Categories = json;
                 resolve('OK');
@@ -74,7 +74,7 @@ class Data{
             }
             
         });
-        let itemUrl = window.location.href.split('not-found')[0].split('index.aspx')[0].split('index.html')[0] + "/index.aspx/item/";
+        let itemUrl = window.location.href.split('not-found')[0].split('#browse')[0].split('index.aspx')[0].split('index.html')[0] + "/index.aspx/item/";
         SH.notify(item.Title, item.Type, itemUrl + item.ID, list);
     }
     add(item, user){

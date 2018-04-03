@@ -93,3 +93,8 @@
     margin-bottom: 100px;
     font-size: 110%;
 }
+.browse .ant-pagination{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
