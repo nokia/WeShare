@@ -92,7 +92,8 @@ class ModalItem extends Component {
         var self = this;
         this.setState( {openModal: false});
         setTimeout(function(){ self.props.modalFormHide(); }, 200);
-        this.props.history.push('/index.aspx');
+        // this.props.history.push('/index.aspx');
+        
     }
     handleClose(){
         this.item.Closed = true;

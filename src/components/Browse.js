@@ -7,6 +7,8 @@ import { Menu, Dropdown, Icon, notification, Button, Radio, Input, Row, Col, Pag
 import '../css/Browse.css';
 import Line from './Line';
 import dataLibrary from '../dataLibrary';
+import {Config} from '../config.js';
+import ReactGA from 'react-ga';
 import MdClear from 'react-icons/lib/md/clear';
 import userLibrary from '../userLibrary';
 import ModalItem from './ModalItem';
@@ -17,6 +19,7 @@ const SubMenu = Menu.SubMenu;
 
 export default class Browse extends Component {
     state = { openModal: false, page: 1, pageSize: 20, itemModal: '', dropDownDisabled: true, isLoading:true, countCategories: [], sortActive: 'All', data:[], dataPagined: [], searchValue: "", filterCategory: "All topics" }
+    firstLoad = false;
     componentWillMount(){
         this.searchClear = this.searchClear.bind(this);
         this.initDropdown = this.initDropdown.bind(this);
@@ -28,6 +31,7 @@ export default class Browse extends Component {
         this.handleCategoryClick = this.handleCategoryClick.bind(this);
         let data = dataLibrary.get();
         data.then((result) =>{
+            result = result.map( item => item);
             this.setState({data: result, displayedData: result, isLoading:false});
             this.props.onLoaded(true);
             let countQuery = dataLibrary.countCategories();
@@ -41,7 +45,6 @@ export default class Browse extends Component {
 
     componentWillReceiveProps(newProps){
         let data = dataLibrary.get();
-        // let dataFull = dataLibrary.getFull();
         let page;
         if(window.location.href.indexOf("item") > -1) {
             page = "item";
@@ -50,50 +53,47 @@ export default class Browse extends Component {
         }
 
         if(page === "item"){
-            
             let id = window.location.href.split('/');
             id = id[id.length - 1];
             id = id.replace('#browse','');
             if(Number.isInteger(parseInt(id, 10))){
                 data.then((dataF) =>{
-                    this.setState({data: dataF, displayedData: dataF});
+                    if(!this.firstLoad){
+                        this.setState({data: dataF, displayedData: dataF});
+                    }
+                    dataF = dataF.map( item => item);
                     this.setState({isLoading:false});
                     this.showModal(id);                
                 });
             }
-            
+            return;
         }
-        // else{
-        //     let data = dataLibrary.get();
-        //     data.then((res) =>{
-        //         let countQuery = dataLibrary.countCategories();
-        //         countQuery.then((result) =>{
-        //             this.setState({countCategories: result});
-        //             this.initDropdown(this.state.filterCategory);
-        //         });
-        //     });
+        
+        data.then((result) =>{
             
-        // }
-        else{
-            data.then((result) =>{
-                let countQuery = dataLibrary.countCategories();
-                countQuery.then((result) =>{
-                    this.setState({countCategories: result});
-                    this.initDropdown(this.state.filterCategory);
-                    this.setState({isLoading:false});
-                });
-                if(this.state.data !== result){
-                    this.setState({data: dataLibrary.data, displayedData: dataLibrary.data});
-                }
-                if(page === "category"){
+            result = result.map( item => item);
+            let countQuery = dataLibrary.countCategories();
+            countQuery.then((result2) =>{
+                this.setState({countCategories: result2});
+                this.initDropdown(this.state.filterCategory);
+                this.setState({isLoading:false});
+            });
+            if(this.state.data.length !== result.length){                
+                this.setState({data: result, displayedData: result});
+                this.firstLoad = false;
+            }
+            if(page === "category"){
+                if(!this.firstLoad){
                     let id = window.location.href.split('/');
                     id = id[id.length - 1];
                     id = id.replace('#browse','');
-                    console.log('category id', id);
+                    id = decodeURI(id);
                     this.handleCategoryClick({key: id});
+                    this.firstLoad = true;
                 }
-            });
-        }
+                return;
+            }
+        });
     }
     refresh(){
         this.forceUpdate();
@@ -157,10 +157,6 @@ export default class Browse extends Component {
         if(total === 0){
             return 'No items';
         }
-        // if(range[1] > total-1){
-        //     return `${range[0]}-${range[1]-1} of ${total-1} items`;
-        // }
-        // console.log(range[0], range[1], total)
         return `${range[0]}-${range[1]} of ${total} items`;
     }
     handleCategoryClick(value){   
@@ -188,6 +184,14 @@ export default class Browse extends Component {
         }
         
         let self = this;
+        if(key !== "All topics"){
+            this.props.history.push('/index.aspx/category/' + encodeURI(key));
+            if(!Config.local){
+                ReactGA.pageview('/index.aspx/category/' + key);
+            }
+        }else{
+            this.props.history.push('/index.aspx');
+        }
         setTimeout(function(){ self.setState({page: 1}); }, 100);
     }
 
@@ -195,7 +199,8 @@ export default class Browse extends Component {
         let value = e.target.value;
         
         this.initDropdown("All topics");
-        this.setState({ filterCategory: "All topics", sortActive: value, searchValue: "" });
+        this.handleCategoryClick({key: "All topics"});
+        this.setState({ sortActive: value, searchValue: "" });
         if(value === "All"){
             this.setState({ displayedData: this.state.data });
         }else{
@@ -219,8 +224,9 @@ export default class Browse extends Component {
         }else{
             val = param.target.value;
         }
-
-        this.setState({ filterCategory: "All topics", searchValue: val, sortActive: "All" });
+        
+        this.handleCategoryClick({key: "All topics"});
+        this.setState({ searchValue: val, sortActive: "All" });
         let tmp = [];
         for (var i=0; i < this.state.data.length; i++) {
             if (this.state.data[i].Title.toLowerCase().indexOf(val.toLowerCase()) !== -1) {
@@ -235,9 +241,13 @@ export default class Browse extends Component {
 
     showModal(item){
         this.setState( {openModal: true, itemModal: item});
+        if(!Config.local){
+            ReactGA.pageview(window.location.href);
+        }
     }
     hideModal(){
         this.setState( {openModal: false});
+        this.handleCategoryClick({key: this.state.filterCategory})
     }
 
 
@@ -251,8 +261,8 @@ export default class Browse extends Component {
             let lines;
             if(this.state.displayedData.length > 0){
                 lines = this.state.displayedData.map( (line, index) => {
-                    if(index > this.state.page * (this.state.pageSize)) return;
-                    if(index < this.state.page * (this.state.pageSize) - (this.state.pageSize)) return;
+                    if(index > this.state.page * (this.state.pageSize)) return null;
+                    if(index < this.state.page * (this.state.pageSize) - (this.state.pageSize)) return null;
                     return(
                         <div key={index}><Line data={line}/></div>
                     )
@@ -291,7 +301,7 @@ export default class Browse extends Component {
                     <div className="wrapper">
                         <Row className="menuSortFilter">
                             <Col span={8}>
-                                <Dropdown disabled={this.state.dropDownDisabled} overlay={this.dropDownOptions}>
+                                <Dropdown trigger={['click']} disabled={this.state.dropDownDisabled} overlay={this.dropDownOptions}>
                                     <Button className="categoryButton">
                                         {this.state.filterCategory} <Icon type="down" />
                                     </Button>

@@ -9,6 +9,7 @@
     "lz-string": "^1.4.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-ga": "^2.4.1",
     "react-icons": "^2.2.7",
     "react-promise": "^2.0.1",
     "react-router": "^4.2.0",

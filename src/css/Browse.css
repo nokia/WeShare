@@ -98,3 +98,13 @@
     margin-top: 20px;
     margin-bottom: 40px;
 }
+.browse .ant-pagination-item-active, .browse .ant-pagination-item:hover, .browse{
+    border-color: #124191 !important;
+}
+.browse .ant-pagination-item-active a, .browse .ant-pagination-item:hover a{
+    color: #124191 !important;
+}
+.ant-pagination-next:hover .ant-pagination-item-link{
+    border-color: #124191 !important;
+    color: #124191 !important;
+}

@@ -7,6 +7,7 @@ import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {Config} from './config.js';
 import 'core-js/fn/array/find';
 import 'core-js/fn/array/includes';
+import ReactGA from 'react-ga';
 import 'core-js/fn/number/is-nan';
 import './css/App.css';
 import Home from './components/Home';
@@ -18,6 +19,8 @@ import dataLibrary from './dataLibrary';
 // import oldUsers from './lib/oldUsers.js';
 
 import 'antd/dist/antd.css';
+import { createBrowserHistory } from 'history';
+
 export default class App extends Component {
 
   state = { loaded:false };
@@ -25,6 +28,10 @@ export default class App extends Component {
   componentWillMount(){
     SH.init('https://nokia.sharepoint.com/sites/learn/weshare');
     dataLibrary.init().then( () => this.setState({ loaded:true} ));
+    if(!Config.local){
+      ReactGA.initialize('UA-92171479-1');
+      ReactGA.pageview('home');
+    }
 
     // oldUsers.forEach(old => {
     //  SH.createListItem('Users', old).then((results) => {
@@ -45,10 +52,10 @@ export default class App extends Component {
     return (
       <Router basename={basename}>
         <Switch>
-          <Route exact path='/' render={() => (<Home />)} />
-          <Route exact path='/index.aspx' render={({history}) => (<Home history={history} />)} />
-          <Route exact  path='/index.aspx/item/:id' render={({history}) => (<Home history={history}/>)} />
-          <Route exact  path='/index.aspx/category/:id' render={({history}) => (<Home history={history}/>)} />
+          <Route exact path='/' render={(props) => (<Home {...props}/>)} />
+          <Route exact path='/index.aspx' render={(props) => (<Home {...props} />)}/>
+          <Route exact  path='/index.aspx/item/:id' render={(props) => (<Home {...props} />)}/>
+          <Route exact  path='/index.aspx/category/:id' render={(props) => (<Home {...props} />)}/>
           {/* <Route exact path='/index.aspx/item/:id' component={Item} /> */}
           <Route exact path='*' render={() => (<NotFound />)} />
         </Switch>

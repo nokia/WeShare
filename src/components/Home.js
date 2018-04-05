@@ -39,6 +39,7 @@ export default class Home extends Component {
     }
     hideModal(){
         this.setState( {openModal: false});
+        // this.props.history.push('/index.aspx');
     }
     
     showMessage(type, title, text){

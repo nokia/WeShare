@@ -98,7 +98,7 @@ class User{
     get(){
         return new Promise( (resolve, reject) => {
             if(Config.local){
-                resolve(this.localCurrentUser());
+                resolve([this.localCurrentUser()]);
                 return;
             }
             if(!this.users){

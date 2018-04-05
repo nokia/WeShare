@@ -3,7 +3,6 @@
   Copyright Nokia 2018. All rights reserved.
 */
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom'
 import {Config} from './../config.js';
 
 import { Tooltip, Popover, Input, Icon, Button, Switch } from 'antd';
@@ -83,7 +82,7 @@ export default class Header extends Component {
         return (
             <div className="header">
                 <div className="wrapper">
-                    <Link to={`/index.aspx`} replace>
+                    {/* <Link to={`/index.aspx`} replace> */}
                         <div className="siteName">
                             <img src={logo} alt="Logo" className="logo" />
                             {siteName}
@@ -91,7 +90,7 @@ export default class Header extends Component {
                         <div className="pitch">
                             Match & Share
                         </div>
-                    </Link>
+                    {/* </Link> */}
                     {!this.state.isOpen ? (
                         <div className="profilHover">
                             <Tooltip

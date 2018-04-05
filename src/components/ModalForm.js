@@ -35,8 +35,39 @@ class ModalForm extends Component {
         this.toggle = this.toggle.bind(this);
         this.submitModal = this.submitModal.bind(this);
         this.init = this.init.bind(this);
+
+        
+        this.setState({openModal: true, typeModal: this.props.type});
         if(this.props.item){
             this.init(this.props.item);
+        }else{
+            if(window.location.href.indexOf("category") > -1){
+                let cat = window.location.href.split('/');
+                cat = cat[cat.length - 1];
+                cat = decodeURI(cat);
+
+                let found = false;
+                if(cat === "Unclassified"){
+                    found = true;
+                }else{
+                    dataLibrary.Categories.forEach( category => {
+                        if(Array.isArray(category)){
+                            category[1].forEach( subCategory => {
+                                if(subCategory === cat){
+                                    found = true;
+                                }
+                            });
+                        }else{
+                            if(category === cat){
+                                found = true;
+                            }
+                        }
+                    });
+                }
+                if(found){
+                    this.setState({category: cat});
+                }
+            }
         }
         userLibrary.getCurrentUser().then((result) =>{
             this.user = result;
@@ -52,6 +83,7 @@ class ModalForm extends Component {
                 this.optionsCategory.push({key: category, text: category, value: category});
             }
         });
+
     }
     init(item){
             this.editItem = item
@@ -61,17 +93,15 @@ class ModalForm extends Component {
                 duration : item.Duration.toString(),
                 description : item.Description
             });
-        
-        
     }
 
     componentWillReceiveProps(newProps){
-        this.setState({openModal: true, typeModal: newProps.type});
-        if(newProps.item){
-            this.init(newProps.item);
-        }else{  
-            this.setState({title: '', category: '', duration: '', description: ''});
-        }
+        // this.setState({openModal: true, typeModal: newProps.type});
+        // if(newProps.item){
+        //     this.init(newProps.item);
+        // }else{  
+        //     this.setState({title: '', category: '', duration: '', description: ''});
+        // }
     }
     
     closeModal(type){
