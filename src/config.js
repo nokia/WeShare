@@ -18,7 +18,8 @@ export const Config = {
   // Source: '/WeShare',
   Source: src,
   Email: 'learningstore@nokia.com',
-  itemUrl: 'https://nokia.sharepoint.com/sites/learn/weshare/SitePages/index.aspx/item/',
+  itemUrl: 'https://nokia.sharepoint.com/sites/learn/weshare_dev/SitePages/index.aspx/item/',
   trackingID: 'UA-107717760-1', // Google Analytics 
 };
 // "homepage": "https://nokia.github.io/WeShare/",
+// "homepage": "https://nokia.sharepoint.com/sites/learn/weshare/SitePages",

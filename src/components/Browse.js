@@ -248,6 +248,8 @@ export default class Browse extends Component {
     hideModal(){
         this.setState( {openModal: false});
         this.handleCategoryClick({key: this.state.filterCategory})
+        this.handlePagination(this.state.page, this.state.pageSize);
+        
     }
 
 
