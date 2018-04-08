@@ -72,10 +72,13 @@ class Data{
             if(u.Notification){
                 list.push(u.Email);
             }
-            
         });
         let itemUrl = window.location.href.split('not-found')[0].split('#browse')[0].split('index.aspx')[0].split('index.html')[0] + "/index.aspx/item/";
-        SH.notify(item.Title, item.Type, itemUrl + item.ID, list);
+        itemUrl = itemUrl + item.ID;
+        if(!item.ID){
+            itemUrl = window.location.href.split('not-found')[0].split('#browse')[0].split('index.aspx')[0].split('index.html')[0] + "/index.aspx";
+        }
+        SH.notify(item.Title, item.Type, itemUrl, list);
     }
     add(item, user){
         return new Promise((resolve, reject)=>{

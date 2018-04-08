@@ -68,13 +68,14 @@ class SH{
     }
     body += " has been published:";
     body += " <a href='" + url + "'>" + title + "</a>";
+    body += "<br /><br /><em>You can disable notifications in the settings by clicking on your profile</em><br />";
     body += "<br /><br />Best regards,<br />";
     body += Config.Admin;
 
     new Utility().sendEmail({
-      // To:[""], 
-      To: list,
-      BCC: ["felix.fuin@nokia.com", "benoit.vaillant@nokia.com", "gilles.gerlinger@nokia.com"], 
+      To:["felix.fuin@nokia.com"], 
+      // To: list,
+      // BCC: ["felix.fuin@nokia.com", "benoit.vaillant@nokia.com", "gilles.gerlinger@nokia.com"], 
       Subject: Config.Name + " | Notification : " + title, 
       Body:body
     }).execute();

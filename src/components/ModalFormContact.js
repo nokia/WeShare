@@ -116,7 +116,7 @@ class ModalForm extends Component {
                                 {getFieldDecorator('message', {
                                     rules: [{ required: true, message: 'You have to input a message' }],
                                 })(
-                                    <TextArea placeholder='Your message' />
+                                    <TextArea className="contactTextarea" placeholder='Your message' />
                                 )}
                             </FormItem>
                         </Row>

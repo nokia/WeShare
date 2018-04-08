@@ -71,6 +71,7 @@ class User{
                 }
                 if(!found){
                     cur.Notification = true;
+                    console.log('new user', cur)
                     SH.createListItem('Users', cur).then( result => {
                         cur.ID = result.ID;
                         this.currentUser = cur;

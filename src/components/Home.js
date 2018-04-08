@@ -121,7 +121,10 @@ export default class Home extends Component {
                     </Row>
                 </div>
                 
-                <Browse history={this.props.history} onLoaded={this.onLoaded} />
+                
+                {this.state.userLoaded ? (
+                    <Browse history={this.props.history} onLoaded={this.onLoaded} />
+                ) : null}
             
                 {this.state.openModal && this.state.typeModal === "share" ? (
                     <ModalForm modalFormMessage={this.showMessage} modalFormHide={this.hideModal} type="share" />
