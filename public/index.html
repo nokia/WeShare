@@ -28,6 +28,23 @@
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
+    <script>
+      if (!String.prototype.startsWith) String.prototype.startsWith = function(pattern){return this.indexOf(pattern) == 0 }
+      Math.trunc = Math.trunc || function(x) {
+        if (isNaN(x)) {
+          return NaN;
+        }
+        if (x > 0) {
+          return Math.floor(x);
+        }
+        return Math.ceil(x);
+      };
+      Number.isInteger = Number.isInteger || function(value) {
+          return typeof value === "number" && 
+                isFinite(value) && 
+                Math.floor(value) === value;
+      };
+    </script>
     <div id="root"></div>
     <!--
       This HTML file is a template.

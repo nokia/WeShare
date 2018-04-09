@@ -27,11 +27,16 @@ class SH{
 
   getCurrentUser() {
     const loc = window._spPageContextInfo.userDisplayName.split('/')[1];
-    const name = window._spPageContextInfo.userDisplayName.split(' ')[0];
+    const name = window._spPageContextInfo.userDisplayName.split(', ')[0];
+    let lastname = window._spPageContextInfo.userDisplayName.split(', ')[1].split(' (')[0];
+    console.log(window._spPageContextInfo.userDisplayName  )
+    console.log(window._spPageContextInfo.userDisplayName.split(' ')[0])
+    console.log(window._spPageContextInfo.userDisplayName.split(' ')[1])
+    console.log(name.substring(0, name.length - 1))
     return {
       Email: window._spPageContextInfo.userEmail,
-      Lastname: window._spPageContextInfo.userDisplayName.split(' ')[1],
-      Name: name.substring(0, name.length - 1),
+      Lastname: lastname,
+      Name: name,
       Location: loc.substring(0, loc.length - 1)
     }
   }
