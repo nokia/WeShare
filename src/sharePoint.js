@@ -30,6 +30,7 @@ class SH{
   getCurrentUser() {
     const loc = window._spPageContextInfo.userDisplayName.split('/')[1];
     const name = window._spPageContextInfo.userDisplayName.split(', ')[0];
+<<<<<<< HEAD
     let lastname = window._spPageContextInfo.userDisplayName.split(', ')[1].split(' (')[0];
     // console.log(window._spPageContextInfo.userDisplayName  )
     // console.log(window._spPageContextInfo.userDisplayName.split(' ')[0])
@@ -49,6 +50,18 @@ class SH{
         Lastname: lastname,
         Name: name
       }
+=======
+    const lastname = window._spPageContextInfo.userDisplayName.split(', ')[1].split(' (')[0];
+    console.log(window._spPageContextInfo.userDisplayName  )
+    console.log(window._spPageContextInfo.userDisplayName.split(' ')[0])
+    console.log(window._spPageContextInfo.userDisplayName.split(' ')[1])
+    console.log(name.substring(0, name.length - 1))
+    return {
+      Email: window._spPageContextInfo.userEmail,
+      Lastname: lastname,
+      Name: name,
+      Location: loc ? loc.substring(0, loc.length - 1) : 'unknown location'
+>>>>>>> 9c5e5057ee8d986afa2c017d92a40ae82d124c75
     }
     
     return obj
