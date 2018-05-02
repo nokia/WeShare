@@ -191,6 +191,7 @@ class Data{
                     var u = userLibrary.get();
                     s.then((result) => {
                         u.then(() => {
+                            // console.log('lib', result)
                             this.data = result;
                             this.sortByCategories();
                             this.sortByDate();

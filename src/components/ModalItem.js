@@ -8,9 +8,10 @@ import {Redirect} from 'react-router-dom';
 import '../css/ModalItem.css';
 import dataLibrary from '../dataLibrary';
 import userLibrary from '../userLibrary';
-import FaStar from 'react-icons/lib/fa/star';
-import FaStarO from 'react-icons/lib/fa/star-o';
-import FaStarHalfEmpty from 'react-icons/lib/fa/star-half-empty';
+// import FaStar from 'react-icons/lib/fa/star';
+// import FaStarO from 'react-icons/lib/fa/star-o';
+// import FaStarHalfEmpty from 'react-icons/lib/fa/star-half-empty';
+import Heart from 'react-icons/lib/ti/heart-full-outline';
 import ModalForm from './ModalForm';
 import ModalFormContact from './ModalFormContact';
 
@@ -142,21 +143,16 @@ class ModalItem extends Component {
         }
         let starsNb = Math.trunc(this.item.Ratings);
         let halfStarsNb = (this.item.Ratings % 1 === 0) ? 0: 1;
-        let emptyStarsNb = 5 - (starsNb + halfStarsNb);
-        let stars = [], halfStars = [], emptyStars = [];
+        // let emptyStarsNb = 5 - (starsNb + halfStarsNb);
+        let hearts = [];
         for(var i = 0; i < starsNb; i++){
-            stars.push(
-                <FaStar color='#004D9A' />
+            hearts.push(
+                <Heart color='#004D9A' />
             )
         };
         for(var y = 0; y < halfStarsNb; y++){
-            halfStars.push(
-                <FaStarHalfEmpty key={y} color='#004D9A' />
-            )
-        };
-        for(var z = 0; z < emptyStarsNb; z++){
-            emptyStars.push(
-                <FaStarO key={z} color='#004D9A' />
+            hearts.push(
+                <Heart key={y} color='#004D9A' />
             )
         };
         let footer = [];
@@ -232,10 +228,11 @@ class ModalItem extends Component {
                 footer={footer}
                 >
                     <Row>
-                        <Col span={8} className="ratings">
-                            {stars}
+                        <Col span={8} className="ratings" title="Popularity">
+                            {hearts}
+                            {/* {stars}
                             {halfStars}
-                            {emptyStars}
+                            {emptyStars} */}
                         </Col>
                         <Col span={8} offset={8} className="date">
                             Published {new Date(this.item.Date).toLocaleString()}

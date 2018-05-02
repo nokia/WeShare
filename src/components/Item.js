@@ -7,9 +7,10 @@ import {Redirect} from 'react-router-dom'
 import {Grid, Button, Confirm, Segment, Loader} from 'semantic-ui-react';
 import FaShareAlt from 'react-icons/lib/fa/share-alt';
 import FaExclamation from 'react-icons/lib/fa/exclamation';
-import FaStar from 'react-icons/lib/fa/star';
-import FaStarO from 'react-icons/lib/fa/star-o';
-import FaStarHalfEmpty from 'react-icons/lib/fa/star-half-empty';
+// import FaStar from 'react-icons/lib/fa/star';
+// import FaStarO from 'react-icons/lib/fa/star-o';
+// import FaStarHalfEmpty from 'react-icons/lib/fa/star-half-empty';
+import Heart from 'react-icons/lib/ti/heart-full-outline';
 import MdMailOutline from 'react-icons/lib/md/mail-outline';
 import MdCall from 'react-icons/lib/md/call';
 
@@ -150,21 +151,16 @@ export default class Item extends Component {
 
         let starsNb = Math.trunc(this.item.Ratings);
         let halfStarsNb = (this.item.Ratings % 1 === 0) ? 0: 1;
-        let emptyStarsNb = 5 - (starsNb + halfStarsNb);
-        let stars = [], halfStars = [], emptyStars = [];
+        // let emptyStarsNb = 5 - (starsNb + halfStarsNb);
+        let hearts = [];
         for(var i = 0; i < starsNb; i++){
-            stars.push(
-                <FaStar color='#004D9A' />
+            hearts.push(
+                <Heart color='#004D9A' />
             )
         };
         for(var y = 0; y < halfStarsNb; y++){
-            halfStars.push(
-                <FaStarHalfEmpty key={y} color='#004D9A' />
-            )
-        };
-        for(var z = 0; z < emptyStarsNb; z++){
-            emptyStars.push(
-                <FaStarO key={z} color='#004D9A' />
+            hearts.push(
+                <Heart key={y} color='#004D9A' />
             )
         };
 
@@ -177,9 +173,10 @@ export default class Item extends Component {
 
                     {displayItem}
                     <div className="ratings">
-                        {stars}
+                        {hearts}
+                        {/* {stars}
                         {halfStars}
-                        {emptyStars}
+                        {emptyStars} */}
                     </div>
                     <div className="date">
                         {new Date(this.item.Date).toLocaleString()}

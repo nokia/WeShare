@@ -31,7 +31,9 @@ export default class Browse extends Component {
         this.handleCategoryClick = this.handleCategoryClick.bind(this);
         let data = dataLibrary.get();
         data.then((result) =>{
+            // console.log('res1', result)
             result = result.map( item => item);
+            // console.log('res2', result)
             this.setState({data: result, displayedData: result, isLoading:false});
             this.props.onLoaded(true);
             let countQuery = dataLibrary.countCategories();
@@ -157,6 +159,7 @@ export default class Browse extends Component {
         if(total === 0){
             return 'No items';
         }
+        // console.log('total', total)
         return `${range[0]}-${range[1]} of ${total} items`;
     }
     handleCategoryClick(value){   

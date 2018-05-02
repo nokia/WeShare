@@ -1,0 +1,39 @@
+@media screen and (max-width: 900px) {
+    .wrapper{
+        width: 100%;
+    }
+    .home .presentations{
+        height: auto !important;
+    }
+    .home .presentations .divider{
+        display: none;
+    }
+    .ant-col-8, .ant-col-7{
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        margin-left: 0px !important;
+    }
+    .browse .menuSort{
+        float: none !important;
+        margin-top: 20px;
+    }
+    .home .presentations .presentation, .home .presentations .presentationNotLoaded{
+        padding-top: 5px;
+        padding-bottom: 5px !important;
+        height: 140px !important;
+    }
+    .profilHover{
+        display: none;
+    }
+    .home .presentations{
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+    .browse .banner .bannerSearch{
+        margin-right: 10px !important;
+    }
+    .browse .banner .bannerSearch{
+        width: 150px !important;
+    }
+}

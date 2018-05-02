@@ -7,9 +7,10 @@ import {Link} from 'react-router-dom'
 import { Row, Col } from 'antd';
 
 import '../css/Line.css';
-import FaStar from 'react-icons/lib/fa/star';
-import FaStarO from 'react-icons/lib/fa/star-o';
-import FaStarHalfEmpty from 'react-icons/lib/fa/star-half-empty';
+// import FaStar from 'react-icons/lib/fa/star';
+// import FaStarO from 'react-icons/lib/fa/star-o';
+// import FaStarHalfEmpty from 'react-icons/lib/fa/star-half-empty';
+import Heart from 'react-icons/lib/ti/heart-full-outline';
 
 export default class Line extends Component {
     item;
@@ -56,23 +57,23 @@ export default class Line extends Component {
 
         let starsNb = Math.trunc(this.item.Ratings);
         let halfStarsNb = (this.item.Ratings % 1 === 0) ? 0: 1;
-        let emptyStarsNb = 5 - (starsNb + halfStarsNb);
-        let stars = [], halfStars = [], emptyStars = [];
+        // let emptyStarsNb = 5 - (starsNb + halfStarsNb);
+        let hearts = [];
         for(var i = 0; i < starsNb; i++){
-            stars.push(
-                <FaStar color='#004D9A' />
+            hearts.push(
+                <Heart color='#004D9A' />
             )
         };
         for(var y = 0; y < halfStarsNb; y++){
-            halfStars.push(
-                <FaStarHalfEmpty key={y} color='#004D9A' />
+            hearts.push(
+                <Heart key={y} color='#004D9A' />
             )
         };
-        for(var z = 0; z < emptyStarsNb; z++){
-            emptyStars.push(
-                <FaStarO key={z} color='#004D9A' />
-            )
-        };
+        // for(var z = 0; z < emptyStarsNb; z++){
+        //     emptyStars.push(
+        //         <FaStarO key={z} color='#004D9A' />
+        //     )
+        // };
 
         let title = this.item.Title;
         let n = 85;
@@ -115,10 +116,11 @@ export default class Line extends Component {
                         {this.state.hover ? ( null
                         ) : 
                             <Col span={2} offset={6}>
-                                <div className="lineRatings">       
-                                    {stars}
+                                <div className="lineRatings" title="Popularity">       
+                                    {hearts}
+                                    {/* {stars}
                                     {halfStars}
-                                    {emptyStars}
+                                    {emptyStars} */}
                                 </div>
                             </Col>
                         }

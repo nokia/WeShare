@@ -5,7 +5,7 @@
   "homepage": "https://nokia.sharepoint.com/sites/learn/weshare/SitePages",
   "dependencies": {
     "antd": "^3.3.0",
-    "gd-sprest": "^3.5.5",
+    "gd-sprest": "^3.8.6",
     "lz-string": "^1.4.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

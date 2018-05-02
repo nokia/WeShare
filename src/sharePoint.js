@@ -13,12 +13,14 @@ class SH{
   getListItems(listName) {
     return new Promise( (resolve, reject) => {
       const list = new Web(this.url).Lists(listName);
-      list.Items().query({ Top: 5000, GetAllItems: true }).execute( items => {
-        const tabItems = []; 
-        items.results.forEach( item => {
+      
+      
+      list.Items().query({ Select: ["ID", "Data"], Top: 5000, GetAllItems: true }).execute( items => {
+        let tabItems = []; 
+        tabItems = items.results.map( item => {
           const obj = JSON.parse(lz.decompressFromBase64(item.Data));
           obj.ID = item.ID;
-          tabItems.push(obj);
+          return obj;
         });
         resolve(tabItems);
       });
@@ -29,16 +31,27 @@ class SH{
     const loc = window._spPageContextInfo.userDisplayName.split('/')[1];
     const name = window._spPageContextInfo.userDisplayName.split(', ')[0];
     let lastname = window._spPageContextInfo.userDisplayName.split(', ')[1].split(' (')[0];
-    console.log(window._spPageContextInfo.userDisplayName  )
-    console.log(window._spPageContextInfo.userDisplayName.split(' ')[0])
-    console.log(window._spPageContextInfo.userDisplayName.split(' ')[1])
-    console.log(name.substring(0, name.length - 1))
-    return {
-      Email: window._spPageContextInfo.userEmail,
-      Lastname: lastname,
-      Name: name,
-      Location: loc.substring(0, loc.length - 1)
+    // console.log(window._spPageContextInfo.userDisplayName  )
+    // console.log(window._spPageContextInfo.userDisplayName.split(' ')[0])
+    // console.log(window._spPageContextInfo.userDisplayName.split(' ')[1])
+    // console.log(name.substring(0, name.length - 1))
+    let obj;
+    if(loc){
+      obj = {
+        Email: window._spPageContextInfo.userEmail,
+        Lastname: lastname,
+        Name: name,
+        Location: loc.substring(0, loc.length - 1)
+      }
+    }else{
+      obj = {
+        Email: window._spPageContextInfo.userEmail,
+        Lastname: lastname,
+        Name: name
+      }
     }
+    
+    return obj
   }
 
   createListItem(listName, object) {
@@ -78,8 +91,8 @@ class SH{
     body += Config.Admin;
 
     new Utility().sendEmail({
-      To:["felix.fuin@nokia.com"], 
-      // To: list,
+      // To:["felix.fuin@nokia.com"], 
+      To: list,
       // BCC: ["felix.fuin@nokia.com", "benoit.vaillant@nokia.com", "gilles.gerlinger@nokia.com"], 
       Subject: Config.Name + " | Notification : " + title, 
       Body:body

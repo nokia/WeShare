@@ -10,19 +10,19 @@ import 'core-js/fn/array/includes';
 import ReactGA from 'react-ga';
 import 'core-js/fn/number/is-nan';
 import './css/App.css';
+import './css/mobile.css';
 import Home from './components/Home';
 // import Item from './components/Item';
 import NotFound from './components/NotFound';
 import SH from './sharePoint';
 import dataLibrary from './dataLibrary';
-// import old from './lib/oldItems.js';
+import old from './lib/oldItems.js';
 // import oldUsers from './lib/oldUsers.js';
 
 import 'antd/dist/antd.css';
 import { createBrowserHistory } from 'history';
 
 export default class App extends Component {
-
   state = { loaded:false };
   
   componentWillMount(){
@@ -33,16 +33,7 @@ export default class App extends Component {
       ReactGA.pageview('home');
     }
 
-    // oldUsers.forEach(old => {
-    //  SH.createListItem('Users', old).then((results) => {
-    //      console.log('create', results);
-    //    });
-    //  });
-  //  old.forEach(o => {
-  //    SH.createListItem('Items', o).then((results) => {
-  //        console.log('create', results);
-  //      });
-  //    });
+    
   }
 
   render() {
@@ -56,6 +47,10 @@ export default class App extends Component {
           <Route exact path='/index.aspx' render={(props) => (<Home {...props} />)}/>
           <Route exact  path='/index.aspx/item/:id' render={(props) => (<Home {...props} />)}/>
           <Route exact  path='/index.aspx/category/:id' render={(props) => (<Home {...props} />)}/>
+          {/* <Route exact path='/dev/' render={(props) => (<Home {...props}/>)} />
+          <Route exact path='/dev/index.aspx' render={(props) => (<Home {...props} />)}/>
+          <Route exact  path='/dev/index.aspx/item/:id' render={(props) => (<Home {...props} />)}/>
+          <Route exact  path='/dev/index.aspx/category/:id' render={(props) => (<Home {...props} />)}/> */}
           {/* <Route exact path='/index.aspx/item/:id' component={Item} /> */}
           <Route exact path='*' render={() => (<NotFound />)} />
         </Switch>
