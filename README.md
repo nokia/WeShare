@@ -16,6 +16,25 @@ A [live preview](https://nokia.github.io/WeShare/index.aspx "The Open Source WeS
 - You can edit your profile (add your phone number, disable notification) by clicking on your name in the right hand corner.
 - You can find what you're looking for by searching in the list, browsering categories or choosing a type.
 
+## Installation / Configuration
+### Installation
+The easiest way to start a WeShare project is to:
+1. clone the project: `git clone https://github.com/nokia/WeShare` or get the zip file from github
+2. go to the WeShare directory
+3. install all dependencies: `npm install`
+4. finally start the project: `npm start`
+
+### Configuration
+The project contains a configuration file in the directory `src`, called `config.js`
+Use the file to change from dev to production and specify your Sharepoint path
+
+### Sharepoint
+WeShare needs Sharepoint to host 2 Sharepoint lists:
+- a user list, `Users`
+- a topic list, `Items`
+
+Those lists contain a unique field called `Data` which is of type: `Multiple lines of text`
+
 ## More
 
 PS : WeShare is in beta version. It may have bugs, and your help can be a great treasure! 
