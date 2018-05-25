@@ -16,8 +16,7 @@ class SH{
       
       
       list.Items().query({ Select: ["ID", "Data"], Top: 5000, GetAllItems: true }).execute( items => {
-        let tabItems = []; 
-        tabItems = items.results.map( item => {
+        const tabItems = items.results.map( item => {
           const obj = JSON.parse(lz.decompressFromBase64(item.Data));
           obj.ID = item.ID;
           return obj;
@@ -30,7 +29,7 @@ class SH{
   getCurrentUser() {
     const loc = window._spPageContextInfo.userDisplayName.split('/')[1];
     const name = window._spPageContextInfo.userDisplayName.split(', ')[0];
-    let lastname = window._spPageContextInfo.userDisplayName.split(', ')[1].split(' (')[0];
+    const lastname = window._spPageContextInfo.userDisplayName.split(', ')[1].split(' (')[0];
     // console.log(window._spPageContextInfo.userDisplayName  )
     // console.log(window._spPageContextInfo.userDisplayName.split(' ')[0])
     // console.log(window._spPageContextInfo.userDisplayName.split(' ')[1])
