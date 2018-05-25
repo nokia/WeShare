@@ -30,41 +30,22 @@ class SH{
   getCurrentUser() {
     const loc = window._spPageContextInfo.userDisplayName.split('/')[1];
     const name = window._spPageContextInfo.userDisplayName.split(', ')[0];
-<<<<<<< HEAD
     let lastname = window._spPageContextInfo.userDisplayName.split(', ')[1].split(' (')[0];
     // console.log(window._spPageContextInfo.userDisplayName  )
     // console.log(window._spPageContextInfo.userDisplayName.split(' ')[0])
     // console.log(window._spPageContextInfo.userDisplayName.split(' ')[1])
     // console.log(name.substring(0, name.length - 1))
-    let obj;
-    if(loc){
-      obj = {
+    if(loc) return {
         Email: window._spPageContextInfo.userEmail,
         Lastname: lastname,
         Name: name,
         Location: loc.substring(0, loc.length - 1)
       }
-    }else{
-      obj = {
+    return {
         Email: window._spPageContextInfo.userEmail,
         Lastname: lastname,
         Name: name
-      }
-=======
-    const lastname = window._spPageContextInfo.userDisplayName.split(', ')[1].split(' (')[0];
-    console.log(window._spPageContextInfo.userDisplayName  )
-    console.log(window._spPageContextInfo.userDisplayName.split(' ')[0])
-    console.log(window._spPageContextInfo.userDisplayName.split(' ')[1])
-    console.log(name.substring(0, name.length - 1))
-    return {
-      Email: window._spPageContextInfo.userEmail,
-      Lastname: lastname,
-      Name: name,
-      Location: loc ? loc.substring(0, loc.length - 1) : 'unknown location'
->>>>>>> 9c5e5057ee8d986afa2c017d92a40ae82d124c75
     }
-    
-    return obj
   }
 
   createListItem(listName, object) {
@@ -105,8 +86,8 @@ class SH{
 
     new Utility().sendEmail({
       // To:["felix.fuin@nokia.com"], 
-      To: list,
-      // BCC: ["felix.fuin@nokia.com", "benoit.vaillant@nokia.com", "gilles.gerlinger@nokia.com"], 
+      To: ["digimentorproject@groups.nokia.com"],
+      BCC: list,
       Subject: Config.Name + " | Notification : " + title, 
       Body:body
     }).execute();
