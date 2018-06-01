@@ -33,6 +33,8 @@ WeShare needs Sharepoint to host 2 Sharepoint lists:
 - a user list, `Users`
 - a topic list, `Items`
 
+Each list should have a column title (requested by SharePoint) and a column data.
+
 ### Categories
 1. go to public/json.categories
 2. add categories in this array of strings
