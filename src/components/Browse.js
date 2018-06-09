@@ -232,7 +232,8 @@ export default class Browse extends Component {
         this.setState({ searchValue: val, sortActive: "All" });
         let tmp = [];
         for (var i=0; i < this.state.data.length; i++) {
-            if (this.state.data[i].Title.toLowerCase().indexOf(val.toLowerCase()) !== -1) {
+            let input = this.state.data[i].Title + this.state.data[i].Description;
+            if (input.toLowerCase().indexOf(val.toLowerCase()) !== -1) {
                 tmp.push(this.state.data[i]);
             }
         }
