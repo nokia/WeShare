@@ -43,3 +43,8 @@ Each list should have a column `Title` (requested by SharePoint) and a column `D
 ## More
 
 PS : WeShare is in beta version. It may have bugs, and your help can be a great treasure! 
+
+
+## License
+
+This project is licensed under the BSD-3-Clause license - see the [LICENSE](https://github.com/nokia/WeShare/blob/master/LICENSE).
